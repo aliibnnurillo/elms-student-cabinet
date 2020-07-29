@@ -1,0 +1,118 @@
+.menu-container {
+  height: 100vh;
+  width: 110px;
+  position: fixed;
+  display: inline;
+  text-align: center;
+  box-shadow: 5px 0px 6px -7px rgba(0, 0, 0, 0.5) !important;
+}
+
+.menu-container .ant-menu-inline .avatars {
+  margin: 10px;
+}
+.menu-container .ant-menu-inline {
+  height: 100%;
+  border: none;
+  text-align: center;
+}
+.menu-container .ant-menu-inline > li {
+  padding-left: 0 !important;
+  padding: 16px 0px 16px 0;
+  height: auto;
+  margin: 0 !important;
+  text-align: center;
+}
+.menu-container .ant-menu-inline > li span {
+  display: block;
+  width: 100%;
+  position: relative;
+  line-height: 18px;
+  font-size: 18px;
+}
+.menu-container .ant-menu-inline li span > a {
+  max-width: 100%;
+  font-size: 12px;
+  display: inline-block;
+  padding: 0 10px;
+  line-height: 18px;
+  font-weight: 700;
+  color: #222;
+  white-space: normal !important;
+}
+.menu-container .ant-menu-item:hover {
+  color: white;
+  background-color: #5767f6;
+}
+
+.menu-container .ant-menu-item-selected {
+  color: white !important;
+  background-color: #5767f6 !important;
+}
+.menu-container .ant-menu-item-selected::after {
+  border-color: transparent !important;
+}
+.menu-container .ant-menu-item-selected a,
+.menu-container .ant-menu-item:hover a {
+  color: white !important;
+}
+.menu-container .ant-menu-item {
+  color: #5767f6;
+}
+.page-header {
+  margin-left: 110px;
+  border: 1px solid #55199199;
+  padding: 10px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.site-page-header {
+  /* display: grid; */
+  padding: 0 !important;
+}
+/* .site-page-header > .ant-page-header-heading {
+  order: 1;
+  margin-top: 0 !important;
+}
+.site-page-header > .ant-breadcrumb {
+  order: 2;
+} */
+.site-page-header .ant-page-header-heading-title {
+  font-size: 28px;
+  font-weight: 700;
+}
+.site-page-header .ant-page-header-content {
+  padding-top: 5px;
+}
+.site-page-header .ant-breadcrumb {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.page-header .header-right {
+  display: flex;
+  align-items: center;
+}
+.page-header .header-right > span {
+  margin-left: 30px;
+  font-size: 20px;
+}
+.page-header .header-right .img-avatars {
+  background-color: #fff;
+  position: relative;
+  overflow: inherit;
+}
+.page-header .header-right .img-avatars img {
+  border-radius: 50%;
+}
+.page-header .header-right .img-avatars:after {
+  content: "";
+  position: absolute;
+  top: -3px;
+  bottom: -3px;
+  right: -3px;
+  left: -3px;
+  background-image: linear-gradient(to bottom left, #d53a9d 0%, #743ad5 100%);
+  z-index: -1;
+  border-radius: inherit;
+}
