@@ -5,6 +5,8 @@ import {
   PieChartOutlined,
   RightOutlined,
 } from "@ant-design/icons";
+import { Player } from "video-react";
+
 import "./subject.css";
 import { Link } from "react-router-dom";
 const SubjectList = () => {
@@ -20,7 +22,14 @@ const SubjectList = () => {
     <div className="subject_about">
       <Row gutter={80}>
         <Col className="subject-list-left" span={10}>
-          <Card hoverable style={{ width: "100%", height: "300px" }}></Card>
+          <div className="videos">
+            <Player
+              playsInline
+              poster="./photo.png"
+              src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4"
+            />
+          </div>
+
           <Button block type="default">
             Davom etish
           </Button>
@@ -59,6 +68,48 @@ const SubjectList = () => {
           </div>
         </Col>
         <Col className="subject-list-right" span={14}>
+          <div className="lesson-list">
+            <h3>1 - Algoritm va dasturlashga kirish</h3>
+            <p>
+              Algoritm va dasturlashning asosiy tushunchalari ochib beriladi.
+              Jumladan: til alifbosi, identifikator, kalit so’zlar, satrli
+              o’zgaruvchilar, ma’lumotlar toifasi, arifmetik ifoda va amallar,
+              siljitish amallari, inkrement, decrement, kutubxonalar va ularning
+              funksiyalari hamda preprotsessor direktivalaridan foydalanish
+              usullari o’rganiladi.
+            </p>
+            <div className="tags">
+              <Tag>
+                <CalendarOutlined
+                  style={{ marginRight: "10px", background: "#F3F4FF" }}
+                />
+                15 sentabr 2020 - 21 Dekabr 2020
+              </Tag>
+              <Tag>
+                <PieChartOutlined style={{ marginRight: "10px" }} />
+                60%
+              </Tag>
+            </div>
+            <List
+              className="list_lesson"
+              bordered
+              dataSource={data}
+              renderItem={(item) => (
+                <List.Item>
+                  <Link to="/subjects/thissubject/lesson">
+                    <span> {item.name}</span>
+                    <span className="list-icons">
+                      <span>
+                        <PieChartOutlined />
+                        {item.pro}
+                      </span>
+                      <RightOutlined />
+                    </span>
+                  </Link>
+                </List.Item>
+              )}
+            />
+          </div>
           <div className="lesson-list">
             <h3>1 - Algoritm va dasturlashga kirish</h3>
             <p>

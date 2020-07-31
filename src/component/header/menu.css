@@ -93,6 +93,9 @@
   display: flex;
   align-items: center;
 }
+.page-header .header-right a {
+  color: #17152e;
+}
 .page-header .header-right > span {
   margin-left: 30px;
   font-size: 20px;

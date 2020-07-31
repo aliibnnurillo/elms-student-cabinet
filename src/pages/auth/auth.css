@@ -1,0 +1,213 @@
+.auth {
+  height: 100vh;
+  box-sizing: border-box;
+  overflow: hidden;
+  background: linear-gradient(
+      288.66deg,
+      #eef0ff 3.24%,
+      rgba(255, 255, 255, 0) 96.03%
+    ),
+    #ffffff;
+}
+.auth .auth-right {
+  background-image: url("./art.png");
+  background-repeat: no-repeat;
+  box-sizing: border-box;
+  height: 100vh;
+  background-size: auto;
+  background-position: 98% 50%;
+
+  width: 100%;
+}
+.auth .auth-left {
+  padding: 56px 70px !important;
+}
+.auth .auth-left .login-form {
+  top: 50%;
+  position: relative;
+  transform: translateY(-100%);
+}
+.auth .login-form h1 {
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 200%;
+  color: #17152e;
+  margin-bottom: 24px;
+}
+.auth .login-form .ant-row.ant-form-item input {
+  margin-left: 5px !important;
+}
+.auth .login-form .ant-input-affix-wrapper {
+  background: #f3f4ff;
+  border-radius: 12px;
+  height: 50px;
+  display: flex;
+  font-size: 22px;
+  color: #5767f6;
+  border: none;
+}
+.auth .login-form .ant-input-affix-wrapper .ant-input {
+  background-color: #f3f4ff;
+  font-size: 16px;
+}
+.auth .login-form .ant-input-affix-wrapper .ant-input::placeholder {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 22px;
+  color: #aab1f1;
+}
+
+.auth .login-form .login-form-button {
+  background: #22c864;
+  border-radius: 6px;
+  height: 48px;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 200%;
+  border: none;
+  margin-bottom: 24px;
+}
+.auth .login-form .login-form-forgot {
+  text-decoration-line: underline;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 200%;
+  color: #5767f6;
+}
+
+.enter-email {
+  height: 100vh;
+}
+.enter-email .ant-row {
+  height: 100%;
+}
+.enter-email .new-email {
+  position: relative;
+  transform: translateY(-50%);
+  top: 50%;
+  text-align: center;
+}
+.enter-email .new-email .icons {
+  width: 96px;
+  height: 96px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  margin-bottom: 50px;
+  border-radius: 100%;
+  background: linear-gradient(135deg, #5767f6 0%, #a181ff 100%);
+}
+.enter-email .new-email .icons > span {
+  font-size: 30px !important;
+  color: #fff;
+}
+.enter-email .new-email > p {
+  font-size: 16px;
+  line-height: 160%;
+  text-align: center;
+  color: #17152e;
+  margin-bottom: 24px;
+}
+.enter-email .new-email .login-form .ant-input-affix-wrapper {
+  background: #f3f4ff;
+  height: 52px;
+  color: #5767f6;
+  font-size: 22px;
+  border-radius: 12px;
+  border: none;
+  margin-bottom: 7px;
+}
+.enter-email .new-email .login-form .ant-input-affix-wrapper input {
+  background-color: transparent;
+  padding-left: 10px;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 22px;
+}
+.enter-email .new-email .login-form input::placeholder {
+  color: #aab1f1;
+}
+.enter-email .new-email .login-form-button {
+  background: #22c864;
+  border-radius: 6px;
+  color: #fff;
+  height: 50px;
+  font-size: 16px;
+  line-height: 200%;
+  border: none;
+  font-weight: bold;
+}
+.avatar-uploader > .ant-upload {
+  width: 128px;
+  height: 128px;
+}
+.upload {
+  margin-bottom: 50px;
+}
+.upload .avatar-uploader.ant-upload-picture-card-wrapper {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+.upload
+  .avatar-uploader.ant-upload-picture-card-wrapper
+  .ant-upload.ant-upload-select.ant-upload-select-picture-card {
+  border-radius: 300px;
+  margin: 0;
+  border: none;
+}
+.upload
+  .avatar-uploader.ant-upload-picture-card-wrapper
+  .ant-upload.ant-upload-select.ant-upload-select-picture-card
+  .ant-upload {
+  background: #f3f4ff;
+  width: 112px;
+  height: 112px;
+  display: inline-block;
+  position: relative;
+  border-radius: 300px;
+  padding: 0;
+}
+.upload
+  .avatar-uploader.ant-upload-picture-card-wrapper
+  .ant-upload.ant-upload-select.ant-upload-select-picture-card
+  .ant-upload
+  > div {
+  width: 100%;
+  height: 100%;
+}
+.upload
+  .avatar-uploader.ant-upload-picture-card-wrapper
+  .ant-upload.ant-upload-select.ant-upload-select-picture-card
+  .ant-upload-text {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #5767f6;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+  color: #fff;
+}
+.upload .avatar-uploader.ant-upload-picture-card-wrapper .user-icon {
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+  overflow: hidden;
+  padding-top: 20px;
+}
+.enter-email .new-email .next-link {
+  text-decoration-line: underline;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 200%;
+  color: #5767f6;
+  margin-top: 24px;
+  display: block;
+}

@@ -8,6 +8,14 @@ import {
 } from "react-router-dom";
 import { Subjects, SubjectList, Lesson } from "../../pages/subjects";
 import "./app.css";
+import {
+  Auth,
+  EnterNewEmails,
+  EnterNewPassword,
+  UploadAvatar,
+  ForgotPassword,
+  CreatePassword,
+} from "../../pages/auth";
 
 const App = () => {
   return (
@@ -22,6 +30,13 @@ const App = () => {
             <Route path="/subjects/thissubject/lesson" component={Lesson} />
           </Switch>
         </div>
+        {/* <Auth />
+
+        {/* <EnterNewPassword /> */}
+        {/* <EnterNewEmails /> */}
+        {/* <UploadAvatar /> */}
+        {/* <ForgotPassword /> */}
+        {/* <CreatePassword /> */}
       </Router>
     </div>
   );

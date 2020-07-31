@@ -1,21 +1,22 @@
 import React from "react";
+import moment from "moment";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Row,
   Input,
   Col,
   List,
-  Steps,
   Button,
   Comment,
   Form,
   Avatar,
+  Anchor,
 } from "antd";
-import { Link } from "react-router-dom";
-import moment from "moment";
-const { Step } = Steps;
-const { TextArea } = Input;
+import { SendOutlined } from "@ant-design/icons";
+import StepsBlock from "./steps";
+
+const { Link } = Anchor;
 
 const lists = [
   {
@@ -31,25 +32,11 @@ const lists = [
     data_list: ["d", "d", "d"],
   },
 ];
-const steps = [
-  {
-    title: "First",
-    content: "Algoritmlash va dasturlashning asosiy tushunchalari.",
-  },
-  {
-    title: "Second",
-    content: "Second-content",
-  },
-  {
-    title: "Last",
-    content: "Last-content",
-  },
-];
+const { TextArea } = Input;
 
 const CommentList = ({ comments }) => (
   <List
     dataSource={comments}
-    header={`${comments.length} ${comments.length > 1 ? "replies" : "reply"}`}
     itemLayout="horizontal"
     renderItem={(props) => <Comment {...props} />}
   />
@@ -57,65 +44,57 @@ const CommentList = ({ comments }) => (
 
 const Editor = ({ onChange, onSubmit, submitting, value }) => (
   <>
-    <Form.Item>
-      <TextArea rows={4} onChange={onChange} value={value} />
-    </Form.Item>
-    <Form.Item>
+    <Form.Item className="write-comment">
+      <TextArea
+        rows={1}
+        cols={24}
+        onChange={onChange}
+        value={value}
+        placeholder="Sharh qoldirish"
+      />
       <Button
+        type="link"
         htmlType="submit"
         loading={submitting}
         onClick={onSubmit}
-        type="primary"
+        className="comment-send"
       >
-        Add Comment
+        <SendOutlined />
       </Button>
     </Form.Item>
   </>
 );
 
 const Lesson = () => {
-  const [current, setCurrent] = useState(0);
-  const [state, setState] = useState({
-    submitting: false,
-    comments: [],
-    value: "",
-  });
+  const [submitting, setSubmitting] = useState(false);
+  const [comments, setComments] = useState([]);
+  const [value, setValue] = useState("");
 
-  const { submitting, comments, value } = state;
-  const next = () => {
-    setCurrent(current + 1);
-  };
   const handleSubmit = () => {
-    if (!state.value) {
+    if (!value) {
       return;
     }
 
-    setState({
-      submitting: true,
-    });
+    setSubmitting(true);
 
     setTimeout(() => {
-      setState({
-        submitting: false,
-        value: "",
-        comments: [
-          {
-            author: "Han Solo",
-            avatar:
-              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            content: <p>{state.value}</p>,
-            datetime: moment().fromNow(),
-          },
-          ...state.comments,
-        ],
-      });
+      setValue("");
+      setSubmitting(false);
+      setComments([
+        {
+          author: "Alisher Saidov",
+          avatar:
+            "https://avatars.mds.yandex.net/get-yapic/53031/My8MspR9WyDaZDsW3fJAJJsgI-1/islands-200",
+          content: <p>{value}</p>,
+          datetime: moment().format("DD-MMM h:mm:ss a"),
+        },
+        ...comments,
+      ]);
     }, 1000);
   };
 
   const handleChange = (e) => {
-    setState({
-      value: e.target.value,
-    });
+    setValue(e.target.value);
   };
 
   return (
@@ -123,74 +102,48 @@ const Lesson = () => {
       <Row gutter={20}>
         <Col span={6}>
           <div className="task-list">
-            <List
-              dataSource={lists}
-              renderItem={(item) => (
-                <List.Item>
-                  <p>{item.name}</p>
-                  <List.Item></List.Item>
-
-                  <Link />
-                </List.Item>
-              )}
-            />
+            <Anchor className="task-menu">
+              <Link
+                className="lesson-name"
+                href="#1"
+                title="1  Algoritm va dasturlashga..."
+              >
+                <Link href="#1.1" title="1.1 Dasturlash tillarining tuzil..." />
+                <Link href="#1.2" title="1.2 Algoritm va dasturlashga..." />
+              </Link>
+              <Link
+                className="lesson-name"
+                href="#2"
+                title="2  Algoritm va dasturlashga..."
+              >
+                <Link href="#2.1" title="2.1 Tarmoqlanish va uzilishlarni..." />
+                <Link href="#2.2" title="2.2 Takrorlanish operatorlari." />
+              </Link>
+              <Link
+                className="lesson-name"
+                href="#3"
+                title="3  Funksiyalar va to’plamlar..."
+              >
+                <Link href="#3.1" title="2.1 Funksiyalar." />
+                <Link href="#3.2" title="2.2 Massivlar." />
+                <Link href="#3.3" title="3.3 Ko‘rsatkichlar va dinamik..." />
+              </Link>
+            </Anchor>
           </div>
         </Col>
         <Col span={18}>
           <Row>
-            <Col span={18} offset={3}>
-              <Steps current={current}>
-                {steps.map((item) => (
-                  <Step key={item.title} title={item.title} />
-                ))}
-              </Steps>
-              <div className="steps-content">
-                {current === 0 && (
-                  <div>
-                    <h2>
-                      Algoritmlash va dasturlashning asosiy tushunchalari.
-                    </h2>
-                    <p>
-                      Ternar operator. Statik operator (sizeof). Qiymat
-                      o‘zlashtirish operatorlari va ularning ishlash usullari.
-                      Format modifikatorlari: printf(), scanf() funksiyalari.
-                      Simvollarni o‘qish va yozish. Algoritm va dasturlashning
-                      asosiy tushunchalari ochib beriladi. Jumladan: til
-                      alifbosi, identifikator, kalit so’zlar, satrli
-                      o’zgaruvchilar, ma’lumotlar toifasi, arifmetik ifoda va
-                      amallar, siljitish amallari, inkrement, decrement,
-                      kutubxonalar va ularning funksiyalari hamda preprotsessor
-                      direktivalaridan foydalanish usullari o’rganiladi.
-                    </p>
-                  </div>
-                )}
-              </div>
-            </Col>
-            <hr
-              style={{
-                display: "block",
-                width: "100%",
-              }}
-            />
-            <Col span={18} offset={3}>
-              <Button type="primary" onClick={next}>
-                Next
-              </Button>
-            </Col>
-            <hr
-              style={{
-                display: "block",
-                width: "100%",
-              }}
-            />
-            <Col span={18} offset={3}>
-              <h3>15-ta sharh</h3>
+            <StepsBlock />
+
+            <Col span={18} offset={3} className="comments-list">
+              <h3>{comments.length}-ta sharh</h3>
               <>
                 <Comment
                   avatar={
                     <Avatar
-                      src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                      alt="Han Solo"
+                      src="https://avatars.mds.yandex.net/get-yapic/53031/My8MspR9WyDaZDsW3fJAJJsgI-1/islands-200"
+                      alt="Alisher Saidov"
+                      size={40}
                     />
                   }
                   content={

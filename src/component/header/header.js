@@ -38,7 +38,12 @@ const Header = () => {
       </div>
 
       <div className="header-right">
-        <MessageOutlined />
+        <Badge count={4}>
+          <a href="#" className="head-example">
+            <MessageOutlined />
+          </a>
+        </Badge>
+
         <Badge count={5}>
           <a href="#" className="head-example">
             <BellOutlined />
