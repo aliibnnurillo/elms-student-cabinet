@@ -15,23 +15,10 @@ import {
 } from "antd";
 import { SendOutlined } from "@ant-design/icons";
 import StepsBlock from "./steps";
+import { SubjectsHeader } from "../../component/header";
 
 const { Link } = Anchor;
 
-const lists = [
-  {
-    name: "Salom1",
-    data_list: ["list1", "list2", "list3"],
-  },
-  {
-    name: "Salom2",
-    data_list: ["c", "c", "c"],
-  },
-  {
-    name: "Salom3",
-    data_list: ["d", "d", "d"],
-  },
-];
 const { TextArea } = Input;
 
 const CommentList = ({ comments }) => (
@@ -98,70 +85,84 @@ const Lesson = () => {
   };
 
   return (
-    <div className="tasks">
-      <Row gutter={20}>
-        <Col span={6}>
-          <div className="task-list">
-            <Anchor className="task-menu">
-              <Link
-                className="lesson-name"
-                href="#1"
-                title="1  Algoritm va dasturlashga..."
-              >
-                <Link href="#1.1" title="1.1 Dasturlash tillarining tuzil..." />
-                <Link href="#1.2" title="1.2 Algoritm va dasturlashga..." />
-              </Link>
-              <Link
-                className="lesson-name"
-                href="#2"
-                title="2  Algoritm va dasturlashga..."
-              >
-                <Link href="#2.1" title="2.1 Tarmoqlanish va uzilishlarni..." />
-                <Link href="#2.2" title="2.2 Takrorlanish operatorlari." />
-              </Link>
-              <Link
-                className="lesson-name"
-                href="#3"
-                title="3  Funksiyalar va to’plamlar..."
-              >
-                <Link href="#3.1" title="2.1 Funksiyalar." />
-                <Link href="#3.2" title="2.2 Massivlar." />
-                <Link href="#3.3" title="3.3 Ko‘rsatkichlar va dinamik..." />
-              </Link>
-            </Anchor>
-          </div>
-        </Col>
-        <Col span={18}>
-          <Row>
-            <StepsBlock />
+    <>
+      <SubjectsHeader />
+      <div className="content">
+        <div className="tasks">
+          <Row gutter={20}>
+            <Col span={6}>
+              <div className="task-list">
+                <Anchor className="task-menu">
+                  <Link
+                    href="#1"
+                    className="lesson-name"
+                    title="1  Algoritm va dasturlashga..."
+                  >
+                    <Link
+                      href="#1.1"
+                      title="1.1 Dasturlash tillarining tuzil..."
+                    />
+                    <Link href="#1.2" title="1.2 Algoritm va dasturlashga..." />
+                  </Link>
+                  <Link
+                    href="#2"
+                    className="lesson-name"
+                    title="2  Algoritm va dasturlashga..."
+                  >
+                    <Link
+                      href="#2.1"
+                      title="2.1 Tarmoqlanish va uzilishlarni..."
+                    />
+                    <Link href="#2.2" title="2.2 Takrorlanish operatorlari." />
+                  </Link>
+                  <Link
+                    href="#3"
+                    className="lesson-name"
+                    title="3  Funksiyalar va to’plamlar..."
+                  >
+                    <Link href="#3.1" title="2.1 Funksiyalar." />
+                    <Link href="#3.2" title="2.2 Massivlar." />
+                    <Link
+                      href="#3.3"
+                      title="3.3 Ko‘rsatkichlar va dinamik..."
+                    />
+                  </Link>
+                </Anchor>
+              </div>
+            </Col>
+            <Col span={18}>
+              <Row>
+                <StepsBlock />
 
-            <Col span={18} offset={3} className="comments-list">
-              <h3>{comments.length}-ta sharh</h3>
-              <>
-                <Comment
-                  avatar={
-                    <Avatar
-                      src="https://avatars.mds.yandex.net/get-yapic/53031/My8MspR9WyDaZDsW3fJAJJsgI-1/islands-200"
-                      alt="Alisher Saidov"
-                      size={40}
+                <Col span={18} offset={3} className="comments-list">
+                  <h3>{comments.length}-ta sharh</h3>
+                  <>
+                    <Comment
+                      avatar={
+                        <Avatar
+                          src="https://avatars.mds.yandex.net/get-yapic/53031/My8MspR9WyDaZDsW3fJAJJsgI-1/islands-200"
+                          alt="Alisher Saidov"
+                          size={40}
+                        />
+                      }
+                      content={
+                        <Editor
+                          onChange={handleChange}
+                          onSubmit={handleSubmit}
+                          submitting={submitting}
+                          value={value}
+                        />
+                      }
                     />
-                  }
-                  content={
-                    <Editor
-                      onChange={handleChange}
-                      onSubmit={handleSubmit}
-                      submitting={submitting}
-                      value={value}
-                    />
-                  }
-                />
-                {comments.length > 0 && <CommentList comments={comments} />}
-              </>
+                    {comments.length > 0 && <CommentList comments={comments} />}
+                  </>
+                </Col>
+              </Row>
             </Col>
           </Row>
-        </Col>
-      </Row>
-    </div>
+        </div>
+      </div>
+    </>
   );
 };
 

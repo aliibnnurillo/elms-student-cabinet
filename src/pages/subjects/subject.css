@@ -552,7 +552,6 @@
   line-height: 18px;
   padding: 0;
   display: block;
-  position: relative;
 }
 .task-list .lesson-name .ant-anchor-link a {
   padding: 10px 20px;
@@ -564,7 +563,6 @@
   .ant-anchor-link-title.ant-anchor-link-title-active {
   background: #5767f6;
   color: #fff;
-  position: relative;
   transition: 0.3s ease all;
 }
 .task-list .ant-anchor-ink-ball {
@@ -577,7 +575,7 @@
   opacity: 1;
   z-index: 9999;
 }
-.task-list .lesson-name .ant-anchor-link::after {
+.task-list .lesson-name .ant-anchor-link a::after {
   content: "";
   width: 16px;
   height: 16px;
@@ -589,7 +587,7 @@
   transition: 0.8s ease all !important;
   display: none;
 }
-.task-list .lesson-name .ant-anchor-link.ant-anchor-link-active::after {
+.task-list .lesson-name .ant-anchor-link.ant-anchor-link-active a::after {
   transition: 0.3s ease cubic-bezier(0.6, -0.28, 0.735, 0.045) !important;
   display: inline-block;
   background-color: #5767f6;

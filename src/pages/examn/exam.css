@@ -1,0 +1,199 @@
+.exam-page {
+  transform: translateX(-10px);
+}
+
+.exam-page .all-exam::-webkit-scrollbar {
+  margin-top: 20px;
+  width: 24px; /* ширина для вертикального скролла */
+  height: 8px; /* высота для горизонтального скролла */
+  background-color: transparent;
+}
+.exam-page .all-exam::-webkit-scrollbar-thumb {
+  border-radius: 9em;
+  box-shadow: inset 1px 1px 10px #f3faf7;
+}
+.exam-page .all-exam::-webkit-scrollbar-thumb:hover {
+  background-color: #5767f6;
+}
+.exam-page .all-exam::-webkit-scrollbar-thumb {
+  background-color: #aab1f1;
+}
+.exam-page > h3 {
+  padding-left: 5px;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 19px;
+  text-transform: uppercase;
+  color: #aab1f1;
+  margin-bottom: 4px;
+}
+.exam-page > h1 {
+  padding-left: 5px;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 33px;
+  color: #17152e;
+  margin-bottom: 56px;
+}
+.content .all-exam {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: scroll;
+  padding: 0 10px;
+  padding-bottom: 20px;
+  justify-content: space-between;
+}
+.content .all-exam > div {
+  margin-left: 40px;
+}
+.content .all-exam div:first-child {
+  margin-left: 0px;
+}
+.content .all-exam .for-exam-list {
+  display: flex;
+
+  margin-left: -20px;
+  margin-right: -20px;
+  box-sizing: border-box;
+}
+.content .all-exam .for-course-number {
+  text-transform: uppercase;
+  font-weight: 800;
+  font-size: 15px;
+  line-height: 20px;
+  color: #5767f6;
+  margin-bottom: 12px;
+}
+
+.content
+  .all-exam
+  .for-exam-list
+  .ant-list.ant-list-lg.ant-list-split.ant-list-bordered {
+  margin-right: 20px;
+  margin-left: 20px;
+  width: 500px;
+  background: #ffffff;
+  box-shadow: 0px 2px 15px rgba(13, 34, 86, 0.08);
+  border-radius: 12px;
+  border: none;
+}
+.content .all-exam .for-exam-list .ant-list-header {
+  padding: 19px 18px 26px;
+}
+.content .all-exam .for-exam-list .ant-list-header .smest-name {
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+  align-items: center;
+}
+.content .all-exam .for-exam-list .ant-list-header .smest-name h4 {
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 25px;
+  color: #17152e;
+  margin: 0;
+}
+.content .all-exam .for-exam-list .ant-list-header .smest-name span {
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 18px;
+  color: #aab1f1;
+}
+.content .all-exam .for-exam-list .ant-list-items .ant-list-item {
+  padding: 20px;
+}
+.content
+  .all-exam
+  .for-exam-list
+  .ant-list-items
+  .ant-list-item
+  .for-subject-name {
+  color: #17152e;
+  font-size: 14px;
+  line-height: 19px;
+}
+.content .all-exam .for-exam-list .ant-list-items .ant-list-item .for-date {
+  color: #17152e;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 19px;
+}
+.content
+  .all-exam
+  .for-exam-list
+  .ant-list-items
+  .ant-list-item
+  .for-date
+  .anticon-calendar {
+  margin-left: 6px;
+  color: #5767f6;
+  font-size: 13px;
+}
+.content
+  .all-exam
+  .for-exam-list
+  .ant-list-items
+  .ant-list-item
+  .for-date
+  .anticon.anticon-star {
+  margin: 0 12px 0 6px;
+  font-size: 13px;
+}
+.content.ranting-page
+  .all-exam
+  .for-exam-list
+  .ant-list.ant-list-lg.ant-list-split.ant-list-bordered,
+.curicul-page
+  .all-exam
+  .for-exam-list
+  .ant-list.ant-list-lg.ant-list-split.ant-list-bordered {
+  width: 431px;
+}
+.content.ranting-page > h1 {
+  margin-bottom: 88px;
+}
+
+.content
+  .all-exam
+  .for-exam-list
+  .ant-list-items
+  .ant-list-item
+  .for-date
+  .for-star {
+  margin-left: 13px;
+}
+
+.content
+  .all-exam
+  .for-exam-list
+  .ant-list-items
+  .ant-list-item
+  .for-date
+  .for-star
+  .anticon.anticon-star {
+  margin-right: 0;
+  font-size: 12px;
+  margin-left: 6px;
+}
+.content
+  .all-exam
+  .for-exam-list
+  .ant-list-items
+  .ant-list-item
+  .for-date
+  .for-ranting-num
+  .anticon {
+  margin-left: 6px;
+  color: #aab1f1;
+  font-size: 12px;
+}
+.content .all-exam .for-exam-list .ant-list-items .ant-list-item h5 {
+  color: #5767f6;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  margin-bottom: 2px;
+}
+.d-block {
+  display: block !important;
+}

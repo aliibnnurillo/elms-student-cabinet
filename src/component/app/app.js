@@ -1,5 +1,5 @@
 import React from "react";
-import { Header, LeftMenue, Content } from "../header";
+import { SubjectsHeader, LeftMenue, Content } from "../header";
 import {
   BrowserRouter as Router,
   Switch,
@@ -16,20 +16,29 @@ import {
   ForgotPassword,
   CreatePassword,
 } from "../../pages/auth";
+import { NewsPage, OneNews } from "../../pages/news";
+import HomePage from "../../pages/home/home";
+import { Examination } from "../../pages/examn";
+import Ranting from "../../pages/ranting/ranting";
+import Curiculum from "../../pages/curriculum";
 
 const App = () => {
   return (
     <div>
       <Router>
         <LeftMenue />
-        <Header />
-        <div className="content">
-          <Switch>
-            <Route path="/subjects" exact component={Subjects} />
-            <Route path="/subjects/thissubject" exact component={SubjectList} />
-            <Route path="/subjects/thissubject/lesson" component={Lesson} />
-          </Switch>
-        </div>
+        <Switch>
+          <Route path="/" exact component={HomePage} />
+          <Route path="/exam" exact component={Examination} />
+          <Route path="/subjects" exact component={Subjects} />
+          <Route path="/subjects/thissubject" exact component={SubjectList} />
+          <Route path="/subjects/thissubject/lesson" component={Lesson} />
+          <Route path="/ranting" exact component={Ranting} />
+          <Route path="/curicul" exact component={Curiculum} />
+
+          <Route path="/news" exact component={NewsPage} />
+          <Route path="/news/one-news/:id" exact component={OneNews} />
+        </Switch>
         {/* <Auth />
 
         {/* <EnterNewPassword /> */}

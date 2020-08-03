@@ -1,0 +1,88 @@
+.curicul-page .all-exam .curicul-list {
+  background: #ffffff;
+  box-shadow: 0px 2px 15px rgba(13, 34, 86, 0.08);
+  border-radius: 12px;
+  padding: 6px 12px;
+  margin-left: 40px;
+}
+.curicul-page .all-exam .curicul-list:first-child {
+  margin-left: 0 !important;
+}
+.curicul-page .all-exam .curicul-list .ant-list-item {
+  padding: 20px 14px !important;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 19px;
+}
+.curicul-page .all-exam .curicul-list .ant-list-item span:first-child {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 14px;
+  line-height: 19px;
+  color: #17152e;
+}
+.curicul-page .all-exam .curicul-list .ant-list-item span span {
+  margin-left: 6px;
+  color: #aab1f1 !important;
+}
+.curicul-page .all-exam .curicul-list .ant-list-item span:last-child {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 19px;
+}
+.curicul-page .all-exam .curicul-list .ant-list-header p {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  font-size: 18px;
+  align-items: center;
+  line-height: 25px;
+}
+.curicul-page .all-exam .curicul-list .ant-list-header p span:last-child {
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 18px;
+  color: #aab1f1;
+}
+.curicul-page .all-exam .curicul-list .ant-list-header {
+  padding: 12px 12px;
+}
+.curicul-page .all-exam .curicul-list .for-choice {
+  padding: 0 !important;
+}
+.curicul-page .all-exam .curicul-list .choice {
+  display: inline-block;
+  width: 100%;
+
+  padding: 6px;
+  background: #f3f4ff;
+  border-radius: 8px;
+}
+.curicul-page .all-exam .curicul-list .choice .ant-list-header {
+  padding: 0 5px;
+}
+.curicul-page .all-exam .curicul-list .choice .ant-list-header p {
+  margin: 0;
+  margin-bottom: 9px;
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 18px;
+  text-transform: uppercase;
+  color: #aab1f1;
+}
+.curicul-page .all-exam .ant-list.curicul-list.ant-list-lg.ant-list-split {
+  width: 431px;
+}
+.curicul-page .all-exam .curicul-content {
+  display: flex;
+}
+.curicul-page .all-exam div > h4 {
+  color: #5767f6;
+  font-weight: 800;
+  font-size: 15px;
+  line-height: 20px;
+  text-transform: uppercase;
+}
