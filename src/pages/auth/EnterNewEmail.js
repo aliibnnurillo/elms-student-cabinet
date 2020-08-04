@@ -1,10 +1,11 @@
 import React from "react";
 import { Row, Col, Form, Input, Button } from "antd";
 import { MailOutlined } from "@ant-design/icons";
+import { observer, inject } from "mobx-react";
 
 const EnterNewEmails = () => {
   return (
-    <div className="enter-email">
+    <div className="auth-page enter-email">
       <Row>
         <Col span={6} offset={9}>
           <div className="new-email">
@@ -45,4 +46,4 @@ const EnterNewEmails = () => {
   );
 };
 
-export default EnterNewEmails;
+export default inject("authStore")(observer(EnterNewEmails));

@@ -4,7 +4,7 @@ import { LockOutlined } from "@ant-design/icons";
 
 const EnterNewPassword = () => {
   return (
-    <div className="enter-email">
+    <div className="enter-email  auth-page">
       <Row>
         <Col span={6} offset={9}>
           <div className="new-email">

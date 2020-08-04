@@ -1,19 +1,22 @@
 import React from "react";
 import { Row, Col, Avatar, Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-
 import "./auth.css";
 import { Link } from "react-router-dom";
-const Auth = () => {
+import { inject, observer } from "mobx-react";
+
+const Login = ({ authStore: { login }, history }) => {
   const onFinish = (values) => {
-    console.log("Received values of form: ", values);
+    login(values).then((res) => {
+      if (res !== 200) return;
+      history.push("/");
+    });
   };
   return (
-    <div className="auth">
+    <div className="auth auth-page">
       <Row gutter={40}>
         <Col span={8} className="auth-left">
           <Avatar src="/assets/userimg.jpg" alt="Alisher Saidov" size={112} />
-
           <Form
             name="normal_login"
             className="login-form"
@@ -21,13 +24,19 @@ const Auth = () => {
             onFinish={onFinish}
           >
             <h1>Tizimga kirish</h1>
-            <Form.Item name="username">
+            <Form.Item
+              name="username"
+              rules={[{ required: true, message: "Username is required!" }]}
+            >
               <Input
                 prefix={<UserOutlined className="site-form-item-icon" />}
                 placeholder="Login yoki email"
               />
             </Form.Item>
-            <Form.Item name="password">
+            <Form.Item
+              name="password"
+              rules={[{ required: true, message: "Password is required!" }]}
+            >
               <Input
                 prefix={<LockOutlined className="site-form-item-icon" />}
                 type="password"
@@ -44,7 +53,7 @@ const Auth = () => {
               >
                 Kirish
               </Button>
-              <Link to="" className="login-form-forgot">
+              <Link to="/user/forgot-password" className="login-form-forgot">
                 Parolni tiklash
               </Link>
             </Form.Item>
@@ -56,4 +65,4 @@ const Auth = () => {
   );
 };
 
-export default Auth;
+export default inject("authStore")(observer(Login));

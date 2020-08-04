@@ -27,6 +27,13 @@
   position: relative;
   transform: translateY(-100%);
 }
+
+.auth-page {
+  z-index: 999;
+  position: relative;
+  background-color: #fff;
+}
+
 .auth .login-form h1 {
   font-weight: bold;
   font-size: 20px;

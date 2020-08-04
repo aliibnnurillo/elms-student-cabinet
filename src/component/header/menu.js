@@ -16,37 +16,37 @@ const LeftMenue = () => {
     <div className="menu-container">
       <Avatar size={64} src="/assets/logo.png" className="avatars" />
       <Menu className="left-menu" mode="inline">
-        <Menu.Item key="1">
+        <Menu.Item key="home">
           <Link to="/">
             <HomeOutlined />
             <span>Bosh sahifa</span>
           </Link>
         </Menu.Item>
-        <Menu.Item key="2">
-          <Link to="/curicul">
+        <Menu.Item key="curriculum">
+          <Link to="/curriculum">
             <BankOutlined />
             <span>O'quv rejasi</span>
           </Link>
         </Menu.Item>
-        <Menu.Item key="3">
+        <Menu.Item key="subjects">
           <Link to="/subjects">
             <ReadOutlined />
             <span>Fanlar</span>
           </Link>
         </Menu.Item>
-        <Menu.Item key="4">
+        <Menu.Item key="exam">
           <Link to="/exam">
             <ScheduleOutlined />
             <span>Imtixonlar jadvali</span>
           </Link>
         </Menu.Item>
-        <Menu.Item key="5">
-          <Link to="/ranting">
+        <Menu.Item key="rating">
+          <Link to="/rating">
             <BookOutlined />
             <span>Reyting daftarchsi</span>
           </Link>
         </Menu.Item>
-        <Menu.Item key="6">
+        <Menu.Item key="news">
           <Link to="/news">
             <ProfileOutlined />
             <span>Yangiliklar va elonlar</span>
