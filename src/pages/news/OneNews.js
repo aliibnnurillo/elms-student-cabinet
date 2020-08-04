@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React from "react";
 import { Row, Col, Tag } from "antd";
 import { EyeFilled } from "@ant-design/icons";
 import "./news.css";

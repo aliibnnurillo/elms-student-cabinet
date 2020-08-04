@@ -1,8 +1,8 @@
 import React from "react";
 import { Row, Col, Tag, Pagination } from "antd";
-import { Card, Avatar } from "antd";
+import { Card } from "antd";
 import { EyeFilled } from "@ant-design/icons";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./news.css";
 import { NewsHeader } from "../../component/header";
 const { Meta } = Card;
@@ -48,7 +48,13 @@ const News = () => {
       <div className="news-page-container content">
         <Row gutter={24}>
           {data.map((item, idx) => (
-            <Col key={idx} span={6}>
+            <Col
+              key={idx}
+              span={24}
+              xl={{ span: 6 }}
+              lg={{ span: 8 }}
+              md={{ span: 12 }}
+            >
               <Card
                 className="news-card"
                 style={{ width: 300 }}

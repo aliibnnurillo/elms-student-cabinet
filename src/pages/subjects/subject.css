@@ -5,11 +5,34 @@
 .subject_page .card .ant-card-meta-avatar {
   float: right;
 }
-
+.subject_page .card .ant-card-body > p {
+  font-size: 15px;
+  line-height: 160%;
+  color: #17152e;
+  max-height: 92px;
+  overflow: hidden;
+}
 .subject_page .card .card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 20px;
+}
+.subject_page .card .card-header .title > a {
+  display: flex;
+  margin-bottom: 8px;
+}
+.subject_page .card .card-header .title p {
+  align-items: center;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+.subject_page .card .card-header .title p span {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  white-space: nowrap;
 }
 .subject_page .card .title p > span {
   margin-right: 15px;

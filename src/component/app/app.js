@@ -1,21 +1,9 @@
 import React from "react";
-import { SubjectsHeader, LeftMenue, Content } from "../header";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
+import { LeftMenue } from "../header";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Subjects, SubjectList, Lesson } from "../../pages/subjects";
 import "./app.css";
-import {
-  Auth,
-  EnterNewEmails,
-  EnterNewPassword,
-  UploadAvatar,
-  ForgotPassword,
-  CreatePassword,
-} from "../../pages/auth";
+
 import { NewsPage, OneNews } from "../../pages/news";
 import HomePage from "../../pages/home/home";
 import { Examination } from "../../pages/examn";
@@ -39,13 +27,6 @@ const App = () => {
           <Route path="/news" exact component={NewsPage} />
           <Route path="/news/one-news/:id" exact component={OneNews} />
         </Switch>
-        {/* <Auth />
-
-        {/* <EnterNewPassword /> */}
-        {/* <EnterNewEmails /> */}
-        {/* <UploadAvatar /> */}
-        {/* <ForgotPassword /> */}
-        {/* <CreatePassword /> */}
       </Router>
     </div>
   );

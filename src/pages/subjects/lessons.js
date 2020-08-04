@@ -1,7 +1,6 @@
 import React from "react";
 import moment from "moment";
-
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Row,
   Input,
@@ -140,7 +139,7 @@ const Lesson = () => {
                     <Comment
                       avatar={
                         <Avatar
-                          src="https://avatars.mds.yandex.net/get-yapic/53031/My8MspR9WyDaZDsW3fJAJJsgI-1/islands-200"
+                          src="/assets/userimg.jpg"
                           alt="Alisher Saidov"
                           size={40}
                         />

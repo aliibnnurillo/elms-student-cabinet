@@ -1,5 +1,4 @@
 import React from "react";
-import { BellOutlined } from "@ant-design/icons";
 import { Popover, Card, Avatar } from "antd";
 import { Link } from "react-router-dom";
 import Meta from "antd/lib/card/Meta";
@@ -14,7 +13,7 @@ const Pop = ({ icons }) => {
             <Meta
               avatar={<Avatar size={32} src="/assets/ico.png" />}
               title={
-                <Link>
+                <Link to="">
                   Texnik nosozliklar sababli, sistema soat 14:00 dan 16:00 gacha
                   o’chadi
                 </Link>
@@ -31,7 +30,9 @@ const Pop = ({ icons }) => {
             }
           >
             <Meta
-              title={<Link>Dasturlash muhiti(IDE) tushunchasi haqida</Link>}
+              title={
+                <Link to="">Dasturlash muhiti(IDE) tushunchasi haqida</Link>
+              }
               description={<span>13 iyun 2020, 19:15</span>}
             />
           </Card>
@@ -40,9 +41,9 @@ const Pop = ({ icons }) => {
       trigger="click"
       overlayClassName="popover-class"
     >
-      <a href="#" className="head-example">
+      <Link to="" className="head-example">
         {icons}
-      </a>
+      </Link>
     </Popover>
   );
 };

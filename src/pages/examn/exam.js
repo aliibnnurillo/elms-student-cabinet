@@ -1,11 +1,9 @@
 import React from "react";
 import { ExamHeader } from "../../component/header";
-import { SubjectList } from "../subjects";
-import { List, Typography, Divider } from "antd";
+import { List } from "antd";
 import { StarFilled, CalendarFilled } from "@ant-design/icons";
+import { Link, Switch } from "react-router-dom";
 import "./exam.css";
-import AnchorLink from "antd/lib/anchor/AnchorLink";
-import { Link } from "react-router-dom";
 const smest = [
   {
     id: 1,
@@ -152,6 +150,19 @@ const smest = [
     ],
   },
 ];
+const ClassName = (prop) => {
+  const a = Number(prop);
+  console.log(isNaN(a));
+  if (isNaN(a)) {
+    return "for-date";
+  } else if (!isNaN(a) && a < 56) {
+    return "for-date small";
+  } else if (a >= 56 && a < 86) {
+    return "for-date middle";
+  } else {
+    return "for-date best";
+  }
+};
 const Exam = () => {
   return (
     <>
@@ -177,19 +188,21 @@ const Exam = () => {
                     bordered
                     dataSource={card.subjectsList}
                     renderItem={(subjects) => (
-                      <List.Item>
-                        <Link className="for-subject-name">
-                          {subjects.name}
-                        </Link>
-                        <span className="for-date">
-                          <span>
-                            {subjects.starNumber}
-                            {subjects.star}
+                      <>
+                        <List.Item>
+                          <Link className="for-subject-name">
+                            {subjects.name}
+                          </Link>
+                          <span className={ClassName(subjects.starNumber)}>
+                            <span>
+                              {subjects.starNumber}
+                              {subjects.star}
+                            </span>
+                            {subjects.date}
+                            <CalendarFilled />
                           </span>
-                          {subjects.date}
-                          <CalendarFilled />
-                        </span>
-                      </List.Item>
+                        </List.Item>
+                      </>
                     )}
                   />
                 ))}

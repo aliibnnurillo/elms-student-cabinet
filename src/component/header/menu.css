@@ -1,15 +1,15 @@
 .menu-container {
-  height: 100vh;
-  width: 110px;
   position: fixed;
   display: inline;
   top: 0;
   left: 0;
+  height: 100vh;
+  width: 110px;
   text-align: center;
   box-shadow: 5px 0px 6px -7px rgba(0, 0, 0, 0.5) !important;
 }
 
-.menu-container .ant-menu-inline .avatars {
+.menu-container > .avatars {
   margin: 10px;
 }
 .menu-container .ant-menu-inline {
@@ -24,22 +24,27 @@
   margin: 0 !important;
   text-align: center;
 }
-.menu-container .ant-menu-inline > li span {
-  display: block;
-  width: 100%;
-  position: relative;
-  line-height: 18px;
-  font-size: 18px;
-}
-.menu-container .ant-menu-inline li span > a {
+
+.menu-container .ant-menu-inline li > a {
   max-width: 100%;
-  font-size: 12px;
   display: inline-block;
   padding: 0 10px;
   line-height: 18px;
   font-weight: 700;
   color: #222;
   white-space: normal !important;
+}
+.menu-container .ant-menu-inline li > a span {
+  font-size: 12px;
+  display: inline-block;
+}
+.menu-container .ant-menu-inline li > a .anticon {
+  display: block;
+  width: 100%;
+  position: relative;
+  line-height: 18px;
+  font-size: 18px;
+  color: #5767f6;
 }
 .menu-container .ant-menu-item:hover {
   color: white;
@@ -54,7 +59,9 @@
   border-color: transparent !important;
 }
 .menu-container .ant-menu-item-selected a,
-.menu-container .ant-menu-item:hover a {
+.menu-container .ant-menu-item:hover a,
+.menu-container .ant-menu-item:hover > a .anticon,
+.menu-container .ant-menu-item-selected a .anticon {
   color: white !important;
 }
 .menu-container .ant-menu-item {
@@ -70,19 +77,17 @@
   align-items: center;
 }
 .site-page-header {
-  /* display: grid; */
   padding: 0 !important;
 }
-/* .site-page-header > .ant-page-header-heading {
-  order: 1;
-  margin-top: 0 !important;
-}
-.site-page-header > .ant-breadcrumb {
-  order: 2;
-} */
+
 .site-page-header .ant-page-header-heading-title {
   font-size: 28px;
   font-weight: 700;
+}
+.page-header
+  .ant-select.ant-select-single.ant-select-show-arrow
+  .ant-select-selector {
+  border-radius: 8px;
 }
 .site-page-header .ant-page-header-content {
   padding-top: 5px;
@@ -135,6 +140,10 @@
   background-color: #fff;
   position: relative;
   overflow: inherit;
+}
+.page-header .header-right img {
+  z-index: 3;
+  position: relative;
 }
 .page-header .header-right .ant-avatar-circle.ant-avatar-image::before {
   content: "";

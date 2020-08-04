@@ -1,13 +1,8 @@
 import React from "react";
 import { CuriculHeader } from "../../component/header";
 import { List } from "antd";
-import {
-  StarFilled,
-  CalendarFilled,
-  ClockCircleFilled,
-} from "@ant-design/icons";
+import { ClockCircleFilled } from "@ant-design/icons";
 import "../examn/exam.css";
-import { Link } from "react-router-dom";
 import "./curicul.css";
 const Curiculum = () => {
   return (

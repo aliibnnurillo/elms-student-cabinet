@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, Card, Tag, List, Typography, Button } from "antd";
+import { Row, Col, Tag, List, Button } from "antd";
 import {
   CalendarOutlined,
   PieChartOutlined,
@@ -7,9 +7,10 @@ import {
 } from "@ant-design/icons";
 import { Player } from "video-react";
 
-import "./subject.css";
 import { Link } from "react-router-dom";
 import { SubjectsHeader } from "../../component/header";
+import "./subject.css";
+
 const SubjectList = () => {
   const data = [
     { name: "Dasturlash tillarining tuzilmasi.", pro: "20%" },
@@ -43,13 +44,13 @@ const SubjectList = () => {
                   <span>
                     Modullar soni
                     <Tag className="count_teg">
-                      <a href="#">10</a>
+                      <Link to=" ">10</Link>
                     </Tag>
                   </span>
                   <span>
                     Darslar soni
                     <Tag className="count_teg">
-                      <a href="#">10</a>
+                      <Link to=" ">10</Link>
                     </Tag>
                   </span>
                 </p>

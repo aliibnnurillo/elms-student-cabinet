@@ -4,7 +4,6 @@ import "../../../node_modules/video-react/dist/video-react.css";
 import { Player } from "video-react";
 import { useState } from "react";
 import {
-  Input,
   Col,
   Steps,
   Button,
@@ -12,7 +11,6 @@ import {
   Upload,
   Tag,
   Collapse,
-  List,
   Radio,
 } from "antd";
 import "./subject.css";
@@ -22,10 +20,8 @@ import {
   VideoCameraFilled,
   FileUnknownFilled,
   CheckSquareFilled,
-  SettingOutlined,
 } from "@ant-design/icons";
 
-import Icon from "@ant-design/icons";
 import { UploadIcon } from "../../component/icons";
 
 const steps = [

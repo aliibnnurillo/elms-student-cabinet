@@ -1,11 +1,7 @@
 import React from "react";
 import { RantingHeader } from "../../component/header";
 import { List } from "antd";
-import {
-  StarFilled,
-  CalendarFilled,
-  ClockCircleFilled,
-} from "@ant-design/icons";
+import { StarFilled, ClockCircleFilled } from "@ant-design/icons";
 import "../examn/exam.css";
 import { Link } from "react-router-dom";
 const smest = [
@@ -28,31 +24,31 @@ const smest = [
             name: "Abdusattor Muxtorov",
             title: "Xorijiy til 2",
             rantingNum: "90",
-            rantingValue: "96",
+            rantingValue: "78",
           },
           {
             name: "Abdusattor Muxtorov",
             title: "Chiziqli algebra",
             rantingNum: "240",
-            rantingValue: "96",
+            rantingValue: "55",
           },
           {
             name: "Abdusattor Muxtorov",
             title: "Telekommunikatsiyada operatsion tizimlar",
             rantingNum: "120",
-            rantingValue: "96",
+            rantingValue: "87",
           },
           {
             name: "Abdusattor Muxtorov",
             title: "Fizika 2",
             rantingNum: "120",
-            rantingValue: "96",
+            rantingValue: "81",
           },
           {
             name: "Abdusattor Muxtorov",
             title: "Dasturlash",
             rantingNum: "360",
-            rantingValue: "96",
+            rantingValue: "89",
           },
         ],
       },
@@ -65,37 +61,37 @@ const smest = [
             name: "Abdusattor Muxtorov",
             title: "Algoritm loyihalash",
             rantingNum: "180",
-            rantingValue: "96",
+            rantingValue: "95",
           },
           {
             name: "Abdusattor Muxtorov",
             title: "Xorijiy til 2",
             rantingNum: "120",
-            rantingValue: "96",
+            rantingValue: "87",
           },
           {
             name: "Abdusattor Muxtorov",
             title: "Chiziqli algebra",
             rantingNum: "120",
-            rantingValue: "96",
+            rantingValue: "81",
           },
           {
             name: "Abdusattor Muxtorov",
             title: "Telekommunikatsiyada operatsion tizimlar",
             rantingNum: "90",
-            rantingValue: "96",
+            rantingValue: "78",
           },
           {
             name: "Abdusattor Muxtorov",
             title: "Fizika 2",
             rantingNum: "360",
-            rantingValue: "96",
+            rantingValue: "89",
           },
           {
             name: "Abdusattor Muxtorov",
             title: "Dasturlash",
             rantingNum: "240",
-            rantingValue: "96",
+            rantingValue: "63",
           },
         ],
       },
@@ -378,6 +374,19 @@ const smest = [
     ],
   },
 ];
+const ClassName = (prop) => {
+  const a = Number(prop);
+  console.log(isNaN(a));
+  if (isNaN(a)) {
+    return "for-date";
+  } else if (!isNaN(a) && a < 72) {
+    return "for-date small";
+  } else if (a >= 72 && a < 86) {
+    return "for-date middle";
+  } else {
+    return "for-date best";
+  }
+};
 const Ranting = () => {
   return (
     <>
@@ -412,7 +421,7 @@ const Ranting = () => {
                             {subjects.title}
                           </Link>
                         </span>
-                        <span className="for-date">
+                        <span className={ClassName(subjects.rantingValue)}>
                           <span className="for-ranting-num">
                             {subjects.rantingNum}
                             <ClockCircleFilled />

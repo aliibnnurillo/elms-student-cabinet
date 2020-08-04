@@ -1,13 +1,9 @@
 import React, { useState } from "react";
-import { Row, Col, Form, Input, Button, Upload, message } from "antd";
-import {
-  LoadingOutlined,
-  PlusOutlined,
-  UserOutlined,
-  CameraFilled,
-} from "@ant-design/icons";
+import { Row, Col, Button, Upload, message } from "antd";
+import { LoadingOutlined, CameraFilled } from "@ant-design/icons";
 import "./auth.css";
 import { UserIcon } from "../../component/icons";
+import { Link } from "react-router-dom";
 function getBase64(img, callback) {
   const reader = new FileReader();
   reader.addEventListener("load", () => callback(reader.result));
@@ -30,7 +26,6 @@ const UploadAvatar = () => {
   const [state, setState] = useState({
     loading: false,
   });
-  const [imageUrl, setImageUrl] = useState();
 
   const handleChange = (info) => {
     if (info.file.status === "uploading") {
@@ -94,9 +89,9 @@ const UploadAvatar = () => {
             >
               Saqlash
             </Button>
-            <a href="" className="next-link">
+            <Link to="" className="next-link">
               Otkazib yuborish
-            </a>
+            </Link>
           </div>
         </Col>
       </Row>

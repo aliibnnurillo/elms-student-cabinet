@@ -1,17 +1,13 @@
 import React from "react";
 import { Form, Avatar, Input, Row, Col, Button } from "antd";
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { UserOutlined } from "@ant-design/icons";
 
 const ForgotPassword = () => {
   return (
     <div className="auth">
       <Row gutter={40}>
         <Col span={7} className="auth-left">
-          <Avatar
-            src="https://avatars.mds.yandex.net/get-yapic/53031/My8MspR9WyDaZDsW3fJAJJsgI-1/islands-200"
-            alt="Alisher Saidov"
-            size={112}
-          />
+          <Avatar src="/assets/userimg.jpg" alt="Alisher Saidov" size={112} />
 
           <Form
             name="normal_login"

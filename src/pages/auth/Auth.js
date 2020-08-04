@@ -1,8 +1,9 @@
 import React from "react";
-import { Row, Col, Avatar, Form, Input, Checkbox, Button } from "antd";
+import { Row, Col, Avatar, Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 
 import "./auth.css";
+import { Link } from "react-router-dom";
 const Auth = () => {
   const onFinish = (values) => {
     console.log("Received values of form: ", values);
@@ -11,11 +12,7 @@ const Auth = () => {
     <div className="auth">
       <Row gutter={40}>
         <Col span={8} className="auth-left">
-          <Avatar
-            src="https://avatars.mds.yandex.net/get-yapic/53031/My8MspR9WyDaZDsW3fJAJJsgI-1/islands-200"
-            alt="Alisher Saidov"
-            size={112}
-          />
+          <Avatar src="/assets/userimg.jpg" alt="Alisher Saidov" size={112} />
 
           <Form
             name="normal_login"
@@ -47,9 +44,9 @@ const Auth = () => {
               >
                 Kirish
               </Button>
-              <a className="login-form-forgot" href="">
+              <Link to="" className="login-form-forgot">
                 Parolni tiklash
-              </a>
+              </Link>
             </Form.Item>
           </Form>
         </Col>

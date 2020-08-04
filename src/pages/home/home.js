@@ -65,11 +65,17 @@ const HomePage = () => {
           <h2>Fanlar</h2>
           <Row gutter={24}>
             {data.map((item) => (
-              <Col key={item.id} span={8}>
+              <Col
+                span={24}
+                key={item.id}
+                xl={{ span: 8 }}
+                lg={{ span: 12 }}
+                md={{ span: 24 }}
+              >
                 <Card className="for-card-subjects">
                   <Meta
                     avatar={<Avatar size={64} src={item.imgUrl} />}
-                    title={<Link>{item.title}</Link>}
+                    title={<Link to="">{item.title}</Link>}
                     description={
                       <p>
                         <span>Modul {item.modul}-Dars</span>
