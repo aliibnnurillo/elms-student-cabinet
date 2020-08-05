@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { PageHeader, Breadcrumb, Avatar, Badge, Radio } from "antd";
+import React from "react";
+import { PageHeader, Breadcrumb, Badge, Radio } from "antd";
 import { HomeOutlined, MessageOutlined } from "@ant-design/icons";
 import { BellOutlined } from "@ant-design/icons";
 import Arrow from "../icons/Arrow";
@@ -7,6 +7,8 @@ import { useLocation, Link } from "react-router-dom";
 import Pop from "./pop";
 import "./menu.css";
 import { observer, inject } from "mobx-react";
+import LoginList from "./login-list";
+
 const obj = [
   { link: "news", title: "News" },
   { link: "one-news", title: "One news" },
@@ -61,7 +63,7 @@ const NewsHeader = ({ posts: { setType, type } }) => {
           <Badge count={5}>
             <Pop icons={<BellOutlined />} />
           </Badge>
-          <Avatar className="img-avatars" size={40} src="/assets/userimg.jpg" />
+          <LoginList imgUrl="/assets/userimg.jpg" />
         </div>
       </div>
     </>

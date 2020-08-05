@@ -4,7 +4,12 @@ import { Examination } from "./pages/examn";
 import Ranting from "./pages/ranting/ranting";
 import Curriculum from "./pages/curriculum";
 import { Subjects, SubjectList, Lesson } from "./pages/subjects";
-import { Login, ForgotPassword, CreatePassword } from "./pages/auth";
+import {
+  Login,
+  ForgotPassword,
+  CreatePassword,
+  EnterNewPassword,
+} from "./pages/auth";
 
 export const publicRoutes = [
   {
@@ -13,6 +18,7 @@ export const publicRoutes = [
   },
   { path: "/user/forgot-password", component: ForgotPassword },
   { path: "/user/reset-password", component: CreatePassword },
+  { path: "/user/enter-new-password", component: EnterNewPassword },
 ];
 
 export const privateRoutes = [

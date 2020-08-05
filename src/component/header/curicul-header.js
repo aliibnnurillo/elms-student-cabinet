@@ -1,4 +1,4 @@
-import { PageHeader, Breadcrumb, Avatar, Badge } from "antd";
+import { PageHeader, Breadcrumb, Badge } from "antd";
 
 import React from "react";
 import { HomeOutlined, MessageOutlined } from "@ant-design/icons";
@@ -7,6 +7,7 @@ import { BellOutlined } from "@ant-design/icons";
 import Arrow from "../icons/Arrow";
 import Pop from "./pop";
 import { Link } from "react-router-dom";
+import LoginList from "./login-list";
 
 const CuriculHeader = () => {
   return (
@@ -33,7 +34,7 @@ const CuriculHeader = () => {
         <Badge count={5}>
           <Pop icons={<BellOutlined />} />
         </Badge>
-        <Avatar className="img-avatars" size={40} src="/assets/userimg.jpg" />
+        <LoginList imgUrl="/assets/userimg.jpg" />
       </div>
     </div>
   );
