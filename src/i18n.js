@@ -19,8 +19,8 @@ i18n
   .use(initReactI18next)
   .init({
     lng,
-    ns: ["crm"],
-    defaultNS: "crm",
+    ns: ["student"],
+    defaultNS: "student",
     fallbackLng: lng,
     debug: true,
     keySeparator: false,

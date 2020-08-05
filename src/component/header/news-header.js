@@ -1,18 +1,18 @@
-import { PageHeader, Breadcrumb, Avatar, Badge, Radio } from "antd";
-
 import React, { Component } from "react";
+import { PageHeader, Breadcrumb, Avatar, Badge, Radio } from "antd";
 import { HomeOutlined, MessageOutlined } from "@ant-design/icons";
 import { BellOutlined } from "@ant-design/icons";
 import Arrow from "../icons/Arrow";
 import { useLocation, Link } from "react-router-dom";
 import Pop from "./pop";
 import "./menu.css";
+import { observer, inject } from "mobx-react";
 const obj = [
   { link: "news", title: "News" },
   { link: "one-news", title: "One news" },
 ];
 
-const NewsHeader = () => {
+const NewsHeader = ({ posts: { setType, type } }) => {
   const { pathname } = useLocation();
   const arr = pathname.split("/");
 
@@ -40,9 +40,13 @@ const NewsHeader = () => {
 
         {pathname === "/news" ? (
           <div className="select-for-news">
-            <Radio.Group defaultValue="a" buttonStyle="solid">
-              <Radio.Button value="a">Yangiliklar</Radio.Button>
-              <Radio.Button value="b">E’lonlar</Radio.Button>
+            <Radio.Group
+              value={type}
+              buttonStyle="solid"
+              onChange={(e) => setType(e.target.value)}
+            >
+              <Radio.Button value="news">Yangiliklar</Radio.Button>
+              <Radio.Button value="advertisement">E’lonlar</Radio.Button>
             </Radio.Group>
           </div>
         ) : null}
@@ -64,4 +68,4 @@ const NewsHeader = () => {
   );
 };
 
-export default NewsHeader;
+export default inject("posts")(observer(NewsHeader));

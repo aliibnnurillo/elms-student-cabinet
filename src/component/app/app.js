@@ -16,7 +16,7 @@ const App = () => {
             <Route {...route} key={idx} />
           ))}
           {privateRoutes.map((route, idx) => (
-            <PrivateRoute key={idx} {...route} />
+            <PrivateRoute key={idx} {...route} exact />
           ))}
         </Switch>
       </Router>

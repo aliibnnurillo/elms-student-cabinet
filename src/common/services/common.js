@@ -1,14 +1,14 @@
-import { client } from '../utils/request';
-import { CURRENT_LANG, API_URL } from '../../constants';
+import { client } from "../utils/request";
+import { CURRENT_LANG, API_URL } from "../../constants";
 import {
   setLanguages,
   blobToImageUrl,
   isExistUni,
   getUni,
-} from '../utils/utils';
-import Axios from 'axios';
-import { action, runInAction } from 'mobx';
-import flash from '../../stores/Flash';
+} from "../utils/utils";
+import Axios from "axios";
+import { action, runInAction } from "mobx";
+import flash from "../../stores/Flash";
 
 export const fetchOptions = async ({ url, params } = {}) => {
   return client({
@@ -21,7 +21,7 @@ export const showPhoto = (id, loadingFn, callback) => {
   loadingFn(true);
   Axios({
     url: `${API_URL}/resources/showImage/${id}`,
-    responseType: 'blob',
+    responseType: "blob",
   })
     .then((res) => {
       callback(blobToImageUrl(res.data));
@@ -30,6 +30,17 @@ export const showPhoto = (id, loadingFn, callback) => {
     .catch((e) => {
       loadingFn(false);
     });
+};
+
+export const getImgaeUrl = async (id) => {
+  return Axios({
+    url: `${API_URL}/resources/showImage/${id}`,
+    responseType: "blob",
+  })
+    .then((res) => {
+      return blobToImageUrl(res.data);
+    })
+    .catch((err) => err);
 };
 
 export function uploadFileToServer({
@@ -42,7 +53,7 @@ export function uploadFileToServer({
 }) {
   Axios({
     url: action,
-    method: 'post',
+    method: "post",
     data: formData,
     onUploadProgress: ({ total, loaded }) => {
       onProgress(
@@ -59,7 +70,7 @@ export function uploadFileToServer({
 
 export const fetchLanguages = async () => {
   try {
-    const res = await client({ url: '/languages' });
+    const res = await client({ url: "/languages" });
     if (res.status === 200) {
       setLanguages(res.data ? res.data.result : []);
     }
@@ -67,4 +78,3 @@ export const fetchLanguages = async () => {
     throw e;
   }
 };
-

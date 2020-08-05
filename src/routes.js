@@ -41,11 +41,11 @@ export const privateRoutes = [
     component: Curriculum,
   },
   {
-    path: "/news",
+    path: "/posts",
     component: NewsPage,
   },
   {
-    path: "/news/:id",
+    path: "/posts/:id",
     component: OneNews,
   },
   {
