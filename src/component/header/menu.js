@@ -46,8 +46,8 @@ const LeftMenue = () => {
             <span>Reyting daftarchsi</span>
           </Link>
         </Menu.Item>
-        <Menu.Item key="news">
-          <Link to="/news">
+        <Menu.Item key="posts">
+          <Link to="/posts">
             <ProfileOutlined />
             <span>Yangiliklar va elonlar</span>
           </Link>

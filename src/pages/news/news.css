@@ -9,7 +9,7 @@
 }
 .news-page-container .news-card .ant-card-cover img {
   border-radius: 12px 12px 0 0;
-  height: 200px;
+  height: 300px;
 }
 .news-page-container .news-card .ant-card-meta-detail .ant-card-meta-title {
   height: 54px;
@@ -65,7 +65,6 @@
 }
 .news-page-container .news-card {
   width: 100% !important;
-  margin-bottom: 24px;
 }
 .news-page-container .pagination {
   text-align: center;
@@ -114,14 +113,12 @@
 }
 .news-container .for-img {
   width: 100%;
-  height: 320px;
   border-radius: 12px;
   overflow: hidden;
   margin-bottom: 24px;
 }
 .news-container .for-img img {
   width: 100%;
-  height: 320px;
   border-radius: 12px;
 }
 .news-container h1 {

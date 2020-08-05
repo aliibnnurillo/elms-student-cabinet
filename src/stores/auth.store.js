@@ -30,6 +30,7 @@ class AuthStore {
       const { status, data } = res;
 
       if (status === 200 && data) {
+        console.log(data);
         this.setUserData(data.result);
       }
       return status;
