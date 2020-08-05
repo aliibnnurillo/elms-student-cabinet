@@ -74,6 +74,9 @@
   line-height: 200%;
   border: none;
   margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .auth .login-form .login-form-forgot {
   text-decoration-line: underline;

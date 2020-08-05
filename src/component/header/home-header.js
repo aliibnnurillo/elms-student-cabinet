@@ -7,6 +7,7 @@ import Arrow from "../icons/Arrow";
 import Pop from "./pop";
 import { Link } from "react-router-dom";
 import "./menu.css";
+import LoginList from "./login-list";
 
 const HomeHeader = () => {
   return (
@@ -35,11 +36,7 @@ const HomeHeader = () => {
         <Badge count={5}>
           <Pop icons={<BellOutlined />} />
         </Badge>
-        <Avatar
-          className="img-avatars user-icon"
-          size={40}
-          src="/assets/userimg.jpg"
-        />
+        <LoginList imgUrl="/assets/userimg.jpg" />
       </div>
     </div>
   );

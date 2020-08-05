@@ -130,6 +130,7 @@
   background-color: #fff;
   position: relative;
   overflow: inherit;
+  cursor: pointer;
 }
 .page-header .header-right .img-avatars img {
   border-radius: 50%;
@@ -320,4 +321,61 @@
   font-size: 12px;
   line-height: 160%;
   color: #5b638b;
+}
+.loginList-class .ant-popover-content .ant-popover-inner {
+  background: #ffffff;
+  box-shadow: 0px 4px 35px rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
+  width: 150px;
+  overflow-y: auto;
+}
+.loginList-class .ant-popover-content .ant-popover-inner .ant-list-item {
+  border: none;
+  padding: 10px 16px;
+}
+.loginList-class .ant-popover-content .ant-popover-inner .ant-list-item a {
+  display: flex !important;
+  width: 100%;
+  align-items: center;
+  height: 100%;
+}
+.loginList-class .ant-popover-content .ant-popover-inner .ant-list-item a span {
+  font-size: 16px;
+  color: #17152e;
+  margin-right: 8px;
+}
+.loginList-class
+  .ant-popover-content
+  .ant-popover-inner
+  .ant-popover-inner-content {
+  padding: 0;
+}
+.loginList-class
+  .ant-popover-content
+  .ant-popover-inner
+  .ant-popover-inner-content
+  .ant-list-footer {
+  padding: 10px 16px;
+  border-top: 1px solid #ddd;
+}
+.loginList-class
+  .ant-popover-content
+  .ant-popover-inner
+  .ant-popover-inner-content
+  .ant-list-footer
+  a {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.loginList-class
+  .ant-popover-content
+  .ant-popover-inner
+  .ant-popover-inner-content
+  .ant-list-footer
+  a
+  span {
+  font-size: 16px;
+  color: #17152e;
+  margin-right: 8px;
 }

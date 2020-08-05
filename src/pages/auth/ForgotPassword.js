@@ -28,6 +28,7 @@ const ForgotPassword = () => {
                 htmlType="submit"
                 className="login-form-button"
                 block
+                href="reset-password"
               >
                 Tiklash
               </Button>

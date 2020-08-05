@@ -1,4 +1,4 @@
-import { PageHeader, Breadcrumb, Select, Avatar, Badge } from "antd";
+import { PageHeader, Breadcrumb, Select, Badge } from "antd";
 
 import React from "react";
 import { HomeOutlined, MessageOutlined, BellOutlined } from "@ant-design/icons";
@@ -6,6 +6,7 @@ import "./menu.css";
 import Arrow from "../icons/Arrow";
 import { useLocation, Link } from "react-router-dom";
 import Pop from "./pop";
+import LoginList from "./login-list";
 const SubjectsHeader = () => {
   const { pathname } = useLocation();
   const { Option } = Select;
@@ -51,7 +52,7 @@ const SubjectsHeader = () => {
         <Badge count={5}>
           <Pop icons={<BellOutlined />} />
         </Badge>
-        <Avatar className="img-avatars" size={40} src="/assets/userimg.jpg" />
+        <LoginList imgUrl="/assets/userimg.jpg" />
       </div>
     </div>
   );
