@@ -1,5 +1,4 @@
 import { action, computed, observable, runInAction } from "mobx";
-import { client } from "../common/utils/request";
 import { rmToken, setToken, validToken } from "../common/utils/utils";
 import { API_URL } from "../constants";
 import flash from "./Flash";
@@ -74,44 +73,9 @@ class AuthStore {
   };
 
   @action
-  getRolePermissions = async (arr) => {
-    this.state = "pending";
-    try {
-      let obj = [];
-      for (let i = 0; i < arr.length; i++) {
-        const response = await client({
-          method: "get",
-          url: `/v1/role/permissions/${arr[i]}`,
-        });
-        if (response.status === 200) {
-          obj = [...obj, ...response.data];
-        }
-      }
-      const groupBy = (xs, key) => {
-        return xs.reduce((rv, x) => {
-          (rv[x["title"][key]] = rv[x["title"][key]] || []).push(x.name);
-          return rv;
-        }, {});
-      };
-      runInAction(() => {
-        this.state = "done";
-        this.rolePermissions = groupBy(obj, "en");
-      });
-    } catch (e) {
-      runInAction(() => {
-        this.state = "error";
-      });
-      throw e;
-    }
-  };
-
-  @action
-  logout = async () => {
-    this.state = "pending";
-    // await client.get('/auth/logout');
+  logout = () => {
     rmToken();
     this.reset();
-    this.state = "done";
   };
 }
 

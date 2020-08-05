@@ -1,19 +1,26 @@
 import React from "react";
 import { Avatar, Popover, List, Typography } from "antd";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import {
   UserOutlined,
   SettingOutlined,
   LogoutOutlined,
 } from "@ant-design/icons";
-const LoginList = ({ imgUrl }) => {
+import { inject, observer } from "mobx-react";
+
+const LoginList = ({ imgUrl, authStore: { logout }, history }) => {
+  const onLogout = (e) => {
+    e.preventDefault();
+    logout();
+    history.push("/user/login");
+  };
   return (
     <Popover
       placement="bottomRight"
       content={
         <List
           footer={
-            <Link to="">
+            <Link to="" onClick={onLogout}>
               <LogoutOutlined />
               <span>Logout</span>
             </Link>
@@ -41,4 +48,4 @@ const LoginList = ({ imgUrl }) => {
   );
 };
 
-export default LoginList;
+export default inject("authStore")(observer(withRouter(LoginList)));

@@ -1,13 +1,16 @@
 import { PageHeader, Breadcrumb, Select, Badge } from "antd";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { HomeOutlined, MessageOutlined, BellOutlined } from "@ant-design/icons";
 import "./menu.css";
 import Arrow from "../icons/Arrow";
 import { useLocation, Link } from "react-router-dom";
 import Pop from "./pop";
 import LoginList from "./login-list";
-const SubjectsHeader = () => {
+import { observer, inject } from "mobx-react";
+import FetchSelect from "../FetchSelect";
+
+const SubjectsHeader = ({ subjects: {} }) => {
   const { pathname } = useLocation();
   const { Option } = Select;
 
@@ -29,16 +32,11 @@ const SubjectsHeader = () => {
       </PageHeader>
       {pathname === "/subjects" ? (
         <div>
-          <Select
-            defaultValue="1"
-            style={{ width: 150 }}
-            onChange={handleChange}
-          >
-            <Option value="1">1-SEMESTR</Option>
-            <Option value="2">2-SEMESTR</Option>
-            <Option value="3">3-SEMESTR</Option>
-            <Option value="4">4-SEMESTR</Option>
-          </Select>
+          <FetchSelect
+            isResultArray={false}
+            fetchInMount={true}
+            url="/syllabus/semesters"
+          />
         </div>
       ) : null}
 
@@ -58,4 +56,4 @@ const SubjectsHeader = () => {
   );
 };
 
-export default SubjectsHeader;
+export default inject("subjects")(observer(SubjectsHeader));

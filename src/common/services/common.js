@@ -1,19 +1,12 @@
 import { client } from "../utils/request";
-import { CURRENT_LANG, API_URL } from "../../constants";
-import {
-  setLanguages,
-  blobToImageUrl,
-  isExistUni,
-  getUni,
-} from "../utils/utils";
+import { API_URL } from "../../constants";
+import { setLanguages, blobToImageUrl } from "../utils/utils";
 import Axios from "axios";
-import { action, runInAction } from "mobx";
-import flash from "../../stores/Flash";
 
 export const fetchOptions = async ({ url, params } = {}) => {
   return client({
     url,
-    params: { language: CURRENT_LANG(), ...params },
+    params,
   });
 };
 

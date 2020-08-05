@@ -48,8 +48,8 @@ class CommonStore {
         params: { ...params, language: CURRENT_LANG },
       });
       const { status, data } = response;
+      console.log("fetchAll => ", response);
       if (status === 200) {
-        console.log(data);
         runInAction(() => {
           this.setState("done");
           this.setResult(data.result ? data.result : {});
@@ -73,6 +73,7 @@ class CommonStore {
         },
       });
       const { status, data } = response;
+      console.log("fetchOne => ", response);
       if (status === 200) {
         this.setSingle(
           Array.isArray(data.result) && data.result.length ? data.result[0] : {}

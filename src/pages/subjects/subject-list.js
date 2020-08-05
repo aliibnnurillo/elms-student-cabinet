@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 import { SubjectsHeader } from "../../component/header";
 import "./subject.css";
 
-const SubjectList = () => {
+const SubjectList = ({subjects: {fetchAll, loading, result}}) => {
   const data = [
     { name: "Dasturlash tillarining tuzilmasi.", pro: "20%" },
     {
