@@ -9,7 +9,11 @@ import {
   ForgotPassword,
   CreatePassword,
   EnterNewPassword,
+  EnterNewEmails,
 } from "./pages/auth";
+import NoFoundPage from "./pages/404";
+import Unauthorized from "./pages/403";
+import ServerErrorPage from "./pages/500";
 
 export const publicRoutes = [
   {
@@ -18,7 +22,8 @@ export const publicRoutes = [
   },
   { path: "/user/forgot-password", component: ForgotPassword },
   { path: "/user/reset-password", component: CreatePassword },
-  { path: "/user/enter-new-password", component: EnterNewPassword },
+  { path: "/user/new-email", component: EnterNewEmails },
+  { path: "/user/new-password", component: EnterNewPassword },
 ];
 
 export const privateRoutes = [
@@ -31,11 +36,11 @@ export const privateRoutes = [
     component: Examination,
   },
   {
-    path: "/subjects/:subject/:lesson",
+    path: "/subjects/lesson/:id",
     component: Lesson,
   },
   {
-    path: "/subjects/:subject",
+    path: "/subjects/:id",
     component: SubjectList,
   },
   {
@@ -58,4 +63,13 @@ export const privateRoutes = [
     path: "/",
     component: HomePage,
   },
+];
+
+export const errorRoutes = [
+  {
+  path: "/403",
+    component: Unauthorized,
+  },
+  { path: "/500", component: ServerErrorPage },
+  { path: "/*", component: NoFoundPage },
 ];

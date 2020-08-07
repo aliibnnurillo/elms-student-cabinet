@@ -1,4 +1,4 @@
 import Subjects from "./subjects";
-import SubjectList from "./subject-list";
-import Lesson from "./lessons";
+import SubjectList from "./OneSubject/subject-list";
+import Lesson from "./Lesson/lessons";
 export { Subjects, SubjectList, Lesson };

@@ -1,6 +1,6 @@
 import React from "react";
 import moment from "moment";
-import "../../../node_modules/video-react/dist/video-react.css";
+import "video-react/dist/video-react.css";
 import { Player } from "video-react";
 import { useState } from "react";
 import {
@@ -13,7 +13,7 @@ import {
   Collapse,
   Radio,
 } from "antd";
-import "./subject.css";
+import "../subject.css";
 
 import {
   FileTextFilled,
@@ -22,7 +22,7 @@ import {
   CheckSquareFilled,
 } from "@ant-design/icons";
 
-import { UploadIcon } from "../../component/icons";
+import { UploadIcon } from "../../../component/icons";
 
 const steps = [
   {

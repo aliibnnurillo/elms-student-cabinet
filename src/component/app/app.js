@@ -3,7 +3,7 @@ import { LeftMenue } from "../header";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./app.css";
 import APINotification from "../APINotification";
-import { privateRoutes, publicRoutes } from "../../routes";
+import { privateRoutes, publicRoutes, errorRoutes } from "../../routes";
 import PrivateRoute from "../PrivateRoute";
 
 const App = () => {
@@ -17,6 +17,9 @@ const App = () => {
           ))}
           {privateRoutes.map((route, idx) => (
             <PrivateRoute key={idx} {...route} exact />
+          ))}
+          {errorRoutes.map((route, idx) => (
+            <Route {...route} key={idx} />
           ))}
         </Switch>
       </Router>

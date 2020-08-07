@@ -4,7 +4,7 @@ import { UserOutlined } from "@ant-design/icons";
 
 const ForgotPassword = () => {
   return (
-    <div className="auth  auth-page">
+    <div className="auth  empty-page">
       <Row gutter={40}>
         <Col span={7} className="auth-left">
           <Avatar src="/assets/userimg.jpg" alt="Alisher Saidov" size={112} />

@@ -14,7 +14,8 @@ import {
 } from "antd";
 import { SendOutlined } from "@ant-design/icons";
 import StepsBlock from "./steps";
-import { SubjectsHeader } from "../../component/header";
+import { SubjectsHeader } from "../../../component/header";
+import { inject, observer } from "mobx-react";
 
 const { Link } = Anchor;
 
@@ -51,7 +52,7 @@ const Editor = ({ onChange, onSubmit, submitting, value }) => (
   </>
 );
 
-const Lesson = () => {
+const Lesson = ({ subjects: { loading, fetchLesson, currentLesson } }) => {
   const [submitting, setSubmitting] = useState(false);
   const [comments, setComments] = useState([]);
   const [value, setValue] = useState("");
@@ -165,4 +166,4 @@ const Lesson = () => {
   );
 };
 
-export default Lesson;
+export default inject("subjects")(observer(Lesson));

@@ -1,5 +1,5 @@
 import { client } from "../common/utils/request";
-import { action, computed, observable, runInAction } from "mobx";
+import { action, computed, observable } from "mobx";
 import flash from "./Flash";
 import { CURRENT_LANG } from "../constants";
 
@@ -50,10 +50,8 @@ class CommonStore {
       const { status, data } = response;
       console.log("fetchAll => ", response);
       if (status === 200) {
-        runInAction(() => {
-          this.setState("done");
-          this.setResult(data.result ? data.result : {});
-        });
+        this.setState("done");
+        this.setResult(data.result ? data.result : {});
       }
     } catch (error) {
       this.setState("error");

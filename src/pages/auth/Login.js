@@ -5,15 +5,23 @@ import "./auth.css";
 import { Link } from "react-router-dom";
 import { inject, observer } from "mobx-react";
 
-const Login = ({ authStore: { login }, history }) => {
+const Login = ({ authStore: { login, getProfileInfo }, history }) => {
   const onFinish = (values) => {
     login(values).then((res) => {
-      if (res !== 200) return;
-      history.push("/");
+      if (res.status !== 200) return;
+      getProfileInfo();
+      const {
+        data: { result },
+      } = res;
+      if (result.first_time_login) {
+        history.push("/user/new-email");
+      } else {
+        history.push("/");
+      }
     });
   };
   return (
-    <div className="auth auth-page">
+    <div className="auth empty-page">
       <Row gutter={40}>
         <Col span={8} className="auth-left">
           <Avatar src="/assets/userimg.jpg" alt="Alisher Saidov" size={112} />

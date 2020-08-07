@@ -1,6 +1,5 @@
-import { PageHeader, Breadcrumb, Select, Badge } from "antd";
-
 import React, { useEffect } from "react";
+import { PageHeader, Breadcrumb, Badge } from "antd";
 import { HomeOutlined, MessageOutlined, BellOutlined } from "@ant-design/icons";
 import "./menu.css";
 import Arrow from "../icons/Arrow";
@@ -8,15 +7,21 @@ import { useLocation, Link } from "react-router-dom";
 import Pop from "./pop";
 import LoginList from "./login-list";
 import { observer, inject } from "mobx-react";
-import FetchSelect from "../FetchSelect";
+import CSelect from "../CSelect";
 
-const SubjectsHeader = ({ subjects: {} }) => {
+const SubjectsHeader = ({
+  subjects: { fetchSemesters, semesters, activeSemester },
+}) => {
   const { pathname } = useLocation();
-  const { Option } = Select;
 
   function handleChange(value) {
     console.log(`selected ${value}`);
   }
+
+  useEffect(() => {
+    fetchSemesters();
+  }, [fetchSemesters]);
+
   return (
     <div className="page-header">
       <PageHeader className="site-page-header" title="Fanlar">
@@ -32,11 +37,9 @@ const SubjectsHeader = ({ subjects: {} }) => {
       </PageHeader>
       {pathname === "/subjects" ? (
         <div>
-          <FetchSelect
-            isResultArray={false}
-            fetchInMount={true}
-            url="/syllabus/semesters"
-          />
+          {activeSemester.id ? (
+            <CSelect options={semesters} defaultValue={activeSemester.id} />
+          ) : null}
         </div>
       ) : null}
 

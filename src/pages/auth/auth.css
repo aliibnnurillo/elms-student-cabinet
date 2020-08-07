@@ -28,7 +28,7 @@
   transform: translateY(-100%);
 }
 
-.auth-page {
+.empty-page {
   z-index: 999;
   position: relative;
   background-color: #fff;

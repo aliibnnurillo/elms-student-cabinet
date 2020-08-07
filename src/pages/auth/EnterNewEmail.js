@@ -5,7 +5,7 @@ import { observer, inject } from "mobx-react";
 
 const EnterNewEmails = () => {
   return (
-    <div className="auth-page enter-email">
+    <div className="empty-page enter-email">
       <Row>
         <Col span={6} offset={9}>
           <div className="new-email">
