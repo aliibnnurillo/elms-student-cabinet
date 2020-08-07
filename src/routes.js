@@ -2,6 +2,7 @@ import { NewsPage, OneNews } from "./pages/news";
 import HomePage from "./pages/home/home";
 import { Examination } from "./pages/examn";
 import Ranting from "./pages/ranting/ranting";
+import Messages from "./pages/message";
 import Curriculum from "./pages/curriculum";
 import { Subjects, SubjectList, Lesson } from "./pages/subjects";
 import {
@@ -57,5 +58,9 @@ export const privateRoutes = [
   {
     path: "/",
     component: HomePage,
+  },
+  {
+    path: "/message",
+    component: Messages,
   },
 ];
