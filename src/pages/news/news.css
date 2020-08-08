@@ -124,6 +124,7 @@
   width: 100%;
   border-radius: 12px;
   object-fit: cover;
+  max-height: 350px;
 }
 .news-container h1 {
   color: #17152e;

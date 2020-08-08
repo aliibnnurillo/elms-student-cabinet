@@ -23,37 +23,39 @@ const Subjects = ({
             <Row gutter={[24, 24]}>
               {semesterSubjects.map((semSub, idx) => (
                 <Col key={idx} xs={24} md={24} lg={12} xl={8}>
-                  <Card hoverable className="card">
-                    <div className="card-header">
-                      <div className="title">
-                        <Link to="#">
-                          {semSub.subject_name ? semSub.subject_name : null}
-                        </Link>
-                        <p>
-                          <span>
-                            Modullar soni
-                            <Tag className="count_teg">
-                              <Link to="">{12}</Link>
-                            </Tag>
-                          </span>
-                          <span>
-                            Darslar soni
-                            <Tag className="count_teg">
-                              <Link to="">{43}</Link>
-                            </Tag>
-                          </span>
-                        </p>
+                  <Link to={`/subjects/${semSub.subject_id}`}>
+                    <Card hoverable className="card">
+                      <div className="card-header">
+                        <div className="title">
+                          <Link to="#">
+                            {semSub.subject_name ? semSub.subject_name : null}
+                          </Link>
+                          <p>
+                            <span>
+                              Modullar soni
+                              <Tag className="count_teg">
+                                <Link to="">{12}</Link>
+                              </Tag>
+                            </span>
+                            <span>
+                              Darslar soni
+                              <Tag className="count_teg">
+                                <Link to="">{43}</Link>
+                              </Tag>
+                            </span>
+                          </p>
+                        </div>
+                        <Avatar size={55} src={semSub.file_url_photo} />
                       </div>
-                      <Avatar size={55} src={semSub.file_url_photo} />
-                    </div>
-                    <p>{semSub.short_info ? semSub.short_info : null}</p>
-                    <Link
-                      to={`/subjects/${semSub.subject_id}`}
-                      className="goSubject"
-                    >
-                      Fanni Boshlash{<ArrowRightOutlined />}
-                    </Link>
-                  </Card>
+                      <p>{semSub.short_info ? semSub.short_info : null}</p>
+                      <Link
+                        to={`/subjects/${semSub.subject_id}`}
+                        className="goSubject"
+                      >
+                        Fanni Boshlash{<ArrowRightOutlined />}
+                      </Link>
+                    </Card>
+                  </Link>
                 </Col>
               ))}
             </Row>

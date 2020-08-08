@@ -12,9 +12,9 @@
 .auth .auth-right {
   background-image: url("./art.png");
   background-repeat: no-repeat;
+  background-size: contain;
   box-sizing: border-box;
   height: 100vh;
-  background-size: auto;
   background-position: 98% 50%;
 
   width: 100%;
