@@ -18,7 +18,7 @@ const SubjectsHeader = ({
     console.log(`selected ${value}`);
   }
 
-  useEffect(() => {
+  useEffect(() => { 
     fetchSemesters();
   }, [fetchSemesters]);
 

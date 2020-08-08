@@ -4,6 +4,7 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import "./auth.css";
 import { Link } from "react-router-dom";
 import { inject, observer } from "mobx-react";
+import { useTranslation } from "react-i18next";
 
 const Login = ({ authStore: { login, getProfileInfo, loading }, history }) => {
   const onFinish = (values) => {
@@ -16,36 +17,40 @@ const Login = ({ authStore: { login, getProfileInfo, loading }, history }) => {
       }
     });
   };
+  const [t] = useTranslation();
   return (
     <div className="auth empty-page">
       <Spin spinning={loading}>
         <Row gutter={40}>
           <Col span={8} className="auth-left">
-            <Avatar src="/assets/userimg.jpg" alt="Alisher Saidov" size={112} />
             <Form
               name="normal_login"
               className="login-form"
               initialValues={{ remember: true }}
               onFinish={onFinish}
             >
-              <h1>Tizimga kirish</h1>
+              <h1>{t("Tizimga kirish")}</h1>
               <Form.Item
                 name="username"
-                rules={[{ required: true, message: "Username is required!" }]}
+                rules={[
+                  { required: true, message: t("Username is required!") },
+                ]}
               >
                 <Input
                   prefix={<UserOutlined className="site-form-item-icon" />}
-                  placeholder="Login yoki email"
+                  placeholder={t("Login yoki email")}
                 />
               </Form.Item>
               <Form.Item
                 name="password"
-                rules={[{ required: true, message: "Password is required!" }]}
+                rules={[
+                  { required: true, message: t("Password is required!") },
+                ]}
               >
                 <Input
                   prefix={<LockOutlined className="site-form-item-icon" />}
                   type="password"
-                  placeholder="Parol"
+                  placeholder={t("Parol")}
                 />
               </Form.Item>
 
@@ -57,10 +62,10 @@ const Login = ({ authStore: { login, getProfileInfo, loading }, history }) => {
                   block
                   loading={loading}
                 >
-                  Kirish
+                  {t("Kirish")}
                 </Button>
                 <Link to="/user/forgot-password" className="login-form-forgot">
-                  Parolni tiklash
+                  {t("Parolni tiklash")}
                 </Link>
               </Form.Item>
             </Form>

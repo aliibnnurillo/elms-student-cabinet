@@ -1,24 +1,22 @@
 import React from "react";
 import { Form, Avatar, Input, Row, Col, Button } from "antd";
 import { UserOutlined } from "@ant-design/icons";
+import { useTranslation } from "react-i18next";
 
 const ForgotPassword = () => {
+  const [t] = useTranslation();
   return (
     <div className="auth  empty-page">
       <Row gutter={40}>
         <Col span={7} className="auth-left">
           <Avatar src="/assets/userimg.jpg" alt="Alisher Saidov" size={112} />
 
-          <Form
-            name="normal_login"
-            className="login-form"
-            initialValues={{ remember: true }}
-          >
-            <h1>Parolni qayta tiklash</h1>
+          <Form name="normal_login" className="login-form">
+            <h1>{t("Parolni qayta tiklash")}</h1>
             <Form.Item name="username">
               <Input
                 prefix={<UserOutlined className="site-form-item-icon" />}
-                placeholder="Login yoki email"
+                placeholder={t("Login yoki email")}
               />
             </Form.Item>
 
@@ -30,7 +28,7 @@ const ForgotPassword = () => {
                 block
                 href="reset-password"
               >
-                Tiklash
+                {t("Tiklash")}
               </Button>
             </Form.Item>
           </Form>
