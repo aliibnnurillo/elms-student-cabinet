@@ -1,6 +1,5 @@
-import { observable, action } from 'mobx';
-import { CURRENT_LANG } from '../constants';
-import { setUni } from '../common/utils/utils';
+import { observable, action } from "mobx";
+import { CURRENT_LANG } from "../constants";
 
 class Global {
   @observable collapsed = false;
@@ -15,7 +14,6 @@ class Global {
   @action
   setCurrentUni = (val) => {
     this.currentUni = val;
-    setUni(val);
   };
 
   @action

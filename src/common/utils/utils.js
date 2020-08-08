@@ -1,8 +1,8 @@
 import { ACCESS_TOKEN, LANGUAGES } from "../../constants";
 import { message } from "antd";
 
-export const setUni = (val) => {
-  localStorage.setItem("current-uni", JSON.stringify(val));
+export const saveUser = (user) => {
+  localStorage.setItem("current_user", JSON.stringify(user));
 };
 
 export const setLanguages = (val) => {
@@ -19,16 +19,16 @@ export function clearLS() {
   localStorage.clear();
 }
 
-export function isExistUni() {
-  return localStorage.getItem("current-uni") !== null;
+export function isExistUser() {
+  return localStorage.getItem("current_user") !== null;
 }
 
-export function getUni() {
-  return JSON.parse(localStorage.getItem("current-uni"));
+export function getUser() {
+  return JSON.parse(localStorage.getItem("current_user"));
 }
 
 export function recLang() {
-  return (isExistUni() && getUni().default_language) || "oz";
+  return (isExistUser() && getUser().default_language) || "oz";
 }
 
 export function removeUni() {

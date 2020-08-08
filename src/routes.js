@@ -10,10 +10,12 @@ import {
   CreatePassword,
   EnterNewPassword,
   EnterNewEmails,
+  UploadAvatar,
 } from "./pages/auth";
 import NoFoundPage from "./pages/404";
 import Unauthorized from "./pages/403";
 import ServerErrorPage from "./pages/500";
+import VerifyCode from "./pages/auth/VerifyCode";
 
 export const publicRoutes = [
   {
@@ -24,6 +26,8 @@ export const publicRoutes = [
   { path: "/user/reset-password", component: CreatePassword },
   { path: "/user/new-email", component: EnterNewEmails },
   { path: "/user/new-password", component: EnterNewPassword },
+  { path: "/user/new-avatar", component: UploadAvatar },
+  { path: "/user/verify-code", component: VerifyCode },
 ];
 
 export const privateRoutes = [
@@ -67,7 +71,7 @@ export const privateRoutes = [
 
 export const errorRoutes = [
   {
-  path: "/403",
+    path: "/403",
     component: Unauthorized,
   },
   { path: "/500", component: ServerErrorPage },

@@ -9,7 +9,7 @@ const NoFoundPage = ({ history }) => (
       subTitle="Sorry, the page you visited does not exist."
       extra={
         <Button onClick={() => history.goBack()} type="primary">
-          Back Home
+          Go Back
         </Button>
       }
     />

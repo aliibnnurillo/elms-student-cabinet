@@ -22,8 +22,8 @@ i18n
   .use(initReactI18next)
   .init({
     lng,
-    ns: ["student"],
-    defaultNS: "student",
+    ns: ["cabinet"],
+    defaultNS: "cabinet",
     fallbackLng: lng,
     debug: true,
     keySeparator: false,
