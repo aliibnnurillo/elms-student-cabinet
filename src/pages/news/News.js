@@ -19,10 +19,10 @@ const News = ({ posts: { fetchAll, result, loading } }) => {
       <NewsHeader />
       <div className="news-page-container content">
         <Spin spinning={loading}>
-          <Row gutter={[24, 24]}>
+          <Row xxl={{ gutter: 50 }} gutter={[24, 24]}>
             {Array.isArray(result.data)
               ? result.data.map((post, idx) => (
-                  <Col key={idx} xs={24} lg={12} xl={8} xxl={6}>
+                  <Col key={idx} xs={12} lg={8} xl={6} xxl={6}>
                     <Card
                       className="news-card"
                       cover={<img alt="example" src={`/assets/news.png`} />}

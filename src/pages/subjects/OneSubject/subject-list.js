@@ -25,8 +25,8 @@ const SubjectList = ({ subjects: { fetchOne, loading, single } }) => {
       <div className="content">
         <Spin spinning={loading}>
           <div className="subject_about">
-            <Row gutter={80}>
-              <Col className="subject-list-left" span={10}>
+            <Row gutter={50}>
+              <Col className="subject-list-left" xl={10} lg={24}>
                 <div className="videos">
                   <Player
                     playsInline
@@ -61,7 +61,7 @@ const SubjectList = ({ subjects: { fetchOne, loading, single } }) => {
                   <p>{single.requirements ? single.requirements : null}</p>
                 </div>
               </Col>
-              <Col className="subject-list-right" span={14}>
+              <Col className="subject-list-right" xl={14} lg={24}>
                 {Array.isArray(single.module)
                   ? single.module.map((module, idx) => {
                       return (
