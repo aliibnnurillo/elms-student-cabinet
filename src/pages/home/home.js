@@ -63,11 +63,12 @@ const HomePage = () => {
         </div>
         <div className="for-subjects-block">
           <h2>Fanlar</h2>
-          <Row gutter={24}>
+          <Row gutter={[24, 24]}>
             {data.map((item) => (
               <Col
                 span={24}
                 key={item.id}
+                xxl={{ span: 6 }}
                 xl={{ span: 8 }}
                 lg={{ span: 12 }}
                 md={{ span: 24 }}

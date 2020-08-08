@@ -34,8 +34,8 @@
   flex-wrap: nowrap;
   white-space: nowrap;
 }
-.subject_page .card .title p > span {
-  margin-right: 15px;
+.subject_page .card .title p > span:first-child {
+  margin-right: 12px;
 }
 .subject_page .card .title a {
   font-size: 20px;
@@ -63,10 +63,11 @@
 
 .subject_page .card .count_teg,
 .subject_about .count_teg {
-  margin-left: 10px;
+  margin-left: 6px;
   background: #f3f4ff;
   border-radius: 5px;
   border-color: transparent;
+  margin-right: 0;
 }
 .subject_page .card .count_teg a,
 .subject_about .count_teg a {
@@ -85,10 +86,14 @@
   color: #17152e;
   margin: 0;
 }
+.subject_about .subject-list-left .videos {
+  border-radius: 12px;
+  overflow: hidden;
+}
 .subject_about .subject-list-left > button {
   background: #45d37e;
   border-radius: 6px;
-  height: 60px;
+  height: 50px;
   margin-top: 24px;
   margin-bottom: 16px;
   order: 1;
@@ -99,8 +104,10 @@
   font-size: 20px;
   line-height: 200%;
   padding: 10px;
+  border: none;
   color: #fff;
 }
+
 .subject_about .subject-list-left > p {
   font-style: normal;
   font-weight: normal;
@@ -159,11 +166,26 @@
   height: 60px;
   align-items: center;
 }
+.lesson-list .ant-list-item a > span:first-child {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  padding-right: 20px;
+}
+
 .lesson-list .ant-list-item .list-icons {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
   color: #5767f6;
+  padding-left: 5px;
+}
+.lesson-list .ant-list-item .list-icons > span {
+  display: flex;
+  align-items: center;
 }
 .lesson-list .list-icons .anticon-right {
-  margin-left: 30px;
+  margin-left: 20px;
 }
 .lesson-list .list-icons .anticon-pie-chart {
   margin-right: 8px;
@@ -188,6 +210,10 @@
 }
 
 /* ant-select   ant-steps-item-finish ant-steps-item-custom */
+.tasks .steps-content .videos {
+  border-radius: 12px;
+  overflow: hidden;
+}
 .tasks .steps-list .ant-steps-item {
   flex: inherit;
   display: flex;
@@ -252,7 +278,7 @@
   background: #22c864;
   border-radius: 6px;
   width: 300px;
-  height: 52px;
+  height: 50px;
   font-weight: bold;
   font-size: 16px;
   line-height: 200%;
