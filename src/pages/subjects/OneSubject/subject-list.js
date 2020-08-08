@@ -55,7 +55,13 @@ const SubjectList = ({ subjects: { fetchOne, loading, single } }) => {
                     </span>
                   </p>
                 </div>
-                <p>{single.description ? single.description : null}</p>
+
+                {single.description ? (
+                  <p
+                    dangerouslySetInnerHTML={{ __html: single.description }}
+                  ></p>
+                ) : null}
+
                 <div>
                   <h2>Talabalar</h2>
                   <p>{single.requirements ? single.requirements : null}</p>
