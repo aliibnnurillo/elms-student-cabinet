@@ -5,8 +5,8 @@ import { API_URL } from "./constants";
 import { getToken } from "./common/utils/utils";
 import moment from "moment";
 import "moment/locale/uz"; // for uzc
-import "moment/locale/uz-latn"; // for uz
 import "moment/locale/ru"; // for ru
+import "moment/locale/uz-latn"; // for uz
 
 const allowedLanguages = ["oz", "ru"];
 

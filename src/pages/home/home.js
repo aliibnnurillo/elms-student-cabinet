@@ -1,13 +1,13 @@
 import React from "react";
 import { HomeHeader } from "../../component/header";
-// The default locale is en-US, if you want to use other locale, just set locale in entry file globally.
-import moment from "moment";
 import { Card, Avatar, Row, Col, Calendar } from "antd";
-
 import "./home.css";
 import Meta from "antd/lib/card/Meta";
 import { Link } from "react-router-dom";
 import { PercentsIcon } from "../../component/icons";
+import moment from "moment";
+import "moment/locale/uz-latn";
+moment.locale("uz-latn");
 
 const data = [
   {
@@ -47,8 +47,6 @@ const data = [
   },
 ];
 
-moment.locale("zh-cn");
-
 function onPanelChange(value, mode) {
   console.log(value, mode);
 }
@@ -71,6 +69,7 @@ const HomePage = () => {
               title="salom"
               fullscreen={false}
               onPanelChange={onPanelChange}
+              defaultValue={moment("2020-09-02")}
             />
           </div>
           <div className="site-calendar-card">
@@ -78,6 +77,7 @@ const HomePage = () => {
               title="salom"
               fullscreen={false}
               onPanelChange={onPanelChange}
+              defaultValue={moment("2020-10-23")}
             />
           </div>
           <div className="site-calendar-card">
@@ -85,6 +85,7 @@ const HomePage = () => {
               title="salom"
               fullscreen={false}
               onPanelChange={onPanelChange}
+              defaultValue={moment("2020-11-11")}
             />
           </div>
           <div className="site-calendar-card">
@@ -92,6 +93,7 @@ const HomePage = () => {
               title="salom"
               fullscreen={false}
               onPanelChange={onPanelChange}
+              defaultValue={moment("2020-12-22")}
             />
           </div>
           <div className="site-calendar-card">
@@ -99,6 +101,7 @@ const HomePage = () => {
               title="salom"
               fullscreen={false}
               onPanelChange={onPanelChange}
+              defaultValue={moment("2021-01-08")}
             />
           </div>
           <div className="site-calendar-card">
@@ -106,6 +109,7 @@ const HomePage = () => {
               title="salom"
               fullscreen={false}
               onPanelChange={onPanelChange}
+              defaultValue={moment("2021-02-15")}
             />
           </div>
         </div>
