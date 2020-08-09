@@ -11,8 +11,8 @@ import LoginList from "./login-list";
 import { useTranslation } from "react-i18next";
 
 const obj = [
-  { link: "news", title: "News" },
-  { link: "one-news", title: "One news" },
+  { link: "posts", title: "Yangiliklar" },
+  { link: "posts/1", title: "One news" },
 ];
 
 const NewsHeader = ({ posts: { setType, type } }) => {

@@ -90,7 +90,7 @@ const Lesson = ({
                           return (
                             <Link
                               key={idx}
-                              href={`#${idx + 1}`}
+                              href={`${idx + 1}`}
                               className="lesson-name"
                               title={`${idx + 1} ${
                                 module.name.length > 30

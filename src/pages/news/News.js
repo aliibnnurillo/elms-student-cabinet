@@ -26,7 +26,7 @@ const News = ({ posts: { fetchAll, result, loading } }) => {
                   <Col key={idx} xs={12} md={8} lg={8} xl={6} xxl={6}>
                     <Card
                       className="news-card"
-                      cover={<img alt="example" src={`/assets/news.png`} />}
+                      cover={<img alt="example" src={post.img} />}
                     >
                       <Meta
                         title={
@@ -51,6 +51,7 @@ const News = ({ posts: { fetchAll, result, loading } }) => {
                   current={result.current_page ? result.current_page : 1}
                   total={result.total ? result.total : 0}
                   showSizeChanger={false}
+                  onChange={({ current }) => console.log(current)}
                 />
               ) : (
                 <h2>{t("Yangiliklar mavjud emas")}</h2>

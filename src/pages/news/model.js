@@ -4,6 +4,7 @@ import { client } from "../../common/utils/request";
 import { CURRENT_LANG } from "../../constants";
 import flash from "../../stores/Flash";
 import { getImgaeUrl } from "../../common/services/common";
+import Axios from "axios";
 
 class NewsModel extends CommonStore {
   @observable type = "news";
@@ -11,6 +12,40 @@ class NewsModel extends CommonStore {
   @action
   setType = (type) => {
     this.type = type;
+  };
+
+  fetchAll = async ({ url = this.url, params = {} } = {}) => {
+    this.setState("pending");
+    this.setResult({});
+
+    try {
+      const response = await client({
+        url,
+        params: { ...params, language: CURRENT_LANG },
+      });
+      const { status, data } = response;
+      console.log("fetchAll => ", response);
+      if (status === 200) {
+        const _result = data.result ? data.result : {};
+        const list = Array.isArray(_result.data) ? _result.data : [];
+
+        await Axios.all(
+          list.map((item) => item.img && getImgaeUrl(item.img))
+        ).then((res) => {
+          console.log("news res= > ", res);
+          res.forEach((imageUrl, index) => {
+            list[index].img = imageUrl;
+          });
+        });
+
+        console.log("yangi res => ", _result);
+        this.setResult(_result);
+        this.setState("done");
+      }
+    } catch (error) {
+      this.setState("error");
+      flash.setFlash("error", "Error occurred!");
+    }
   };
 
   @action
