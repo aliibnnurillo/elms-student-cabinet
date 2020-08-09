@@ -4,6 +4,9 @@ import HttpApi from "i18next-http-backend";
 import { API_URL } from "./constants";
 import { getToken } from "./common/utils/utils";
 import moment from "moment";
+import "moment/locale/uz"; // for uzc
+import "moment/locale/uz-latn"; // for uz
+import "moment/locale/ru"; // for ru
 
 const allowedLanguages = ["oz", "ru"];
 
@@ -14,8 +17,6 @@ const storageLanguage = localStorage.getItem("language");
 if (storageLanguage && allowedLanguages.indexOf(storageLanguage) > -1) {
   lng = storageLanguage;
 }
-
-moment.locale("en");
 
 i18n
   .use(HttpApi)
@@ -29,8 +30,10 @@ i18n
     keySeparator: false,
     interpolation: {
       format: function (value, format, lng) {
-        if (format === "uppercase") return value.toUpperCase();
-        if (value instanceof Date) return moment(value).format(format);
+        if (format === "currentDate") return;
+        moment(value)
+          .locale(lng === "oz" || lng === "qq" ? "uz-latn" : lng)
+          .format("LL");
         return value;
       },
     },

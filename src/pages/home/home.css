@@ -1,26 +1,15 @@
 .home-page .for-subjects-block {
   margin-top: 40px;
 }
-.home-page .for-calendar {
+
+.for-calendar {
   display: flex;
   flex-wrap: nowrap;
   overflow-x: auto;
 }
-.home-page .for-calendar > div .dhx_calendar-day {
-  color: #17152e;
-  font-weight: 600;
-  font-size: 11px;
-  line-height: 15px;
-}
-.home-page .for-calendar::-webkit-scrollbar {
-  display: none;
-}
-.home-page .for-calendar > div {
-  margin-right: 30px;
-}
-.dhx_calendar.dhx_widget.dhx_widget--bordered {
-  border: none;
-  width: 266px !important;
+
+.for-calendar .ant-picker-calendar {
+  margin: 24px;
 }
 
 .dhx_calendar.dhx_widget.dhx_widget--bordered .dhx_calendar-weekday {
@@ -28,28 +17,6 @@
   font-size: 11px;
   line-height: 15px;
   color: #aab1f1 !important;
-}
-.home-page
-  .for-calendar
-  > div
-  .dhx_button--icon.dhx_button--circle:not(.dhx_button--width_full).dhx_button--size_medium {
-  display: none;
-}
-.home-page
-  .for-calendar
-  > div
-  .dhx_calendar-action__show-month.dhx_button.dhx_button--view_link.dhx_button--size_small.dhx_button--color_secondary.dhx_button--circle {
-  width: 100%;
-}
-.home-page .for-calendar > div .dhx_calendar-day--selected:before {
-  background-color: transparent;
-  border: 1px solid #5767f6;
-}
-.home-page .for-calendar > div .dhx_calendar-day--selected {
-  color: #5767f6 !important;
-}
-.home-page .for-calendar > div .dhx_calendar-day--weekend {
-  color: #9aa2b5;
 }
 
 .home-page .for-subjects-block > h2 {

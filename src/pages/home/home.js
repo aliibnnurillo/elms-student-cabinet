@@ -2,14 +2,12 @@ import React from "react";
 import { HomeHeader } from "../../component/header";
 // The default locale is en-US, if you want to use other locale, just set locale in entry file globally.
 import moment from "moment";
-import "moment/locale/zh-cn";
-import { Card, Avatar, Row, Col } from "antd";
+import { Card, Avatar, Row, Col, Calendar } from "antd";
 
 import "./home.css";
 import Meta from "antd/lib/card/Meta";
 import { Link } from "react-router-dom";
 import { PercentsIcon } from "../../component/icons";
-import Calendar from "../../component/calendar/calendar";
 
 const data = [
   {
@@ -61,16 +59,40 @@ const HomePage = () => {
       <HomeHeader />
       <div className="content home-page">
         <div className="for-calendar">
-          <Calendar getValue="2020.03.03" />
-          <Calendar />
-          <Calendar />
-          <Calendar />
-          <Calendar />
-          <Calendar />
-          <Calendar />
-          <Calendar />
-          <Calendar />
-          <Calendar />
+          <Calendar
+            style={{ width: 300 }}
+            fullscreen={false}
+            onPanelChange={onPanelChange}
+          />
+          <Calendar
+            style={{ width: 300 }}
+            fullscreen={false}
+            onPanelChange={onPanelChange}
+            defaultValue={moment("2020-09-2")}
+          />
+          <Calendar
+            style={{ width: 300 }}
+            fullscreen={false}
+            onPanelChange={onPanelChange}
+            defaultValue={moment("2020-10-3")}
+          />
+          <Calendar
+            style={{ width: 300 }}
+            fullscreen={false}
+            onPanelChange={onPanelChange}
+            defaultValue={moment("2020-11-5")}
+          />
+          <Calendar
+            style={{ width: 300 }}
+            fullscreen={false}
+            onPanelChange={onPanelChange}
+            defaultValue={moment("2020-09-2")}
+          />
+          <Calendar
+            style={{ width: 300 }}
+            fullscreen={false}
+            onPanelChange={onPanelChange}
+          />
         </div>
         <div className="for-subjects-block">
           <h2>Fanlar</h2>
