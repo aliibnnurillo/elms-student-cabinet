@@ -3,12 +3,13 @@ import { HomeHeader } from "../../component/header";
 // The default locale is en-US, if you want to use other locale, just set locale in entry file globally.
 import moment from "moment";
 import "moment/locale/zh-cn";
-import { Calendar, Card, Avatar, Row, Col } from "antd";
+import { Card, Avatar, Row, Col } from "antd";
 
 import "./home.css";
 import Meta from "antd/lib/card/Meta";
 import { Link } from "react-router-dom";
 import { PercentsIcon } from "../../component/icons";
+import Calendar from "../../component/calendar/calendar";
 
 const data = [
   {
@@ -53,13 +54,23 @@ moment.locale("zh-cn");
 function onPanelChange(value, mode) {
   console.log(value, mode);
 }
+
 const HomePage = () => {
   return (
     <>
       <HomeHeader />
       <div className="content home-page">
         <div className="for-calendar">
-          <Calendar fullscreen={false} onPanelChange={onPanelChange} />
+          <Calendar getValue="2020.03.03" />
+          <Calendar />
+          <Calendar />
+          <Calendar />
+          <Calendar />
+          <Calendar />
+          <Calendar />
+          <Calendar />
+          <Calendar />
+          <Calendar />
         </div>
         <div className="for-subjects-block">
           <h2>Fanlar</h2>

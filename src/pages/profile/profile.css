@@ -1,6 +1,25 @@
 .profile_page .profil_row {
   justify-content: center;
 }
+.profile_page .for-password-modal-button {
+  position: absolute;
+  top: 10px;
+  right: 25px;
+  background: #5767f6;
+  border-radius: 6px;
+  height: 42px;
+  width: 177px;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 200%;
+  color: #ffffff;
+  border: none;
+}
+.profile_page .for-password-modal-button:hover,
+.profile_page .for-password-modal-button:focus {
+  background: #5767f6;
+  border: none;
+}
 .profile_page .profil_row .forAvatars {
   display: flex;
   justify-content: center;
@@ -110,4 +129,131 @@
   span.for-icon {
   cursor: pointer;
   margin-left: 10px;
+  color: #5767f6;
+}
+.modal-for-edit {
+  width: 480px !important;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  padding-bottom: 0 !important;
+}
+.modal-for-edit .ant-modal-footer {
+  display: none;
+}
+.modal-for-edit .ant-modal-header {
+  border: none;
+}
+.modal-for-edit .ant-modal-body {
+  padding: 32px 60px;
+  margin-top: 20px;
+}
+.modal-for-edit .ant-modal-header .ant-modal-title p {
+  text-align: center;
+  color: #17152e;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 25px;
+  margin: 0;
+}
+.modal-for-edit .ant-modal-body .ant-form-item-control-input-content {
+  text-align: center;
+}
+
+.modal-for-edit .ant-modal-body .ant-form .ant-form-item {
+  margin: 0;
+  margin-bottom: 20px;
+}
+.modal-for-edit
+  .ant-modal-body
+  .ant-form
+  .ant-form-item
+  .ant-form-item-control-input
+  .button-submit {
+  background: #22c864 !important;
+  border-radius: 6px;
+  width: 283px;
+  height: 52px;
+  border: none;
+  color: #fff;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 200%;
+  margin-top: 50px;
+}
+.modal-for-edit
+  .ant-modal-body
+  .ant-form
+  .ant-form-item
+  .ant-form-item-control-input
+  .ant-input-affix-wrapper {
+  background: #f3f4ff;
+  border-radius: 12px;
+  height: 54px;
+  border: none;
+}
+.modal-for-edit
+  .ant-modal-body
+  .ant-form
+  .ant-form-item
+  .ant-form-item-control-input
+  .ant-input-affix-wrapper
+  input {
+  background-color: transparent;
+}
+.modal-for-edit
+  .ant-modal-body
+  .ant-form
+  .ant-form-item
+  .ant-form-item-control-input
+  .ant-input-affix-wrapper
+  input::placeholder {
+  color: #aab1f1;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 22px;
+}
+.modal-for-edit
+  .ant-modal-body
+  .ant-form
+  .ant-form-item
+  .ant-form-item-control-input
+  .ant-input-affix-wrapper
+  input {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 22px;
+  color: #17152e;
+}
+.modal-for-edit
+  .ant-modal-body
+  .ant-form
+  .ant-form-item
+  .ant-form-item-control-input
+  .ant-input-affix-wrapper
+  .ant-input-prefix {
+  margin-right: 10px;
+  font-size: 18px;
+  color: #5767f6;
+}
+.modal-for-edit .ant-modal-content .ant-modal-close {
+  position: absolute;
+  right: 20px !important;
+  top: 20px !important;
+}
+.modal-for-edit .ant-modal-content .ant-modal-close .ant-modal-close-x {
+  background: #17152e;
+  position: relative;
+  width: 20px;
+  height: 20px;
+  color: #fff;
+  border-radius: 50%;
+}
+.modal-for-edit .ant-modal-content .ant-modal-close .ant-modal-close-x > span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 15px;
+  font-weight: 900;
 }
