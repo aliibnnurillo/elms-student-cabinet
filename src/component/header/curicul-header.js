@@ -8,18 +8,20 @@ import Arrow from "../icons/Arrow";
 import Pop from "./pop";
 import { Link } from "react-router-dom";
 import LoginList from "./login-list";
+import { useTranslation } from "react-i18next";
 
 const CuriculHeader = () => {
+  const [t] = useTranslation();
   return (
     <div className="page-header">
-      <PageHeader className="site-page-header" title="O'quv rejasi">
+      <PageHeader className="site-page-header" title={t("O'quv rejasi")}>
         <Breadcrumb separator={<Arrow />}>
           <Breadcrumb.Item href="/">
             <HomeOutlined />
           </Breadcrumb.Item>
 
           <Breadcrumb.Item>
-            <span>O'quv rejasi</span>
+            <span>{t("O'quv rejasi")}</span>
           </Breadcrumb.Item>
         </Breadcrumb>
       </PageHeader>

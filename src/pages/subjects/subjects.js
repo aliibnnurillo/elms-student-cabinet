@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { SubjectsHeader } from "../../component/header";
 import "./subject.css";
 import { observer, inject } from "mobx-react";
+import { useTranslation } from "react-i18next";
 
 const Subjects = ({
   subjects: { fetchSemesterSubjects, loading, semesterSubjects },
@@ -14,6 +15,7 @@ const Subjects = ({
     return () => {};
   }, []);
 
+  const [t] = useTranslation();
   return (
     <>
       <SubjectsHeader />
@@ -32,13 +34,13 @@ const Subjects = ({
                           </Link>
                           <p>
                             <span>
-                              Modullar soni
+                              {t("Modullar soni")}
                               <Tag className="count_teg">
                                 <Link to="">{12}</Link>
                               </Tag>
                             </span>
                             <span>
-                              Darslar soni
+                              {t("Darslar soni")}
                               <Tag className="count_teg">
                                 <Link to="">{43}</Link>
                               </Tag>
@@ -52,7 +54,7 @@ const Subjects = ({
                         to={`/subjects/${semSub.subject_id}`}
                         className="goSubject"
                       >
-                        Fanni Boshlash{<ArrowRightOutlined />}
+                        {t("Fanni Boshlash")}&nbsp;<ArrowRightOutlined />
                       </Link>
                     </Card>
                   </Link>

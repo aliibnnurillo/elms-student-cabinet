@@ -30,7 +30,8 @@
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
-    "eject": "react-app-rewired eject"
+    "eject": "react-app-rewired eject",
+    "postbuild": "rup deploy production"
   },
   "eslintConfig": {
     "extends": "react-app"

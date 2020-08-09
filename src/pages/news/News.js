@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import "./news.css";
 import { NewsHeader } from "../../component/header";
 import { observer, inject } from "mobx-react";
+import { useTranslation } from "react-i18next";
 const { Meta } = Card;
 
 const News = ({ posts: { fetchAll, result, loading } }) => {
@@ -13,7 +14,7 @@ const News = ({ posts: { fetchAll, result, loading } }) => {
     fetchAll({ params: { type: "news" } });
     return () => {};
   }, []);
-
+  const [t] = useTranslation();
   return (
     <>
       <NewsHeader />
@@ -42,16 +43,19 @@ const News = ({ posts: { fetchAll, result, loading } }) => {
                   </Col>
                 ))
               : null}
-            {Array.isArray(result.data) && result.data.length ? (
-              <Col className="pagination" span={24}>
+
+            <Col className="pagination" span={24}>
+              {Array.isArray(result.data) && result.data.length ? (
                 <Pagination
                   defaultCurrent={result.per_page ? result.per_page : 9}
                   current={result.current_page ? result.current_page : 1}
                   total={result.total ? result.total : 0}
                   showSizeChanger={false}
                 />
-              </Col>
-            ) : null}
+              ) : (
+                <h2>{t("Yangiliklar mavjud emas")}</h2>
+              )}
+            </Col>
           </Row>
         </Spin>
       </div>
