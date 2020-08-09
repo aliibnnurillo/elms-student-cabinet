@@ -27,7 +27,7 @@ const LoginList = ({ imgUrl, authStore: { logout }, history }) => {
           }
         >
           <List.Item>
-            <Link to="">
+            <Link to="/profile">
               <UserOutlined />
               <span>Profile</span>
             </Link>

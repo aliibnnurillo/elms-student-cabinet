@@ -17,6 +17,8 @@ import NoFoundPage from "./pages/404";
 import Unauthorized from "./pages/403";
 import ServerErrorPage from "./pages/500";
 import VerifyCode from "./pages/auth/VerifyCode";
+import MessagePage from "./pages/message";
+import ProfilePage from "./pages/profile";
 
 export const publicRoutes = [
   {
@@ -63,6 +65,14 @@ export const privateRoutes = [
   {
     path: "/posts/:id",
     component: OneNews,
+  },
+  {
+    path: "/messages",
+    component: MessagePage,
+  },
+  {
+    path: "/profile",
+    component: ProfilePage,
   },
   {
     path: "/",

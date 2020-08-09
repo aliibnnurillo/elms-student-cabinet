@@ -63,7 +63,7 @@ const HomePage = () => {
         </div>
         <div className="for-subjects-block">
           <h2>Fanlar</h2>
-          <Row gutter={[24, 24]}>
+          <Row gutter={[20, 14]}>
             {data.map((item) => (
               <Col
                 span={24}

@@ -1,0 +1,113 @@
+.profile_page .profil_row {
+  justify-content: center;
+}
+.profile_page .profil_row .forAvatars {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.profile_page .profil_row .forAvatars > span {
+  position: relative;
+}
+.profile_page .profil_row .forAvatars > span .for-avatar-icon {
+  background: #5767f6;
+  width: 32px;
+  height: 32px;
+  color: #fff;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, -12px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 8;
+  border-radius: 50%;
+}
+.profile_page
+  .profil_row
+  .forAvatars
+  .img-avatars.ant-avatar-circle.ant-avatar-image {
+  position: relative;
+  overflow: initial;
+}
+.profile_page
+  .profil_row
+  .forAvatars
+  .img-avatars.ant-avatar-circle.ant-avatar-image
+  img {
+  position: relative;
+  border-radius: 100%;
+  z-index: 5;
+}
+.profile_page
+  .profil_row
+  .forAvatars
+  .img-avatars.ant-avatar-circle.ant-avatar-image::after {
+  content: "";
+  position: absolute;
+  top: -8px;
+  bottom: -8px;
+  right: -8px;
+  left: -8px;
+  background-image: linear-gradient(
+    to bottom left,
+    #d53a9d 0%,
+    #743ad5 100%
+  ) !important;
+  display: block !important;
+  border-radius: inherit;
+  z-index: 1;
+}
+.profile_page
+  .profil_row
+  .forAvatars
+  .img-avatars.ant-avatar-circle.ant-avatar-image::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  bottom: -5px;
+  right: -5px;
+  left: -5px;
+  background-color: #fff;
+  z-index: 2;
+  border-radius: 50%;
+}
+.profile_page .profil_row .lists {
+  background: #f3f4ff;
+  border-radius: 12px;
+  padding: 12px 16px;
+}
+.profile_page .profil_row .lists .ant-list-item {
+  padding: 0;
+}
+.profile_page .profil_row .lists .ant-list-item .ant-list-item-meta-title {
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 19px;
+  color: #5767f6;
+  margin-bottom: 4px;
+}
+.profile_page
+  .profil_row
+  .lists
+  .ant-list-item
+  .ant-list-item-meta-description
+  p {
+  font-size: 16px;
+  line-height: 22px;
+  margin: 0;
+  color: #17152e;
+  display: flex;
+  align-items: center;
+}
+.profile_page
+  .profil_row
+  .lists
+  .ant-list-item
+  .ant-list-item-meta-description
+  p
+  span.for-icon {
+  cursor: pointer;
+  margin-left: 10px;
+}
