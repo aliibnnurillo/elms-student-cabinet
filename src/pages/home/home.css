@@ -2,23 +2,67 @@
   margin-top: 40px;
 }
 
-.for-calendar {
+.home-page .for-calendar {
   display: flex;
   flex-wrap: nowrap;
   overflow-x: auto;
 }
-
-.for-calendar .ant-picker-calendar {
-  margin: 24px;
+.home-page .for-calendar::-webkit-scrollbar {
+  display: none;
 }
-
-.dhx_calendar.dhx_widget.dhx_widget--bordered .dhx_calendar-weekday {
+.home-page .for-calendar .site-calendar-card {
+  margin-right: 24px;
+  width: 300px;
+}
+.home-page
+  .for-calendar
+  .site-calendar-card
+  .ant-picker-calendar-header
+  .ant-picker-calendar-year-select,
+.home-page
+  .for-calendar
+  .site-calendar-card
+  .ant-picker-calendar-header
+  .ant-radio-group.ant-radio-group-outline.ant-picker-calendar-mode-switch {
+  display: none;
+}
+.home-page .for-calendar .site-calendar-card .ant-picker-content thead tr th {
+  color: #aab1f1;
   font-weight: 600;
   font-size: 11px;
   line-height: 15px;
-  color: #aab1f1 !important;
 }
-
+.home-page
+  .for-calendar
+  .site-calendar-card
+  .ant-picker-cell.ant-picker-cell-in-view {
+  font-weight: 600;
+  font-size: 11px;
+  line-height: 15px;
+  color: #17152e;
+}
+.home-page .for-calendar .site-calendar-card .ant-picker-panel {
+  border: none;
+}
+.home-page
+  .for-calendar
+  .site-calendar-card
+  .ant-picker-cell-selected
+  > .ant-picker-cell-inner.ant-picker-calendar-date {
+  background-color: transparent !important;
+  border: 1px solid #5767f6;
+  color: #5767f6;
+  border-radius: 50%;
+  box-sizing: border-box;
+  font-weight: 600;
+}
+.home-page
+  .for-calendar
+  .site-calendar-card
+  .ant-picker-cell.ant-picker-cell-in-view.ant-picker-cell-today
+  > .ant-picker-cell-inner.ant-picker-calendar-date.ant-picker-calendar-date-today::before {
+  border: none;
+}
 .home-page .for-subjects-block > h2 {
   font-weight: 800;
   font-size: 26px;

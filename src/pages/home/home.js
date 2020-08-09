@@ -59,40 +59,55 @@ const HomePage = () => {
       <HomeHeader />
       <div className="content home-page">
         <div className="for-calendar">
-          <Calendar
-            style={{ width: 300 }}
-            fullscreen={false}
-            onPanelChange={onPanelChange}
-          />
-          <Calendar
-            style={{ width: 300 }}
-            fullscreen={false}
-            onPanelChange={onPanelChange}
-            defaultValue={moment("2020-09-2")}
-          />
-          <Calendar
-            style={{ width: 300 }}
-            fullscreen={false}
-            onPanelChange={onPanelChange}
-            defaultValue={moment("2020-10-3")}
-          />
-          <Calendar
-            style={{ width: 300 }}
-            fullscreen={false}
-            onPanelChange={onPanelChange}
-            defaultValue={moment("2020-11-5")}
-          />
-          <Calendar
-            style={{ width: 300 }}
-            fullscreen={false}
-            onPanelChange={onPanelChange}
-            defaultValue={moment("2020-09-2")}
-          />
-          <Calendar
-            style={{ width: 300 }}
-            fullscreen={false}
-            onPanelChange={onPanelChange}
-          />
+          <div className="site-calendar-card">
+            <Calendar
+              title="salom"
+              fullscreen={false}
+              onPanelChange={onPanelChange}
+            />
+          </div>
+          <div className="site-calendar-card">
+            <Calendar
+              title="salom"
+              fullscreen={false}
+              onPanelChange={onPanelChange}
+            />
+          </div>
+          <div className="site-calendar-card">
+            <Calendar
+              title="salom"
+              fullscreen={false}
+              onPanelChange={onPanelChange}
+            />
+          </div>
+          <div className="site-calendar-card">
+            <Calendar
+              title="salom"
+              fullscreen={false}
+              onPanelChange={onPanelChange}
+            />
+          </div>
+          <div className="site-calendar-card">
+            <Calendar
+              title="salom"
+              fullscreen={false}
+              onPanelChange={onPanelChange}
+            />
+          </div>
+          <div className="site-calendar-card">
+            <Calendar
+              title="salom"
+              fullscreen={false}
+              onPanelChange={onPanelChange}
+            />
+          </div>
+          <div className="site-calendar-card">
+            <Calendar
+              title="salom"
+              fullscreen={false}
+              onPanelChange={onPanelChange}
+            />
+          </div>
         </div>
         <div className="for-subjects-block">
           <h2>Fanlar</h2>
