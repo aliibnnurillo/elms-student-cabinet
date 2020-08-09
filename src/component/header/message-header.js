@@ -9,26 +9,23 @@ import { Link } from "react-router-dom";
 import "./menu.css";
 import LoginList from "./login-list";
 
-const HomeHeader = () => {
+const MessageHeader = () => {
   return (
     <div className="page-header home">
-      <PageHeader className="site-page-header" title="Bosh sahifa">
+      <PageHeader className="site-page-header" title="Xabarlar">
         <Breadcrumb separator={<Arrow />}>
           <Breadcrumb.Item href="/">
             <HomeOutlined />
           </Breadcrumb.Item>
-          <Breadcrumb.Item href="">
-            <span>O’quv rejasi</span>
-          </Breadcrumb.Item>
           <Breadcrumb.Item>
-            <span>Reja</span>
+            <span>Xabarlar</span>
           </Breadcrumb.Item>
         </Breadcrumb>
       </PageHeader>
 
       <div className="header-right">
         <Badge count={4}>
-          <Link to="/messages" className="head-example">
+          <Link to=" " className="head-example">
             <MessageOutlined />
           </Link>
         </Badge>
@@ -42,4 +39,4 @@ const HomeHeader = () => {
   );
 };
 
-export default HomeHeader;
+export default MessageHeader;

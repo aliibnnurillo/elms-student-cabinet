@@ -175,9 +175,11 @@
 }
 
 .content {
+  box-sizing: border-box;
   margin-left: 100px;
-  padding: 15px 30px;
+  padding: 10px 30px 0;
   position: relative;
+  height: calc(100% -200px) !important;
 }
 .page-header .select-for-news .ant-radio-group.ant-radio-group-solid {
   background: #f3f4ff;
