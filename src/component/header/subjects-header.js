@@ -8,29 +8,26 @@ import Pop from "./pop";
 import LoginList from "./login-list";
 import { observer, inject } from "mobx-react";
 import CSelect from "../CSelect";
+import { useTranslation } from "react-i18next";
 
 const SubjectsHeader = ({
   subjects: { fetchSemesters, semesters, activeSemester },
 }) => {
   const { pathname } = useLocation();
 
-  function handleChange(value) {
-    console.log(`selected ${value}`);
-  }
-
   useEffect(() => {
     fetchSemesters();
   }, [fetchSemesters]);
-
+  const [t] = useTranslation();
   return (
     <div className="page-header">
-      <PageHeader className="site-page-header" title="Fanlar">
+      <PageHeader className="site-page-header" title={t("Fanlar")}>
         <Breadcrumb separator={<Arrow />}>
           <Breadcrumb.Item href="/">
             <HomeOutlined />
           </Breadcrumb.Item>
           <Breadcrumb.Item href="">
-            <span>Fanlar</span>
+            <span>{t("Fanlar")}</span>
           </Breadcrumb.Item>
           <Breadcrumb.Item></Breadcrumb.Item>
         </Breadcrumb>

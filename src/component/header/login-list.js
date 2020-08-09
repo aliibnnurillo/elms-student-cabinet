@@ -7,6 +7,7 @@ import {
   LogoutOutlined,
 } from "@ant-design/icons";
 import { inject, observer } from "mobx-react";
+import { useTranslation } from "react-i18next";
 
 const LoginList = ({ imgUrl, authStore: { logout }, history }) => {
   const onLogout = (e) => {
@@ -14,6 +15,7 @@ const LoginList = ({ imgUrl, authStore: { logout }, history }) => {
     logout();
     history.push("/user/login");
   };
+  const [t] = useTranslation();
   return (
     <Popover
       placement="bottomRight"
@@ -22,20 +24,20 @@ const LoginList = ({ imgUrl, authStore: { logout }, history }) => {
           footer={
             <Link to="" onClick={onLogout}>
               <LogoutOutlined />
-              <span>Logout</span>
+              <span>{t("Logout")}</span>
             </Link>
           }
         >
           <List.Item>
             <Link to="/profile">
               <UserOutlined />
-              <span>Profile</span>
+              <span>{t("Profile")}</span>
             </Link>
           </List.Item>
           <List.Item>
             <Link to="">
               <SettingOutlined />
-              <span>Settings</span>
+              <span>{t("Settings")}</span>
             </Link>
           </List.Item>
         </List>

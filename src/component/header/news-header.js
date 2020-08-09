@@ -8,6 +8,7 @@ import Pop from "./pop";
 import "./menu.css";
 import { observer, inject } from "mobx-react";
 import LoginList from "./login-list";
+import { useTranslation } from "react-i18next";
 
 const obj = [
   { link: "news", title: "News" },
@@ -23,32 +24,32 @@ const NewsHeader = ({ posts: { setType, type } }) => {
     return a;
   });
   const m = bread.filter((h) => h !== undefined);
-  console.log(m);
+  const [t] = useTranslation();
   return (
     <>
       <div className="page-header">
-        <PageHeader className="site-page-header" title="Yangiliklar">
+        <PageHeader className="site-page-header" title={t("Yangiliklar")}>
           <Breadcrumb separator={<Arrow />}>
             <Breadcrumb.Item href="/">
               <HomeOutlined />
             </Breadcrumb.Item>
             {m.map((item) => (
               <Breadcrumb.Item>
-                <span>{item.title}</span>
+                <span>{t(item.title)}</span>
               </Breadcrumb.Item>
             ))}
           </Breadcrumb>
         </PageHeader>
 
-        {pathname === "/news" ? (
+        {pathname === "/posts" ? (
           <div className="select-for-news">
             <Radio.Group
               value={type}
               buttonStyle="solid"
               onChange={(e) => setType(e.target.value)}
             >
-              <Radio.Button value="news">Yangiliklar</Radio.Button>
-              <Radio.Button value="advertisement">E’lonlar</Radio.Button>
+              <Radio.Button value="news">{t("Yangiliklar")}</Radio.Button>
+              <Radio.Button value="advertisement">{t("E'lonlar")}</Radio.Button>
             </Radio.Group>
           </div>
         ) : null}

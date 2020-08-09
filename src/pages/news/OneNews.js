@@ -37,9 +37,12 @@ const OneNews = (props) => {
                   <Tag icon={<EyeFilled />}>{single.view_count}</Tag>
                 ) : null}
               </p>
-              <p className="description">
-                {single.description ? single.description : null}
-              </p>
+              {single.description ? (
+                <p
+                  className="description"
+                  dangerouslySetInnerHTML={{ __html: single.description }}
+                ></p>
+              ) : null}
             </Col>
           </Row>
         </Spin>

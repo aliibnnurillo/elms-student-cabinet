@@ -9,7 +9,7 @@ const CSelect = ({
   ...rest
 }) => {
   return (
-    <Select {...rest} defaultValue={2}>
+    <Select {...rest}>
       {Array.isArray(options)
         ? options.map((item) => (
             <Select.Option key={item[valueProp]} value={item[valueProp]}>

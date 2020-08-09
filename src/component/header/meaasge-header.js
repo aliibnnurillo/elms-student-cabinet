@@ -1,34 +1,32 @@
-import { PageHeader, Breadcrumb, Badge } from "antd";
+import { PageHeader, Breadcrumb, Avatar, Badge } from "antd";
 
 import React from "react";
 import { HomeOutlined, MessageOutlined } from "@ant-design/icons";
-import "./menu.css";
 import { BellOutlined } from "@ant-design/icons";
 import Arrow from "../icons/Arrow";
 import Pop from "./pop";
 import { Link } from "react-router-dom";
+import "./menu.css";
 import LoginList from "./login-list";
-import { useTranslation } from "react-i18next";
 
-const CuriculHeader = () => {
-  const [t] = useTranslation();
+const MessageHeader = () => {
   return (
-    <div className="page-header">
-      <PageHeader className="site-page-header" title={t("O'quv rejasi")}>
+    <div className="page-header home">
+      <PageHeader className="site-page-header" title="Xabarlar">
         <Breadcrumb separator={<Arrow />}>
           <Breadcrumb.Item href="/">
             <HomeOutlined />
           </Breadcrumb.Item>
 
           <Breadcrumb.Item>
-            <span>{t("O'quv rejasi")}</span>
+            <span>Xabarlar</span>
           </Breadcrumb.Item>
         </Breadcrumb>
       </PageHeader>
 
       <div className="header-right">
         <Badge count={4}>
-          <Link to="" className="head-example">
+          <Link to="/message" className="head-example">
             <MessageOutlined />
           </Link>
         </Badge>
@@ -42,4 +40,4 @@ const CuriculHeader = () => {
   );
 };
 
-export default CuriculHeader;
+export default MessageHeader;

@@ -20,7 +20,7 @@ const EnterNewPassword = ({ authStore: { saveNewPassword }, history }) => {
             <div className="icons">
               <LockOutlined />
             </div>
-            <p>Iltimos yangi parol kiriting</p>
+            <p>{t("Iltimos yangi parol kiriting")}</p>
             <Form
               onFinish={formFinish}
               name="normal_login"
@@ -40,7 +40,7 @@ const EnterNewPassword = ({ authStore: { saveNewPassword }, history }) => {
               >
                 <Input.Password
                   prefix={<LockOutlined className="site-form-item-icon" />}
-                  placeholder="Parol kiriting"
+                  placeholder={t("Parol kiriting")}
                 />
               </Form.Item>
               <Form.Item>
@@ -50,7 +50,7 @@ const EnterNewPassword = ({ authStore: { saveNewPassword }, history }) => {
                   className="login-form-button"
                   block
                 >
-                  Davom etish
+                  {t("Davom etish")}
                 </Button>
               </Form.Item>
             </Form>

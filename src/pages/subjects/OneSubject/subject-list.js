@@ -11,6 +11,7 @@ import { Link, useParams } from "react-router-dom";
 import { SubjectsHeader } from "../../../component/header";
 import "../subject.css";
 import { inject, observer } from "mobx-react";
+import { useTranslation } from "react-i18next";
 
 const SubjectList = ({ subjects: { fetchOne, loading, single } }) => {
   const { id } = useParams();
@@ -18,7 +19,7 @@ const SubjectList = ({ subjects: { fetchOne, loading, single } }) => {
     fetchOne(id);
     return () => {};
   }, [id, fetchOne]);
-
+  const [t] = useTranslation();
   return (
     <>
       <SubjectsHeader />
@@ -42,28 +43,34 @@ const SubjectList = ({ subjects: { fetchOne, loading, single } }) => {
                 </div>
 
                 <Button block type="default">
-                  Davom etish
+                  {t("Davom etish")}
                 </Button>
                 <div className="title">
                   <h2>{single.subject_name ? single.subject_name : null}</h2>
                   <p>
                     <span>
-                      Modullar soni
+                      {t("Modullar soni")}
                       <Tag className="count_teg">
                         <Link to="#">10</Link>
                       </Tag>
                     </span>
                     <span>
-                      Darslar soni
+                      {t("Darslar soni")}
                       <Tag className="count_teg">
                         <Link to="#">10</Link>
                       </Tag>
                     </span>
                   </p>
                 </div>
-                <p>{single.description ? single.description : null}</p>
+
+                {single.description ? (
+                  <p
+                    dangerouslySetInnerHTML={{ __html: single.description }}
+                  ></p>
+                ) : null}
+
                 <div>
-                  <h2>Talabalar</h2>
+                  <h2>{t("Talabalar")}</h2>
                   <p>{single.requirements ? single.requirements : null}</p>
                 </div>
               </Col>

@@ -4,6 +4,7 @@ import { LoadingOutlined, CameraFilled } from "@ant-design/icons";
 import "./auth.css";
 import { UserIcon } from "../../component/icons";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 function getBase64(img, callback) {
   const reader = new FileReader();
   reader.addEventListener("load", () => callback(reader.result));
@@ -26,6 +27,8 @@ const UploadAvatar = () => {
   const [state, setState] = useState({
     loading: false,
   });
+
+  const [t] = useTranslation();
 
   const handleChange = (info) => {
     if (info.file.status === "uploading") {
@@ -54,7 +57,7 @@ const UploadAvatar = () => {
     </div>
   );
   return (
-    <div className="enter-email">
+    <div className="enter-email empty-page">
       <Row>
         <Col span={6} offset={9}>
           <div className="new-email">
@@ -79,7 +82,7 @@ const UploadAvatar = () => {
                 )}
               </Upload>
             </div>
-            <p>Rasmingizni yuklang</p>
+            <p>{t("Rasmingizni yuklang")}</p>
 
             <Button
               type="primary"
@@ -87,10 +90,10 @@ const UploadAvatar = () => {
               className="login-form-button"
               block
             >
-              Saqlash
+              {t("Saqlash")}
             </Button>
             <Link to="" className="next-link">
-              Otkazib yuborish
+              {t("Otkazib yuborish")}
             </Link>
           </div>
         </Col>
