@@ -1,5 +1,5 @@
 import React from "react";
-import { LeftMenue } from "../header";
+import { LeftMenu } from "../header";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./app.css";
 import APINotification from "../APINotification";
@@ -10,7 +10,7 @@ const App = () => {
   return (
     <div>
       <Router>
-        <LeftMenue />
+        <LeftMenu />
         <Switch>
           {publicRoutes.map((route, idx) => (
             <Route {...route} key={idx} />

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import moment from "moment";
 import { useState } from "react";
 import {
@@ -11,11 +11,13 @@ import {
   Form,
   Avatar,
   Anchor,
+  Spin,
 } from "antd";
 import { SendOutlined } from "@ant-design/icons";
 import StepsBlock from "./steps";
 import { SubjectsHeader } from "../../../component/header";
 import { inject, observer } from "mobx-react";
+import { useParams } from "react-router-dom";
 
 const { Link } = Anchor;
 
@@ -52,32 +54,21 @@ const Editor = ({ onChange, onSubmit, submitting, value }) => (
   </>
 );
 
-const Lesson = ({ subjects: { loading, fetchLesson, currentLesson } }) => {
+const Lesson = ({
+  subjects: { loading, fetchLesson, currentLesson, single, fetchOne },
+}) => {
   const [submitting, setSubmitting] = useState(false);
   const [comments, setComments] = useState([]);
   const [value, setValue] = useState("");
-
+  const aa = useParams();
+  useEffect(() => {
+    console.log(aa);
+    fetchOne(aa.subjectId);
+  }, []);
   const handleSubmit = () => {
     if (!value) {
       return;
     }
-
-    setSubmitting(true);
-
-    setTimeout(() => {
-      setValue("");
-      setSubmitting(false);
-      setComments([
-        {
-          author: "Alisher Saidov",
-          avatar:
-            "https://avatars.mds.yandex.net/get-yapic/53031/My8MspR9WyDaZDsW3fJAJJsgI-1/islands-200",
-          content: <p>{value}</p>,
-          datetime: moment().format("DD-MMM h:mm:ss a"),
-        },
-        ...comments,
-      ]);
-    }, 1000);
   };
 
   const handleChange = (e) => {
@@ -89,77 +80,77 @@ const Lesson = ({ subjects: { loading, fetchLesson, currentLesson } }) => {
       <SubjectsHeader />
       <div className="content">
         <div className="tasks">
-          <Row gutter={20}>
-            <Col span={6}>
-              <div className="task-list">
-                <Anchor className="task-menu">
-                  <Link
-                    href="#1"
-                    className="lesson-name"
-                    title="1  Algoritm va dasturlashga..."
-                  >
-                    <Link
-                      href="#1.1"
-                      title="1.1 Dasturlash tillarining tuzil..."
-                    />
-                    <Link href="#1.2" title="1.2 Algoritm va dasturlashga..." />
-                  </Link>
-                  <Link
-                    href="#2"
-                    className="lesson-name"
-                    title="2  Algoritm va dasturlashga..."
-                  >
-                    <Link
-                      href="#2.1"
-                      title="2.1 Tarmoqlanish va uzilishlarni..."
-                    />
-                    <Link href="#2.2" title="2.2 Takrorlanish operatorlari." />
-                  </Link>
-                  <Link
-                    href="#3"
-                    className="lesson-name"
-                    title="3  Funksiyalar va to’plamlar..."
-                  >
-                    <Link href="#3.1" title="2.1 Funksiyalar." />
-                    <Link href="#3.2" title="2.2 Massivlar." />
-                    <Link
-                      href="#3.3"
-                      title="3.3 Ko‘rsatkichlar va dinamik..."
-                    />
-                  </Link>
-                </Anchor>
-              </div>
-            </Col>
-            <Col span={18}>
-              <Row>
-                <StepsBlock />
+          <Spin spinning={loading}>
+            <Row gutter={20}>
+              <Col span={6}>
+                <div className="task-list">
+                  <Anchor className="task-menu">
+                    {Array.isArray(single.module)
+                      ? single.module.map((module, idx) => {
+                          return (
+                            <Link
+                              key={idx}
+                              href={`#${idx + 1}`}
+                              className="lesson-name"
+                              title={`${idx + 1} ${
+                                module.name.length > 30
+                                  ? `${module.name.substr(0, 29)}...`
+                                  : module.name
+                              }`}
+                            >
+                              {Array.isArray(module.lessons)
+                                ? module.lessons.map((lesson, index) => (
+                                    <Link
+                                      key={lesson.id}
+                                      href={`#${idx + 1}.${index + 1}`}
+                                      title={`${idx + 1}.${index + 1} ${
+                                        module.name.length > 32
+                                          ? `${module.name.substr(0, 31)}...`
+                                          : module.name
+                                      }`}
+                                    />
+                                  ))
+                                : null}
+                            </Link>
+                          );
+                        })
+                      : null}
+                  </Anchor>
+                </div>
+              </Col>
+              <Col span={18}>
+                <Row>
+                  <StepsBlock />
 
-                <Col span={18} offset={3} className="comments-list">
-                  <h3>{comments.length}-ta sharh</h3>
-                  <>
-                    <Comment
-                      avatar={
-                        <Avatar
-                          src="/assets/userimg.jpg"
-                          alt="Alisher Saidov"
-                          size={40}
-                        />
-                      }
-                      content={
-                        <Editor
-                          onChange={handleChange}
-                          onSubmit={handleSubmit}
-                          submitting={submitting}
-                          value={value}
-                        />
-                      }
-                    />
-                    {comments.length > 0 && <CommentList comments={comments} />}
-                  </>
-                </Col>
-              </Row>
-            </Col>
-          </Row>
+                  <Col span={18} offset={3} className="comments-list">
+                    <h3>{comments.length}-ta sharh</h3>
+                    <>
+                      <Comment
+                        avatar={
+                          <Avatar
+                            src="/assets/userimg.jpg"
+                            alt="Alisher Saidov"
+                            size={40}
+                          />
+                        }
+                        content={
+                          <Editor
+                            onChange={handleChange}
+                            onSubmit={handleSubmit}
+                            submitting={submitting}
+                            value={value}
+                          />
+                        }
+                      />
+                      {comments.length > 0 && (
+                        <CommentList comments={comments} />
+                      )}
+                    </>
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+          </Spin>
         </div>
       </div>
     </>

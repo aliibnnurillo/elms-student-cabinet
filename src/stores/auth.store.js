@@ -4,13 +4,11 @@ import {
   setToken,
   validToken,
   saveUser,
-  getUser,
-  isExistUser,
+  getActiveSemester,
 } from "../common/utils/utils";
 import { API_URL, CURRENT_LANG, API_BASE_URL } from "../constants";
 import flash from "./Flash";
 import Axios from "axios";
-import { client } from "../common/utils/request";
 
 class AuthStore {
   @observable authenticated = false;
@@ -18,6 +16,7 @@ class AuthStore {
   @observable accessToken = "";
   @observable state = "";
   @observable error = null;
+  @observable activeSemesterId = getActiveSemester() || "semester";
 
   @computed
   get auth() {
@@ -38,6 +37,23 @@ class AuthStore {
 
       if (status === 200) {
         console.log("login response data => ", data);
+        this.fetchActiveSemester(data.result.access_token)
+          .then((res) => {
+            if (res.status === 200) {
+              const activeSemesterId =
+                Array.isArray(res.data.result.data) &&
+                res.data.result.data.length
+                  ? res.data.result.data[0].id
+                  : null;
+              localStorage.setItem("active_sem", activeSemesterId);
+              runInAction(() => {
+                this.activeSemesterId = activeSemesterId;
+              });
+            }
+          })
+          .catch((err) => {
+            console.log("fetch active  semester error => ", err);
+          });
         return await this.getUserInfo(data.result);
       }
       return res;
@@ -158,6 +174,16 @@ class AuthStore {
   };
 
   @action
+  fetchActiveSemester = async (accessToken) => {
+    return Axios.get(API_BASE_URL + "/syllabus/semesters", {
+      params: { active_semester: 1 },
+      headers: {
+        Authorization: "Bearer " + accessToken,
+      },
+    });
+  };
+
+  @action
   saveNewPassword = async (credentials) => {
     this.state = "pending";
     try {
@@ -261,6 +287,7 @@ class AuthStore {
     this.user = {};
     this.accessToken = "";
     this.error = null;
+    this.activeSemesterId = "";
   };
 
   @action

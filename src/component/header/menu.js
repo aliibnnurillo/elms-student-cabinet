@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Menu, Avatar } from "antd";
 import {
   HomeOutlined,
@@ -9,11 +9,12 @@ import {
   ReadOutlined,
 } from "@ant-design/icons";
 import "./menu.css";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { ACTIVE_MENU_KEY } from "../../constants";
+import { observer, inject } from "mobx-react";
 
-const LeftMenue = () => {
+const LeftMenu = ({ authStore: { activeSemesterId } }) => {
   const [selectedKey, setSelectedKey] = useState(
     localStorage.getItem(ACTIVE_MENU_KEY)
       ? [localStorage.getItem(ACTIVE_MENU_KEY)]
@@ -36,44 +37,44 @@ const LeftMenue = () => {
         onSelect={handleSelect}
       >
         <Menu.Item key="home">
-          <Link to="/">
+          <NavLink to="/">
             <HomeOutlined />
             <span>{t("Bosh sahifa")}</span>
-          </Link>
+          </NavLink>
         </Menu.Item>
         <Menu.Item key="curriculum">
-          <Link to="/curriculum">
+          <NavLink to="/curriculum">
             <BankOutlined />
             <span>{t("O'quv rejasi")}</span>
-          </Link>
+          </NavLink>
         </Menu.Item>
         <Menu.Item key="subjects">
-          <Link to="/subjects">
+          <NavLink to={`/${activeSemesterId}/subjects`}>
             <ReadOutlined />
             <span>{t("Fanlar")}</span>
-          </Link>
+          </NavLink>
         </Menu.Item>
         <Menu.Item key="exam">
-          <Link to="/exam">
+          <NavLink to="/exam">
             <ScheduleOutlined />
             <span>{t("Imtixonlar jadvali")}</span>
-          </Link>
+          </NavLink>
         </Menu.Item>
         <Menu.Item key="rating">
-          <Link to="/rating">
+          <NavLink to="/rating">
             <BookOutlined />
             <span>{t("Reyting daftarchsi")}</span>
-          </Link>
+          </NavLink>
         </Menu.Item>
         <Menu.Item key="posts">
-          <Link to="/posts">
+          <NavLink to="/posts">
             <ProfileOutlined />
             <span>{t("Yangiliklar va e'lonlar")}</span>
-          </Link>
+          </NavLink>
         </Menu.Item>
       </Menu>
     </div>
   );
 };
 
-export default LeftMenue;
+export default inject("authStore")(observer(LeftMenu));

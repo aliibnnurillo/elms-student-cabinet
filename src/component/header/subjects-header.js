@@ -32,7 +32,7 @@ const SubjectsHeader = ({
           <Breadcrumb.Item></Breadcrumb.Item>
         </Breadcrumb>
       </PageHeader>
-      {pathname === "/subjects" ? (
+      {pathname.endsWith("/subjects") ? (
         <div>
           {activeSemester.id ? (
             <CSelect options={semesters} defaultValue={activeSemester.id} />

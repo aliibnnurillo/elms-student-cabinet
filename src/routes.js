@@ -35,7 +35,7 @@ export const publicRoutes = [
 
 export const privateRoutes = [
   {
-    path: "/subjects",
+    path: "/:semesterId/subjects",
     component: Subjects,
   },
   {
@@ -43,11 +43,11 @@ export const privateRoutes = [
     component: Examination,
   },
   {
-    path: "/subjects/lesson/:id",
+    path: "/:semesterId/subjects/:subjectId/:id",
     component: Lesson,
   },
   {
-    path: "/subjects/:id",
+    path: "/:semesterId/subjects/:id",
     component: SubjectList,
   },
   {

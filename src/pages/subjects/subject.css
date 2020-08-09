@@ -18,9 +18,11 @@
   align-items: center;
   margin-bottom: 20px;
 }
-.subject_page .card .card-header .title > a {
+.subject_page .card .card-header .title > h2 {
   display: flex;
   margin-bottom: 8px;
+  color: #17152e;
+  font-size: 18px;
 }
 .subject_page .card .card-header .title p {
   align-items: center;
@@ -47,8 +49,8 @@
   background-color: #c9c1ec3d;
   border-color: transparent;
   border-radius: 5px;
-  color: blue;
-  font-weight: 500;
+  color: #5767f6;
+  font-weight: bold;
   display: inline-block;
   padding: 5px 15px;
 }
@@ -69,8 +71,8 @@
   border-color: transparent;
   margin-right: 0;
 }
-.subject_page .card .count_teg a,
-.subject_about .count_teg a {
+.subject_page .card .count_teg span,
+.subject_about .count_teg span {
   font-size: 12px;
   font-weight: 700;
   display: inline-block;

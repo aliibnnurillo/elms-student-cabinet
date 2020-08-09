@@ -27,6 +27,10 @@ export function getUser() {
   return JSON.parse(localStorage.getItem("current_user"));
 }
 
+export function getActiveSemester() {
+  return JSON.parse(localStorage.getItem("active_sem"));
+}
+
 export function recLang() {
   return (isExistUser() && getUser().default_language) || "oz";
 }

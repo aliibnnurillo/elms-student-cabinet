@@ -6,7 +6,6 @@ import {
   RightOutlined,
 } from "@ant-design/icons";
 import { Player } from "video-react";
-
 import { Link, useParams } from "react-router-dom";
 import { SubjectsHeader } from "../../../component/header";
 import "../subject.css";
@@ -14,7 +13,7 @@ import { inject, observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 
 const SubjectList = ({ subjects: { fetchOne, loading, single } }) => {
-  const { id } = useParams();
+  const { semesterId, id } = useParams();
   useEffect(() => {
     fetchOne(id);
     return () => {};
@@ -37,7 +36,7 @@ const SubjectList = ({ subjects: { fetchOne, loading, single } }) => {
                 <div className="videos">
                   <Player
                     playsInline
-                    poster="./photo.png"
+                    poster={single.file_url_photo}
                     src={single.file_url_video}
                   />
                 </div>
@@ -70,7 +69,7 @@ const SubjectList = ({ subjects: { fetchOne, loading, single } }) => {
                 ) : null}
 
                 <div>
-                  <h2>{t("Talabalar")}</h2>
+                  <h2>{t("Talablar")}</h2>
                   <p>{single.requirements ? single.requirements : null}</p>
                 </div>
               </Col>
@@ -86,17 +85,17 @@ const SubjectList = ({ subjects: { fetchOne, loading, single } }) => {
                             {module.description ? module.description : null}
                           </p>
                           <div className="tags">
-                            <Tag>
-                              <CalendarOutlined
-                                style={{
-                                  marginRight: "10px",
-                                  background: "#F3F4FF",
-                                }}
-                              />
-                              {module.start_date && module.end_date
-                                ? `${module.start_date} - ${module.end_date}`
-                                : null}
-                            </Tag>
+                            {module.start_date && module.end_date ? (
+                              <Tag>
+                                <CalendarOutlined
+                                  style={{
+                                    marginRight: "10px",
+                                    background: "#F3F4FF",
+                                  }}
+                                />
+                                {module.start_date} - {module.end_date}
+                              </Tag>
+                            ) : null}
                             <Tag>
                               <PieChartOutlined
                                 style={{ marginRight: "10px" }}
@@ -114,7 +113,9 @@ const SubjectList = ({ subjects: { fetchOne, loading, single } }) => {
                             }
                             renderItem={(lesson) => (
                               <List.Item>
-                                <Link to={`/subjects/lesson/${lesson.id}`}>
+                                <Link
+                                  to={`/${semesterId}/subjects/${id}/${lesson.id}`}
+                                >
                                   <span>
                                     {lesson.name ? lesson.name : null}
                                   </span>

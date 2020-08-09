@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Row, Col, Card, Avatar, Tag, Spin } from "antd";
 import { ArrowRightOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { SubjectsHeader } from "../../component/header";
 import "./subject.css";
 import { observer, inject } from "mobx-react";
@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 const Subjects = ({
   subjects: { fetchSemesterSubjects, loading, semesterSubjects },
 }) => {
+  const { semesterId } = useParams();
   useEffect(() => {
     fetchSemesterSubjects();
     return () => {};
@@ -25,24 +26,24 @@ const Subjects = ({
             <Row gutter={[24, 24]}>
               {semesterSubjects.map((semSub, idx) => (
                 <Col key={idx} xs={24} md={24} lg={12} xl={8}>
-                  <Link to={`/subjects/${semSub.subject_id}`}>
+                  <Link to={`/${semesterId}/subjects/${semSub.subject_id}`}>
                     <Card hoverable className="card">
                       <div className="card-header">
                         <div className="title">
-                          <Link to="#">
+                          <h2>
                             {semSub.subject_name ? semSub.subject_name : null}
-                          </Link>
+                          </h2>
                           <p>
                             <span>
                               {t("Modullar soni")}
                               <Tag className="count_teg">
-                                <Link to="">{12}</Link>
+                                <span>{12}</span>
                               </Tag>
                             </span>
                             <span>
                               {t("Darslar soni")}
                               <Tag className="count_teg">
-                                <Link to="">{43}</Link>
+                                <span>{43}</span>
                               </Tag>
                             </span>
                           </p>
@@ -50,12 +51,10 @@ const Subjects = ({
                         <Avatar size={55} src={semSub.file_url_photo} />
                       </div>
                       <p>{semSub.short_info ? semSub.short_info : null}</p>
-                      <Link
-                        to={`/subjects/${semSub.subject_id}`}
-                        className="goSubject"
-                      >
-                        {t("Fanni Boshlash")}&nbsp;<ArrowRightOutlined />
-                      </Link>
+                      <span className="goSubject">
+                        {t("Fanni Boshlash")}&nbsp;
+                        <ArrowRightOutlined />
+                      </span>
                     </Card>
                   </Link>
                 </Col>

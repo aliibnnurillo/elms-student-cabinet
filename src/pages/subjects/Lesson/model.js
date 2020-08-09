@@ -146,7 +146,7 @@ class SubjectsModel extends CommonStore {
 
   @observable currentLesson = {};
   @observable resourceType = "text";
-
+  
   @action
   setResourceType = (type) => {
     this.resourceType = type;
