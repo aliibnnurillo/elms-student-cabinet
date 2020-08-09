@@ -86,3 +86,32 @@
   line-height: 20px;
   text-transform: uppercase;
 }
+
+@media screen and (max-width: 1367px) {
+  .curicul-page .all-exam .curicul-list {
+    padding: 0 12px;
+  }
+  .curicul-page .all-exam .curicul-list .ant-list-header {
+    margin: 0;
+  }
+  .curicul-page
+    .all-exam
+    .curicul-list
+    .ant-spin-nested-loading
+    .ant-spin-container
+    .ant-list-item {
+    padding: 12px !important;
+  }
+  .curicul-page
+    .all-exam
+    .curicul-list
+    .ant-spin-nested-loading
+    .ant-spin-container
+    > .for-choice:last-child {
+    padding: 0 !important;
+    padding-bottom: 8px !important;
+  }
+  .curicul-page .all-exam .curicul-list .ant-list-item span:last-child {
+    padding: 0;
+  }
+}

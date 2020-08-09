@@ -274,6 +274,7 @@
   background: #f3f4ff;
   margin: 40px 0 40px;
 }
+
 .tasks .for-button .button_next {
   background: #22c864;
   border-radius: 6px;
@@ -284,6 +285,7 @@
   line-height: 200%;
   color: #ffffff;
 }
+
 .comments-list h3 {
   font-weight: bold;
   font-size: 22px;
@@ -643,4 +645,22 @@
 }
 .task-list .ant-anchor-link .ant-anchor-link-title {
   overflow: unset !important;
+}
+@media screen and (max-width: 1367px) {
+  .line {
+    margin: 20px 0;
+  }
+  .tasks .for-button .button_next {
+    height: 45px;
+  }
+  .steps-content h2 {
+    margin: 16px 0;
+    font-size: 20px;
+    line-height: 22px;
+  }
+  .comments-list h3 {
+    font-size: 20px;
+    line-height: 22px;
+    margin: 0;
+  }
 }

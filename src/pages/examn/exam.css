@@ -35,6 +35,7 @@
   color: #17152e;
   margin-bottom: 56px;
 }
+
 .content .all-exam {
   display: flex;
   flex-wrap: nowrap;
@@ -292,4 +293,33 @@
   .for-date
   > span.for-ranting-num {
   color: #17152e;
+}
+@media screen and (max-width: 1367px) {
+  .exam-page > h1 {
+    margin-bottom: 24px;
+    font-size: 20px;
+    line-height: 25px;
+  }
+  .content .all-exam .for-exam-list .ant-list-items .ant-list-item {
+    padding: 16px !important;
+  }
+  .content .all-exam .for-exam-list .ant-list-header {
+    padding: 14px;
+  }
+  .content.ranting-page > h1 {
+    margin-bottom: 20px !important;
+  }
+  .content.ranting-page > h3 {
+    margin: 0;
+  }
+  .content.ranting-page
+    .all-exam
+    .for-exam-list
+    .ant-list-items
+    .ant-list-item {
+    padding: 12px !important;
+  }
+  .content.ranting-page .all-exam .for-exam-list .ant-list-header {
+    padding: 12px !important;
+  }
 }
