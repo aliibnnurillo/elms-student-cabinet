@@ -11,6 +11,7 @@
 .news-page-container .news-card .ant-card-cover img {
   border-radius: 12px 12px 0 0;
   height: 250px;
+  object-fit: cover;
 }
 
 .news-page-container .news-card .ant-card-meta-detail .ant-card-meta-title {
@@ -164,6 +165,7 @@
   .news-page-container .news-card .ant-card-cover img {
     border-radius: 12px 12px 0 0;
     height: 150px !important;
+    object-fit: cover;
   }
   .news-page-container .news-card .ant-card-meta-detail .ant-card-meta-title {
     height: auto;
