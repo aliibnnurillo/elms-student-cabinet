@@ -1,9 +1,10 @@
-import CommonStore from "../../../stores/commonStore";
+import CommonStore from "../../stores/commonStore";
 import { observable, action, runInAction } from "mobx";
-import { client } from "../../../common/utils/request";
-import { CURRENT_LANG } from "../../../constants";
-import flash from "../../../stores/Flash";
+import { client } from "../../common/utils/request";
+import { CURRENT_LANG } from "../../constants";
+import flash from "../../stores/Flash";
 import moment from "moment";
+import authStore from "../../stores/auth.store";
 
 class SubjectsModel extends CommonStore {
   @observable activeSemester = {};
@@ -44,41 +45,25 @@ class SubjectsModel extends CommonStore {
     this.semesterSubjects = [];
     this.activeSemester = {};
 
-    this.fetchActiveSemester()
+    console.log(authStore.activeSemesterId);
+    client({
+      url: this.url + "/semesterSubject/" + authStore.activeSemesterId,
+    })
       .then((res) => {
-        const { data: { result } = {}, status } = res;
+        const { data, status } = res;
         if (status === 200) {
-          console.log("active sem => ", res);
+          console.log(data);
           runInAction(() => {
-            this.activeSemester =
-              Array.isArray(result.data) && result.data.length
-                ? result.data[0]
-                : {};
+            this.semesterSubjects = Array.isArray(data.result.data)
+              ? data.result.data
+              : [];
           });
-
-          client({
-            url: this.url + "/semesterSubject/" + this.activeSemester.id,
-          })
-            .then((res) => {
-              const { data, status } = res;
-              if (status === 200) {
-                console.log(data);
-                runInAction(() => {
-                  this.semesterSubjects = Array.isArray(data.result.data)
-                    ? data.result.data
-                    : [];
-                });
-                this.setState("done");
-              }
-            })
-            .catch((err) => {
-              this.setState("error");
-              flash.setFlash("error", "Error occurred!");
-            });
+          this.setState("done");
         }
       })
       .catch((err) => {
-        console.log("active semesterni olishda error => ", err);
+        this.setState("error");
+        flash.setFlash("error", "Error occurred!");
       });
   };
 
@@ -87,27 +72,27 @@ class SubjectsModel extends CommonStore {
     this.setState("pending");
     this.setSingle({});
 
-    if (!this.activeSemester.id) {
-      await this.fetchActiveSemester()
-        .then((res) => {
-          const { data: { result } = {}, status } = res;
-          if (status === 200) {
-            runInAction(() => {
-              this.activeSemester =
-                Array.isArray(result.data) && result.data.length
-                  ? result.data[0]
-                  : {};
-            });
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
+    // if (!authStore.activeSemesterId) {
+    //   await this.fetchActiveSemester()
+    //     .then((res) => {
+    //       const { data: { result } = {}, status } = res;
+    //       if (status === 200) {
+    //         runInAction(() => {
+    //           this.activeSemester =
+    //             Array.isArray(result.data) && result.data.length
+    //               ? result.data[0]
+    //               : {};
+    //         });
+    //       }
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
+    // }
 
     try {
       const response = await client.get(
-        `${this.url}/semesterSubjectPlan/${this.activeSemester.id}`,
+        `${this.url}/semesterSubjectPlan/${authStore.activeSemesterId}`,
         {
           params: {
             language: CURRENT_LANG,
@@ -146,6 +131,7 @@ class SubjectsModel extends CommonStore {
 
   @observable currentLesson = {};
   @observable resourceType = "text";
+  @observable lessonItems = [];
 
   @action
   setResourceType = (type) => {
@@ -153,25 +139,52 @@ class SubjectsModel extends CommonStore {
   };
 
   @action
-  fetchLesson = async ({ id = "" } = {}) => {
+  fetchLessonItems = async ({ semesterId, subjectId, lessonId } = {}) => {
     this.setState("pending");
-    this.currentLesson = {};
+    this.lessonItems = [];
     try {
       const response = await client.get(
-        `/syllabus/SubjectLessonItems/${this.activeSemester.id}`,
+        `/syllabus/SubjectLessonItems/${semesterId}`,
         {
           params: {
+            subject_id: subjectId,
             language: CURRENT_LANG,
-            type: this.resourceType,
+            syllabus_module_lesson_id: lessonId,
           },
         }
       );
       const { status, data } = response;
-      console.log("fetchOne => ", response);
+      console.log("fetch lesson items => ", response);
       if (status === 200) {
-        this.setSingle(
-          Array.isArray(data.result) && data.result.length ? data.result[0] : {}
-        );
+        this.lessonItems = Array.isArray(data.result.data)
+          ? data.result.data
+          : [];
+        this.setState("done");
+      }
+    } catch (error) {
+      this.setState("error");
+      flash.setFlash("error", "Error occurred!");
+    }
+  };
+
+  @action
+  fetchLessonResources = async ({ semesterId, subjectId, lessonId } = {}) => {
+    this.setState("pending");
+    // this.currentLesson = {};
+    try {
+      const response = await client.get(
+        `/syllabus/SubjectLessonResource/${semesterId}`,
+        {
+          params: {
+            subject_id: subjectId,
+            language: CURRENT_LANG,
+            syllabus_module_lesson_id: lessonId,
+          },
+        }
+      );
+      const { status, data } = response;
+      console.log("fetch lesson items => ", response);
+      if (status === 200) {
         this.setState("done");
       }
     } catch (error) {

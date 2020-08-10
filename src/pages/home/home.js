@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { HomeHeader } from "../../component/header";
-import { Card, Avatar, Row, Col, Calendar } from "antd";
+import { Card, Avatar, Row, Col, Calendar, Spin } from "antd";
 import "./home.css";
 import Meta from "antd/lib/card/Meta";
 import { Link } from "react-router-dom";
 import { PercentsIcon } from "../../component/icons";
 import moment from "moment";
 import "moment/locale/uz-latn";
+import { observer, inject } from "mobx-react";
 moment.locale("uz-latn");
 
 const data = [
@@ -51,101 +52,115 @@ function onPanelChange(value, mode) {
   console.log(value, mode);
 }
 
-const HomePage = () => {
+const HomePage = ({
+  subjects: { fetchSemesterSubjects, semesterSubjects, loading },
+}) => {
+  useEffect(() => {
+    fetchSemesterSubjects();
+    console.log("salom");
+  }, []);
+
   return (
     <>
       <HomeHeader />
+
       <div className="content home-page">
-        <div className="for-calendar">
-          <div className="site-calendar-card">
-            <Calendar
-              title="salom"
-              fullscreen={false}
-              onPanelChange={onPanelChange}
-            />
+        <Spin spinning={loading}>
+          <div className="for-calendar">
+            <div className="site-calendar-card">
+              <Calendar
+                title="salom"
+                fullscreen={false}
+                onPanelChange={onPanelChange}
+              />
+            </div>
+            <div className="site-calendar-card">
+              <Calendar
+                title="salom"
+                fullscreen={false}
+                onPanelChange={onPanelChange}
+                defaultValue={moment("2020-09-02")}
+              />
+            </div>
+            <div className="site-calendar-card">
+              <Calendar
+                title="salom"
+                fullscreen={false}
+                onPanelChange={onPanelChange}
+                defaultValue={moment("2020-10-23")}
+              />
+            </div>
+            <div className="site-calendar-card">
+              <Calendar
+                title="salom"
+                fullscreen={false}
+                onPanelChange={onPanelChange}
+                defaultValue={moment("2020-11-11")}
+              />
+            </div>
+            <div className="site-calendar-card">
+              <Calendar
+                title="salom"
+                fullscreen={false}
+                onPanelChange={onPanelChange}
+                defaultValue={moment("2020-12-22")}
+              />
+            </div>
+            <div className="site-calendar-card">
+              <Calendar
+                title="salom"
+                fullscreen={false}
+                onPanelChange={onPanelChange}
+                defaultValue={moment("2021-01-08")}
+              />
+            </div>
+            <div className="site-calendar-card">
+              <Calendar
+                title="salom"
+                fullscreen={false}
+                onPanelChange={onPanelChange}
+                defaultValue={moment("2021-02-15")}
+              />
+            </div>
           </div>
-          <div className="site-calendar-card">
-            <Calendar
-              title="salom"
-              fullscreen={false}
-              onPanelChange={onPanelChange}
-              defaultValue={moment("2020-09-02")}
-            />
+          <div className="for-subjects-block">
+            <h2>Fanlar</h2>
+            <Row gutter={[20, 14]}>
+              {semesterSubjects.map((item) => (
+                <Col
+                  span={24}
+                  key={item.id}
+                  xxl={{ span: 6 }}
+                  xl={{ span: 8 }}
+                  lg={{ span: 12 }}
+                  md={{ span: 24 }}
+                >
+                  <Card className="for-card-subjects">
+                    <Meta
+                      avatar={<Avatar size={64} src={item.file_url_photo} />}
+                      title={
+                        <Link to="">
+                          {item.subject_name ? item.subject_name : null}
+                        </Link>
+                      }
+                      description={
+                        <p>
+                          <span>Modul 4 / 9-Dars</span>
+                          <span>
+                            <PercentsIcon /> 56%
+                          </span>
+                        </p>
+                      }
+                    />
+                  </Card>
+                </Col>
+              ))}
+            </Row>
           </div>
-          <div className="site-calendar-card">
-            <Calendar
-              title="salom"
-              fullscreen={false}
-              onPanelChange={onPanelChange}
-              defaultValue={moment("2020-10-23")}
-            />
-          </div>
-          <div className="site-calendar-card">
-            <Calendar
-              title="salom"
-              fullscreen={false}
-              onPanelChange={onPanelChange}
-              defaultValue={moment("2020-11-11")}
-            />
-          </div>
-          <div className="site-calendar-card">
-            <Calendar
-              title="salom"
-              fullscreen={false}
-              onPanelChange={onPanelChange}
-              defaultValue={moment("2020-12-22")}
-            />
-          </div>
-          <div className="site-calendar-card">
-            <Calendar
-              title="salom"
-              fullscreen={false}
-              onPanelChange={onPanelChange}
-              defaultValue={moment("2021-01-08")}
-            />
-          </div>
-          <div className="site-calendar-card">
-            <Calendar
-              title="salom"
-              fullscreen={false}
-              onPanelChange={onPanelChange}
-              defaultValue={moment("2021-02-15")}
-            />
-          </div>
-        </div>
-        <div className="for-subjects-block">
-          <h2>Fanlar</h2>
-          <Row gutter={[20, 14]}>
-            {data.map((item) => (
-              <Col
-                span={24}
-                key={item.id}
-                xxl={{ span: 6 }}
-                xl={{ span: 8 }}
-                lg={{ span: 12 }}
-                md={{ span: 24 }}
-              >
-                <Card className="for-card-subjects">
-                  <Meta
-                    avatar={<Avatar size={64} src={item.imgUrl} />}
-                    title={<Link to="">{item.title}</Link>}
-                    description={
-                      <p>
-                        <span>Modul {item.modul}-Dars</span>
-                        <span>
-                          <PercentsIcon /> {item.precen}
-                        </span>
-                      </p>
-                    }
-                  />
-                </Card>
-              </Col>
-            ))}
-          </Row>
-        </div>
+        </Spin>
       </div>
     </>
   );
 };
 
-export default HomePage;
+export default inject("subjects")(observer(HomePage));

@@ -17,7 +17,8 @@ import { SendOutlined } from "@ant-design/icons";
 import StepsBlock from "./steps";
 import { SubjectsHeader } from "../../../component/header";
 import { inject, observer } from "mobx-react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory, useLocation } from "react-router-dom";
+import LessonItem from "./lessonItems";
 
 const { Link } = Anchor;
 
@@ -55,16 +56,45 @@ const Editor = ({ onChange, onSubmit, submitting, value }) => (
 );
 
 const Lesson = ({
-  subjects: { loading, fetchLesson, currentLesson, single, fetchOne },
+  subjects: {
+    loading,
+    fetchLesson,
+    currentLesson,
+    fetchLessonItems,
+    lessonItems,
+    fetchLessonResources,
+    single,
+    fetchOne,
+  },
 }) => {
   const [submitting, setSubmitting] = useState(false);
   const [comments, setComments] = useState([]);
   const [value, setValue] = useState("");
-  const aa = useParams();
+  const { semesterId, subjectId, id } = useParams();
+  const his = useHistory();
+  const { hash } = useLocation();
   useEffect(() => {
-    console.log(aa);
-    fetchOne(aa.subjectId);
+    console.log(semesterId, subjectId, hash);
+
+    fetchOne(subjectId);
   }, []);
+
+  useEffect(() => {
+    if (!hash) {
+      single &&
+        Array.isArray(single.module) &&
+        single.module.length &&
+        Array.isArray(single.module[0].lessons) &&
+        single.module[0].lessons.length &&
+        fetchLessonItems({
+          semesterId,
+          subjectId,
+          lessonId: single.module[0].lessons[0].id,
+        });
+    } else fetchLessonItems({ semesterId, subjectId, lessonId: hash.slice(1) });
+    // fetchLessonResources({ semesterId, subjectId, lessonId: hash.slice(1) });
+  }, [hash, semesterId, subjectId, fetchLessonItems, fetchLessonResources]);
+
   const handleSubmit = () => {
     if (!value) {
       return;
@@ -84,13 +114,22 @@ const Lesson = ({
             <Row gutter={20}>
               <Col span={6}>
                 <div className="task-list">
-                  <Anchor className="task-menu">
+                  <Anchor
+                    className="task-menu"
+                    onClick={(e, link) => {
+                      console.log(link);
+                    }}
+                  >
                     {Array.isArray(single.module)
-                      ? single.module.map((module, idx) => {
+                      ? single.module.map((module, idx, modules) => {
                           return (
                             <Link
                               key={idx}
-                              href={`${idx + 1}`}
+                              onClick={(e) => {
+                                e.prevendDefault();
+                                alert("ass");
+                              }}
+                              href={`#${modules[idx].lessons[0].id}`}
                               className="lesson-name"
                               title={`${idx + 1} ${
                                 module.name.length > 30
@@ -102,7 +141,7 @@ const Lesson = ({
                                 ? module.lessons.map((lesson, index) => (
                                     <Link
                                       key={lesson.id}
-                                      href={`#${idx + 1}.${index + 1}`}
+                                      href={`#${lesson.id}`}
                                       title={`${idx + 1}.${index + 1} ${
                                         module.name.length > 32
                                           ? `${module.name.substr(0, 31)}...`
@@ -119,35 +158,40 @@ const Lesson = ({
                 </div>
               </Col>
               <Col span={18}>
-                <Row>
-                  <StepsBlock />
-
-                  <Col span={18} offset={3} className="comments-list">
-                    <h3>{comments.length}-ta sharh</h3>
-                    <>
-                      <Comment
-                        avatar={
-                          <Avatar
-                            src="/assets/userimg.jpg"
-                            alt="Alisher Saidov"
-                            size={40}
-                          />
-                        }
-                        content={
-                          <Editor
-                            onChange={handleChange}
-                            onSubmit={handleSubmit}
-                            submitting={submitting}
-                            value={value}
-                          />
-                        }
-                      />
-                      {comments.length > 0 && (
-                        <CommentList comments={comments} />
-                      )}
-                    </>
-                  </Col>
-                </Row>
+                {lessonItems.length ? (
+                  <Row>
+                    <Col span={18} offset={3}>
+                      <LessonItem />
+                    </Col>
+                    <Col span={18} offset={3} className="comments-list">
+                      <h3>{comments.length}-ta sharh</h3>
+                      <>
+                        <Comment
+                          avatar={
+                            <Avatar
+                              src="/assets/userimg.jpg"
+                              alt="Alisher Saidov"
+                              size={40}
+                            />
+                          }
+                          content={
+                            <Editor
+                              onChange={handleChange}
+                              onSubmit={handleSubmit}
+                              submitting={submitting}
+                              value={value}
+                            />
+                          }
+                        />
+                        {comments.length > 0 && (
+                          <CommentList comments={comments} />
+                        )}
+                      </>
+                    </Col>
+                  </Row>
+                ) : !loading ? (
+                  <h2>Hali bu dars uchun ma'lumot yuklanmagan.</h2>
+                ) : null}
               </Col>
             </Row>
           </Spin>
