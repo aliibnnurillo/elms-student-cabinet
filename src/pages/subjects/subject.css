@@ -652,6 +652,7 @@
   .line {
     margin: 20px 0;
   }
+
   .tasks .for-button .button_next {
     height: 45px;
   }
@@ -664,5 +665,16 @@
     font-size: 20px;
     line-height: 22px;
     margin: 0;
+  }
+  .subject_page .card .ant-card-body {
+    padding: 15px;
+  }
+  .subject_page .card .ant-card-body .card-header {
+    margin-bottom: 10px;
+  }
+  .subject_page .card .ant-card-body > p {
+    margin-bottom: 8px;
+    font-size: 14px;
+    height: 65px;
   }
 }

@@ -26,40 +26,43 @@ const data = [
     description: "AA5237421",
   },
   {
-    title: "Telefon raqami",
-    description: "+998 99 042 51 84",
-    icon: <EditFilled />,
-    for: "phone",
-  },
-  {
     title: "F.I.O",
     description: "Berdiyev Jamshidbek Dilshod o’g’li",
-  },
-  {
-    title: "Email",
-    description: "berdiyev.j.1999@gmail.com",
-    icon: <EditFilled />,
-    for: "email",
   },
   {
     title: "Tug’ilgan sanasi",
     description: "12.04.1999",
   },
   {
-    title: "Turar joyi",
-    description: "Toshkent shaxar, Chilonzor tumani, 7 daha, 5 uy, 22 kv",
-  },
-  {
     title: "Jinsi",
     description: "Erkak",
   },
   {
-    title: "Fuqarolik",
-    description: "O’zbekiston Respublikasi",
-  },
-  {
     title: "Millati",
     description: "O’zbek",
+  },
+  {
+    title: "Telefon raqami",
+    description: "+998 99 042 51 84",
+    icon: <EditFilled />,
+    for: "phone",
+  },
+
+  {
+    title: "Email",
+    description: "berdiyev.j.1999@gmail.com",
+    icon: <EditFilled />,
+    for: "email",
+  },
+
+  {
+    title: "Turar joyi",
+    description: "Toshkent shaxar, Chilonzor tumani, 7 daha, 5 uy, 22 kv",
+  },
+
+  {
+    title: "Fuqarolik",
+    description: "O’zbekiston Respublikasi",
   },
 ];
 
@@ -95,13 +98,14 @@ const ProfilePage = () => {
               rules={[{ required: true, message: "Please input your Email!" }]}
             >
               <Input
+                size="large"
                 prefix={<MailOutlined className="site-form-item-icon" />}
                 placeholder="Enter new email"
                 defaultValue="defelop@gmail.com"
               />
             </Form.Item>
             <Form.Item>
-              <Button className="button-submit" type="submit">
+              <Button size="large" className="button-submit" type="submit">
                 Yangilash
               </Button>
             </Form.Item>
@@ -135,13 +139,14 @@ const ProfilePage = () => {
               ]}
             >
               <Input
+                size="large"
                 prefix={<MobileOutlined className="site-form-item-icon" />}
                 placeholder="Enter new phone number"
                 defaultValue="+998 90 354 26 67"
               />
             </Form.Item>
             <Form.Item>
-              <Button className="button-submit" type="submit">
+              <Button size="large" className="button-submit" type="submit">
                 Yangilash
               </Button>
             </Form.Item>
@@ -159,6 +164,7 @@ const ProfilePage = () => {
     return (
       <>
         <Button
+          size="large"
           className="for-password-modal-button"
           type="primary"
           onClick={() => setModalPasswordVisible(true)}
@@ -180,6 +186,7 @@ const ProfilePage = () => {
               rules={[{ required: true, message: "Please enter Password" }]}
             >
               <Input
+                size="large"
                 prefix={<LockOutlined className="site-form-item-icon" />}
                 placeholder="Eski parol"
                 type="password"
@@ -192,13 +199,14 @@ const ProfilePage = () => {
               ]}
             >
               <Input
+                size="large"
                 prefix={<LockOutlined className="site-form-item-icon" />}
                 placeholder="Yangi parol"
                 type="password"
               />
             </Form.Item>
             <Form.Item>
-              <Button className="button-submit" type="submit">
+              <Button size="large" className="button-submit" type="submit">
                 Yangilash
               </Button>
             </Form.Item>
@@ -226,9 +234,9 @@ const ProfilePage = () => {
             </span>
           </Col>
           <Col span={16}>
-            <Row gutter={[30, 15]}>
+            <div className="form-container">
               {data.map((item) => (
-                <Col span={12}>
+                <div className="form-card">
                   <List itemLayout="horizontal" className="lists">
                     <List.Item>
                       <List.Item.Meta
@@ -247,9 +255,9 @@ const ProfilePage = () => {
                       />
                     </List.Item>
                   </List>
-                </Col>
+                </div>
               ))}
-            </Row>
+            </div>
           </Col>
         </Row>
       </div>

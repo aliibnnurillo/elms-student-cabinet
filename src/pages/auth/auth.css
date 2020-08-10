@@ -14,12 +14,14 @@
   height: 100vh;
   background-image: url("./art.png");
   background-repeat: no-repeat;
-  background-size: 95%;
+  background-size: 90%;
   box-sizing: border-box;
   background-position: 95% 49%;
 }
 .auth .auth-left {
-  padding: 56px 70px !important;
+  padding: 0 70px !important;
+  display: flex;
+  align-items: center;
 }
 .auth .auth-left .login-form {
   top: 50%;
@@ -148,6 +150,7 @@
   border: none;
   font-weight: bold;
 }
+
 .avatar-uploader > .ant-upload {
   width: 128px;
   height: 128px;
@@ -219,4 +222,12 @@
   color: #5767f6;
   margin-top: 24px;
   display: block;
+}
+@media screen and (max-width: 1367px) {
+  .auth .login-form .login-form-button {
+    height: 40px;
+  }
+  .auth .login-form .ant-input-affix-wrapper {
+    height: 45px;
+  }
 }

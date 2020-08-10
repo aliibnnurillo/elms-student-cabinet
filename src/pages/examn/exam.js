@@ -191,7 +191,7 @@ const Exam = () => {
                       <>
                         <List.Item>
                           <Link className="for-subject-name">
-                            {subjects.name}
+                            <span>{subjects.name}</span>
                           </Link>
                           <span className={ClassName(subjects.starNumber)}>
                             <span>
