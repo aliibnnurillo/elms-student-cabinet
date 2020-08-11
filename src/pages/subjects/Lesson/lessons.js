@@ -129,7 +129,7 @@ const Lesson = ({
                                 e.prevendDefault();
                                 alert("ass");
                               }}
-                              href={`#${modules[idx].lessons[0].id}`}
+                              href={`##${modules[idx].lessons[0].id}`}
                               className="lesson-name"
                               title={`${idx + 1} ${
                                 module.name.length > 30

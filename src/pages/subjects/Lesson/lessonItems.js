@@ -3,6 +3,7 @@ import { Tabs } from "antd";
 import PropTypes from "prop-types";
 import { observer, inject } from "mobx-react";
 import { Player } from "video-react";
+import "./lesson.css";
 
 import {
   FileTextFilled,
