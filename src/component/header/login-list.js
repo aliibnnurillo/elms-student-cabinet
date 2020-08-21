@@ -8,13 +8,17 @@ import {
 } from "@ant-design/icons";
 import { inject, observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
+import { getUser, isExistUser } from "../../common/utils/utils";
 
-const LoginList = ({ imgUrl, authStore: { logout }, history }) => {
+const LoginList = ({ authStore: { logout, user }, history }) => {
   const onLogout = (e) => {
     e.preventDefault();
     logout();
     history.push("/user/login");
   };
+
+  const currentUser = user || isExistUser() ? getUser() : {};
+
   const [t] = useTranslation();
   return (
     <Popover
@@ -45,7 +49,24 @@ const LoginList = ({ imgUrl, authStore: { logout }, history }) => {
       trigger="click"
       overlayClassName="loginList-class"
     >
-      <Avatar className="img-avatars user-icon" size={40} src={imgUrl} />
+      {currentUser.photo ? (
+        <Avatar
+          size={40}
+          className="img-avatars user-icon"
+          src={currentUser.photo}
+          alt="avatar"
+        />
+      ) : (
+        <Avatar
+          size={40}
+          className="img-avatars user-icon"
+          style={{
+            background:
+              "#" +
+              ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, "0"),
+          }}
+        />
+      )}
     </Popover>
   );
 };

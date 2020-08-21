@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ProfileHeader } from "../../component/header";
 import {
   Row,
@@ -19,11 +19,31 @@ import {
   LockOutlined,
 } from "@ant-design/icons";
 import "./profile.css";
+import OperationForm from "./form";
+import { observer, inject } from "mobx-react";
+import { object } from "prop-types";
+import { isExistUser, getUser } from "../../common/utils/utils";
 
 const data = [
   {
     title: "Passport raqami",
     description: "AA5237421",
+  },
+  {
+    title: "F.I.O",
+    description: "Berdiyev Jamshidbek Dilshod o’g’li",
+  },
+  {
+    title: "Tug’ilgan sanasi",
+    description: "12.04.1999",
+  },
+  {
+    title: "Jinsi",
+    description: "Erkak",
+  },
+  {
+    title: "Millati",
+    description: "O’zbek",
   },
   {
     title: "Telefon raqami",
@@ -32,47 +52,49 @@ const data = [
     for: "phone",
   },
   {
-    title: "F.I.O",
-    description: "Berdiyev Jamshidbek Dilshod o’g’li",
-  },
-  {
     title: "Email",
     description: "berdiyev.j.1999@gmail.com",
     icon: <EditFilled />,
     for: "email",
   },
   {
-    title: "Tug’ilgan sanasi",
-    description: "12.04.1999",
-  },
-  {
     title: "Turar joyi",
     description: "Toshkent shaxar, Chilonzor tumani, 7 daha, 5 uy, 22 kv",
   },
-  {
-    title: "Jinsi",
-    description: "Erkak",
-  },
+
   {
     title: "Fuqarolik",
     description: "O’zbekiston Respublikasi",
   },
-  {
-    title: "Millati",
-    description: "O’zbek",
-  },
 ];
 
-const ProfilePage = () => {
+function ProfilePage(props) {
   const [visiblePhone, setVisiblePhone] = useState(false);
   const [visibleEmail, setVisibleEmail] = useState(false);
   const [visiblePassword, setVisiblePassword] = useState(false);
+  const {
+    profile: {
+      isLoading,
+      credentials = {},
+      changeEmail,
+      changePassword,
+      uploadAvatar,
+      changeUsername,
+    },
+  } = props;
+
+  const currentUser = isExistUser() ? getUser() : {};
+  console.log(currentUser);
 
   const setModalEmailVisible = (visibleEmail) => {
     setVisibleEmail(visibleEmail);
   };
   const setModalPhoneVisible = (visiblePhone) => {
     setVisiblePhone(visiblePhone);
+  };
+
+  const finishChangeEmail = (values) => {
+    changeEmail(values).then(() => {});
   };
 
   const modal_email = (icons) => {
@@ -89,7 +111,7 @@ const ProfilePage = () => {
           onCancel={() => setModalEmailVisible(false)}
           className="modal-for-edit"
         >
-          <Form form={form} layout="vertical" name="userForm">
+          <Form layout="vertical" name="userForm" onFinish={finishChangeEmail}>
             <Form.Item
               name="email"
               rules={[{ required: true, message: "Please input your Email!" }]}
@@ -97,11 +119,10 @@ const ProfilePage = () => {
               <Input
                 prefix={<MailOutlined className="site-form-item-icon" />}
                 placeholder="Enter new email"
-                defaultValue="defelop@gmail.com"
               />
             </Form.Item>
             <Form.Item>
-              <Button className="button-submit" type="submit">
+              <Button htmlType="submit" className="button-submit">
                 Yangilash
               </Button>
             </Form.Item>
@@ -109,6 +130,10 @@ const ProfilePage = () => {
         </Modal>
       </>
     );
+  };
+
+  const finishChangeUsername = (values) => {
+    changeUsername(values).then(() => {});
   };
 
   const modal_phone = (icons) => {
@@ -127,7 +152,12 @@ const ProfilePage = () => {
           onCancel={() => setModalPhoneVisible(false)}
           className="modal-for-edit"
         >
-          <Form form={form} layout="vertical" name="userForm">
+          <Form
+            form={form}
+            layout="vertical"
+            name="userForm"
+            onFinish={finishChangeUsername}
+          >
             <Form.Item
               name="phone"
               rules={[
@@ -137,11 +167,11 @@ const ProfilePage = () => {
               <Input
                 prefix={<MobileOutlined className="site-form-item-icon" />}
                 placeholder="Enter new phone number"
-                defaultValue="+998 90 354 26 67"
+                defaultValue={currentUser.username}
               />
             </Form.Item>
             <Form.Item>
-              <Button className="button-submit" type="submit">
+              <Button className="button-submit" htmlType="submit">
                 Yangilash
               </Button>
             </Form.Item>
@@ -153,6 +183,10 @@ const ProfilePage = () => {
   const setModalPasswordVisible = (visiblePassword) => {
     setVisiblePassword(visiblePassword);
   };
+  const finishChangePassword = (values) => {
+    changePassword(values).then(() => {});
+  };
+
   const modal_password = () => {
     const [form] = Form.useForm();
 
@@ -174,19 +208,25 @@ const ProfilePage = () => {
           onCancel={() => setModalPasswordVisible(false)}
           className="modal-for-edit"
         >
-          <Form form={form} layout="vertical" name="userForm">
+          <Form
+            form={form}
+            layout="vertical"
+            name="userForm"
+            onFinish={finishChangePassword}
+          >
             <Form.Item
-              name="old-password"
-              rules={[{ required: true, message: "Please enter Password" }]}
+              name="email"
+              rules={[{ required: true, message: "Please input your Email!" }]}
             >
               <Input
-                prefix={<LockOutlined className="site-form-item-icon" />}
-                placeholder="Eski parol"
-                type="password"
+                prefix={<MailOutlined className="site-form-item-icon" />}
+                placeholder="Enter new email"
+                defaultValue={currentUser.email}
               />
             </Form.Item>
+
             <Form.Item
-              name="new-password"
+              name="password"
               rules={[
                 { required: true, message: "Please input your Password!" },
               ]}
@@ -198,7 +238,7 @@ const ProfilePage = () => {
               />
             </Form.Item>
             <Form.Item>
-              <Button className="button-submit" type="submit">
+              <Button className="button-submit" htmlType="submit">
                 Yangilash
               </Button>
             </Form.Item>
@@ -215,20 +255,13 @@ const ProfilePage = () => {
         <Row className="profil_row" gutter={[24, 40]}>
           <Col span={16} className="forAvatars">
             <span>
-              <Avatar
-                className="img-avatars user-icon"
-                size={100}
-                src="/assets/userimg.jpg"
-              />
-              <span className="for-avatar-icon">
-                <CameraFilled />
-              </span>
+              <OperationForm onUploadFinish={uploadAvatar} />
             </span>
           </Col>
           <Col span={16}>
-            <Row gutter={[30, 15]}>
+            <div className="all-list">
               {data.map((item) => (
-                <Col span={12}>
+                <div>
                   <List itemLayout="horizontal" className="lists">
                     <List.Item>
                       <List.Item.Meta
@@ -247,14 +280,18 @@ const ProfilePage = () => {
                       />
                     </List.Item>
                   </List>
-                </Col>
+                </div>
               ))}
-            </Row>
+            </div>
           </Col>
         </Row>
       </div>
     </>
   );
+}
+
+ProfilePage.propTypes = {
+  frofile: object,
 };
 
-export default ProfilePage;
+export default inject("profile")(observer(ProfilePage));
