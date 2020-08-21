@@ -137,6 +137,7 @@
   color: #5767f6;
   display: flex;
   align-items: center;
+  margin-bottom: 5px;
 }
 .home-page
   .for-subjects-block
@@ -162,4 +163,26 @@
   svg {
   margin-right: 6px;
   margin-left: 16px;
+}
+@media screen and (max-width: 1367px) {
+  .home-page .for-subjects-block > h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+  .home-page .for-subjects-block {
+    margin-top: 20px;
+  }
+  .home-page .for-subjects-block .for-card-subjects .ant-card-body {
+    padding: 14px;
+  }
+  .home-page
+    .for-subjects-block
+    .for-card-subjects
+    .ant-card-body
+    .ant-card-meta-avatar
+    .ant-avatar.ant-avatar-circle {
+    width: 50px !important;
+    height: 50px !important;
+  }
 }

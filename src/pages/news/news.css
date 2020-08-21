@@ -170,6 +170,7 @@
   .news-page-container .news-card .ant-card-meta-detail .ant-card-meta-title {
     height: auto;
     white-space: nowrap;
+    text-overflow: ellipsis;
   }
   .news-page-container .news-card .ant-card-meta-detail .ant-card-meta-title a {
     font-size: 14px;

@@ -118,6 +118,10 @@
   font-weight: 600;
   font-size: 14px;
   line-height: 19px;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  white-space: nowrap;
 }
 .content
   .all-exam
@@ -296,9 +300,14 @@
 }
 @media screen and (max-width: 1367px) {
   .exam-page > h1 {
-    margin-bottom: 24px;
-    font-size: 20px;
+    margin-bottom: 10px;
+    font-size: 16px;
     line-height: 25px;
+  }
+  .exam-page > h3 {
+    font-size: 12px;
+    margin: 0;
+    line-height: 14px;
   }
   .content .all-exam .for-exam-list .ant-list-items .ant-list-item {
     padding: 16px !important;
@@ -307,10 +316,13 @@
     padding: 14px;
   }
   .content.ranting-page > h1 {
-    margin-bottom: 20px !important;
+    margin-bottom: 10px;
   }
   .content.ranting-page > h3 {
     margin: 0;
+  }
+  .content .all-exam .for-course-number {
+    font-size: 14px;
   }
   .content.ranting-page
     .all-exam
@@ -321,5 +333,18 @@
   }
   .content.ranting-page .all-exam .for-exam-list .ant-list-header {
     padding: 12px !important;
+  }
+  .content
+    .all-exam
+    .for-exam-list
+    .ant-list.ant-list-lg.ant-list-split.ant-list-bordered,
+  .content.ranting-page
+    .all-exam
+    .for-exam-list
+    .ant-list.ant-list-lg.ant-list-split.ant-list-bordered {
+    width: 380px;
+  }
+  .content .all-exam .for-exam-list .ant-list-header .smest-name h4 {
+    font-size: 16px;
   }
 }

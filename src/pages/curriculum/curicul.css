@@ -39,6 +39,7 @@
   font-weight: bold;
   font-size: 18px;
   align-items: center;
+  margin: 0;
   line-height: 25px;
 }
 .curicul-page .all-exam .curicul-list .ant-list-header p span:last-child {
@@ -94,6 +95,9 @@
   .curicul-page .all-exam .curicul-list .ant-list-header {
     margin: 0;
   }
+  .curicul-page .all-exam .curicul-list .ant-list-header p > span {
+    font-size: 15px;
+  }
   .curicul-page
     .all-exam
     .curicul-list
@@ -113,5 +117,12 @@
   }
   .curicul-page .all-exam .curicul-list .ant-list-item span:last-child {
     padding: 0;
+  }
+  .curicul-page .all-exam .ant-list.curicul-list.ant-list-lg.ant-list-split {
+    width: 400px;
+  }
+  .curicul-page .all-exam div > h4 {
+    font-size: 14px;
+    margin-bottom: 10px;
   }
 }
