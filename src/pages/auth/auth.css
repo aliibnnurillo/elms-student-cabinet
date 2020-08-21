@@ -24,9 +24,13 @@
   align-items: center;
 }
 .auth .auth-left .login-form {
-  top: 50%;
-  position: relative;
-  transform: translateY(-100%);
+  flex: 1;
+}
+
+.forgot-pass {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .empty-page {
