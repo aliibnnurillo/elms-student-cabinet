@@ -45,7 +45,6 @@ class ProfileModel extends CommonStore {
         url: "/profile/change-password",
         data: {
           password: credentials.password,
-          email: credentials.email,
         },
       });
       if (response.status === 200) {
@@ -66,7 +65,6 @@ class ProfileModel extends CommonStore {
         url: "/profile/change-email",
         data: {
           email: credentials.email,
-          username: credentials.username,
         },
       });
       if (response.status === 200) {
