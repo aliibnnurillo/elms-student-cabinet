@@ -170,6 +170,7 @@ function ProfilePage(props) {
               rules={[{ required: true, message: "Please input your Email!" }]}
             >
               <Input
+                size="large"
                 prefix={<MailOutlined className="site-form-item-icon" />}
                 placeholder="Enter new email"
               />

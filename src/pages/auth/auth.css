@@ -14,18 +14,24 @@
   height: 100vh;
   background-image: url("./art.png");
   background-repeat: no-repeat;
-  background-size: 95%;
+  background-size: 90%;
   box-sizing: border-box;
   background-position: 95% 49%;
 }
 
 .auth .auth-left {
-  padding: 56px 70px !important;
+  padding: 0 70px !important;
+  display: flex;
+  align-items: center;
 }
 .auth .auth-left .login-form {
-  top: 50%;
-  position: relative;
-  transform: translateY(-100%);
+  flex: 1;
+}
+
+.forgot-pass {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .empty-page {
@@ -149,6 +155,7 @@
   border: none;
   font-weight: bold;
 }
+
 .avatar-uploader > .ant-upload {
   width: 128px;
   height: 128px;
