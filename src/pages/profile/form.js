@@ -71,17 +71,24 @@ const OperationForm = ({ onUploadFinish = () => null, form }) => {
     },
   };
 
-  const uploadButton = <div>{<CameraFilled />}</div>;
+  const uploadButtonOne = (
+    <div>
+      <CameraFilled />
+    </div>
+  );
+  const uploadButtonTwo = (
+    <div>{loading ? <LoadingOutlined /> : <CameraFilled />}</div>
+  );
 
   return (
     <Upload {...uploadProps}>
       {photo ? (
         <>
           <img src={photo} alt="avatar" style={{ width: "100%" }} />
-          {uploadButton}
+          {uploadButtonOne}
         </>
       ) : (
-        uploadButton
+        uploadButtonTwo
       )}
     </Upload>
   );

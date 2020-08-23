@@ -1,17 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { ProfileHeader } from "../../component/header";
-import {
-  Row,
-  Col,
-  List,
-  Avatar,
-  Modal,
-  Button,
-  InputNumber,
-  Form,
-  Input,
-  message,
-} from "antd";
+import { Row, Col, List, Modal, Button, Form, Input } from "antd";
 import {
   EditFilled,
   MailOutlined,
@@ -82,16 +71,8 @@ function ProfilePage(props) {
   const [visibleUsername, setVisibleUsername] = useState(false);
   const [visiblePassword, setVisiblePassword] = useState(false);
   const {
-    profile: {
-      isLoading,
-      credentials = {},
-      changeEmail,
-      changePassword,
-      uploadAvatar,
-      changeUsername,
-    },
+    profile: { changeEmail, changePassword, uploadAvatar, changeUsername },
   } = props;
-  const [t] = useTranslation();
   const currentUser = isExistUser() ? getUser() : {};
   console.log(currentUser);
 

@@ -8,7 +8,7 @@ const ForgotPassword = () => {
   return (
     <div className="auth  empty-page">
       <Row gutter={40}>
-        <Col span={7} className="auth-left">
+        <Col span={24} sm={{ span: 12 }} lg={{ span: 7 }} className="auth-left">
           <Avatar src="/assets/userimg.jpg" alt="Alisher Saidov" size={112} />
 
           <Form name="normal_login" className="login-form">
@@ -33,7 +33,12 @@ const ForgotPassword = () => {
             </Form.Item>
           </Form>
         </Col>
-        <Col span={17} className="auth-right"></Col>
+        <Col
+          span={24}
+          sm={{ span: 24 }}
+          lg={{ span: 17 }}
+          className="auth-right"
+        ></Col>
       </Row>
     </div>
   );

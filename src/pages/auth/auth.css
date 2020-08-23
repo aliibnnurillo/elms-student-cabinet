@@ -18,6 +18,7 @@
   box-sizing: border-box;
   background-position: 95% 49%;
 }
+
 .auth .auth-left {
   padding: 56px 70px !important;
 }
@@ -66,7 +67,7 @@
 .auth .login-form .login-form-button {
   background: #22c864;
   border-radius: 6px;
-  height: 48px;
+  height: 45px;
   color: #ffffff;
   font-weight: bold;
   font-size: 16px;
@@ -121,7 +122,7 @@
 }
 .enter-email .new-email .login-form .ant-input-affix-wrapper {
   background: #f3f4ff;
-  height: 52px;
+  height: 45px;
   color: #5767f6;
   font-size: 22px;
   border-radius: 12px;
@@ -142,7 +143,7 @@
   background: #22c864;
   border-radius: 6px;
   color: #fff;
-  height: 50px;
+  height: 45px;
   font-size: 16px;
   line-height: 200%;
   border: none;
@@ -178,6 +179,13 @@
   position: relative;
   border-radius: 300px;
   padding: 0;
+}
+.upload
+  .avatar-uploader.ant-upload-picture-card-wrapper
+  .ant-upload.ant-upload-select.ant-upload-select-picture-card
+  .ant-upload
+  img {
+  border-radius: 50%;
 }
 .upload
   .avatar-uploader.ant-upload-picture-card-wrapper
@@ -219,4 +227,35 @@
   color: #5767f6;
   margin-top: 24px;
   display: block;
+}
+.authempty-page {
+  background-color: #fff !important;
+  height: 100vh;
+  position: relative;
+  z-index: 999;
+}
+.authempty-page > .ant-row {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.authempty-page > .ant-row .login-form {
+  margin-top: 50px;
+}
+
+@media screen and (max-width: 992px) {
+  .auth .auth-right {
+    position: absolute;
+    z-index: -1;
+    background-size: 100%;
+    background-position: 100% 100%;
+  }
+  .auth .auth-left {
+    position: relative;
+    height: 100vh;
+    padding: 50px !important;
+  }
+  .authempty-page > .ant-row {
+    margin: 0;
+  }
 }

@@ -2,14 +2,20 @@ import React from "react";
 import { Form, Avatar, Input, Row, Col, Button } from "antd";
 import { LockOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
-
+import "./auth.css";
 const CreatePassword = () => {
   const [t] = useTranslation();
   return (
     <div>
-      <div className="authempty-page">
+      <div className="auth  authempty-page">
         <Row gutter={40}>
-          <Col span={7} className="auth-left">
+          <Col
+            span={24}
+            sm={{ span: 12 }}
+            md={{ span: 12 }}
+            lg={{ span: 9 }}
+            className="auth-left"
+          >
             <Avatar src="/assets/userimg.jpg" alt="Alisher Saidov" size={112} />
 
             <Form name="normal_login" className="login-form">
@@ -34,7 +40,7 @@ const CreatePassword = () => {
               </Form.Item>
             </Form>
           </Col>
-          <Col span={17} className="auth-right"></Col>
+          <Col sm={{ span: 24 }} lg={{ span: 15 }} className="auth-right"></Col>
         </Row>
       </div>
     </div>
