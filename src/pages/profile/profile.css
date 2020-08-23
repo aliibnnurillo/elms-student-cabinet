@@ -252,14 +252,104 @@
   font-size: 15px;
   font-weight: 900;
 }
-.form-container {
-  /* columns: 340px 340px; */
-  column-gap: 40px;
-  column-width: 250px;
-  column-count: 2;
+.content.profile_page
+  .forAvatars
+  .avatar-uploader.ant-upload-picture-card-wrapper
+  div.ant-upload {
+  margin: 0;
+  position: relative;
+  border-radius: 50%;
+  z-index: 999;
 }
-.form-card {
-  display: inline-block;
-  margin-bottom: 20px;
+.content.profile_page
+  .forAvatars
+  .avatar-uploader.ant-upload-picture-card-wrapper
+  div.ant-upload::after {
+  content: "";
+  position: absolute;
+  top: -8px;
+  bottom: -8px;
+  right: -8px;
+  left: -8px;
+  background-image: linear-gradient(
+    to bottom left,
+    #d53a9d 0%,
+    #743ad5 100%
+  ) !important;
+  display: block !important;
+  border-radius: 50%;
+  z-index: 1;
+}
+.content.profile_page
+  .forAvatars
+  .avatar-uploader.ant-upload-picture-card-wrapper
+  div.ant-upload::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  bottom: -5px;
+  right: -5px;
+  left: -5px;
+  background-color: #fff;
+  z-index: 2;
+  border-radius: 50%;
+}
+.content.profile_page
+  .forAvatars
+  .avatar-uploader.ant-upload-picture-card-wrapper
+  div.ant-upload
+  .ant-upload {
+  position: relative;
+  z-index: 99;
+  display: flex;
+  padding: 0px;
+  background-color: #edf;
+  border-radius: 50%;
+  border: none;
+}
+.content.profile_page
+  .forAvatars
+  .avatar-uploader.ant-upload-picture-card-wrapper
+  div.ant-upload
+  .ant-upload
+  img {
+  border-radius: 50%;
+}
+.content.profile_page
+  .forAvatars
+  .avatar-uploader.ant-upload-picture-card-wrapper
+  div.ant-upload
+  .ant-upload
+  div {
+  position: absolute;
+  bottom: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  background: #5767f6;
+  width: 30px;
+  height: 30px;
+  color: #fff;
+  border-radius: 50%;
+}
+
+.all-list {
+  column-fill: auto;
+  column-width: 300px;
+  -moz-column-count: 2;
+  -webkit-column-count: 2;
+  grid-template-rows: auto;
+  column-count: 2;
+  -moz-column-gap: 32px;
+  -webkit-column-gap: 32px;
+  column-gap: 32px;
+}
+.all-list > div {
+  overflow-x: hidden;
   width: 100%;
+  padding: 10px;
+  display: inline-table;
 }

@@ -15,7 +15,12 @@ const EnterNewEmails = ({ authStore: { saveNewEmail }, history }) => {
   return (
     <div className="empty-page enter-email">
       <Row>
-        <Col span={6} offset={9}>
+        <Col
+          span={20}
+          offset={2}
+          sm={{ span: 12, offset: 6 }}
+          lg={{ span: 8, offset: 8 }}
+        >
           <div className="new-email">
             <div className="icons">
               <MailOutlined />

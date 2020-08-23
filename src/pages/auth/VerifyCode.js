@@ -15,7 +15,12 @@ const VerifyCode = ({ authStore: { verifyCode }, history }) => {
   return (
     <div className="enter-email empty-page">
       <Row>
-        <Col span={6} offset={9}>
+        <Col
+          span={20}
+          offset={2}
+          sm={{ span: 12, offset: 6 }}
+          lg={{ span: 8, offset: 8 }}
+        >
           <div className="new-email">
             <div className="icons">
               <LockOutlined />

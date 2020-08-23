@@ -1,12 +1,12 @@
 import React from "react";
-import { Row, Col, Avatar, Form, Input, Button, Spin } from "antd";
+import { Row, Col, Form, Input, Button, Spin } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import "./auth.css";
 import { Link } from "react-router-dom";
 import { inject, observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 
-const Login = ({ authStore: { login, getProfileInfo, loading }, history }) => {
+const Login = ({ authStore: { login, loading }, history }) => {
   const onFinish = (values) => {
     login(values).then((res) => {
       if (res.status !== 200) return;
@@ -22,7 +22,13 @@ const Login = ({ authStore: { login, getProfileInfo, loading }, history }) => {
     <div className="auth empty-page">
       <Spin spinning={loading}>
         <Row gutter={40}>
-          <Col span={8} className="auth-left">
+          <Col
+            span={24}
+            sm={{ span: 18 }}
+            md={{ span: 12 }}
+            lg={{ span: 8 }}
+            className="auth-left"
+          >
             <Form
               name="normal_login"
               className="login-form"
@@ -70,7 +76,12 @@ const Login = ({ authStore: { login, getProfileInfo, loading }, history }) => {
               </Form.Item>
             </Form>
           </Col>
-          <Col span={16} className="auth-right"></Col>
+          <Col
+            span={24}
+            sm={{ span: 24 }}
+            lg={{ span: 16 }}
+            className="auth-right"
+          ></Col>
         </Row>
       </Spin>
     </div>
