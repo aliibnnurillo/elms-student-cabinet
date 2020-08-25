@@ -14,7 +14,15 @@ const ForgotPassword = () => {
           </div>
           <Form name="normal_login" className="login-form">
             <h1>{t("Parolni qayta tiklash")}</h1>
-            <Form.Item name="username">
+            <Form.Item
+              name="username"
+              rules={[
+                {
+                  required: true,
+                  message: t("Field is required!"),
+                },
+              ]}
+            >
               <Input
                 prefix={<UserOutlined className="site-form-item-icon" />}
                 placeholder={t("Login yoki email")}

@@ -36,6 +36,9 @@ const EnterNewPassword = ({ authStore: { saveNewPassword }, history }) => {
                 rules={[
                   {
                     required: true,
+                    message: t("Password is required!"),
+                  },
+                  {
                     min: 8,
                     message: t(
                       "Password length must be more than 8 characters!"

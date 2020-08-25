@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { Upload } from "antd";
 import { API_URL } from "../../../constants";
 import { LoadingOutlined, CameraFilled } from "@ant-design/icons";
-import { beforeUpload, getBase64 } from "../../../common/utils/utils";
+import { beforeUpload } from "../../../common/utils/utils";
 import { uploadFileToServer } from "../../../common/services/common";
 import { useTranslation } from "react-i18next";
 import { UserIcon } from "../../../component/icons";
 
-const OperationForm = ({ onUpload = () => null, form }) => {
+const OperationForm = ({ setProfileImg = () => null }) => {
   const [t] = useTranslation();
 
   const [loading, setLoading] = useState(false);
@@ -27,12 +27,10 @@ const OperationForm = ({ onUpload = () => null, form }) => {
     },
     multiple: false,
     onSuccess(ret, file) {
-      getBase64(file, (imageUrl) => {
-        setPhoto(imageUrl);
-        setLoading(false);
-      });
       if (Array.isArray(ret) && ret.length) {
-        onUpload({ profile_img: ret[0].id });
+        setPhoto(ret[0].file_url);
+        setLoading(false);
+        setProfileImg(ret[0].id);
       }
     },
     onError(err) {
