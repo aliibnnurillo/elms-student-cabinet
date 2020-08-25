@@ -289,12 +289,17 @@ function ProfilePage(props) {
       <div className="content profile_page">
         {modal_password()}
         <Row className="profil_row" gutter={[24, 40]}>
-          <Col span={16} className="forAvatars">
+          <Col
+            span={24}
+            sm={{ span: 24 }}
+            md={{ span: 16 }}
+            className="forAvatars"
+          >
             <span>
               <OperationForm onUploadFinish={uploadAvatar} />
             </span>
           </Col>
-          <Col span={16}>
+          <Col span={24} sm={{ span: 24 }} md={{ span: 16 }}>
             <div className="all-list">
               {data.map((item) => (
                 <div>
@@ -331,7 +336,7 @@ function ProfilePage(props) {
 }
 
 ProfilePage.propTypes = {
-  frofile: object,
+  profile: object,
 };
 
 export default inject("profile")(observer(ProfilePage));

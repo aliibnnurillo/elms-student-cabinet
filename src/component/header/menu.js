@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Menu, Avatar } from "antd";
+import { Menu, Avatar, Button } from "antd";
 import {
   HomeOutlined,
   BankOutlined,
@@ -7,9 +7,10 @@ import {
   ProfileOutlined,
   BookOutlined,
   ReadOutlined,
+  MenuOutlined,
 } from "@ant-design/icons";
 import "./menu.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { ACTIVE_MENU_KEY } from "../../constants";
 import { observer, inject } from "mobx-react";
@@ -20,18 +21,31 @@ const LeftMenu = ({ authStore: { activeSemesterId } }) => {
       ? [localStorage.getItem(ACTIVE_MENU_KEY)]
       : []
   );
+  const [visiable, setVisiable] = useState(false);
 
   const handleSelect = ({ key }) => {
     setSelectedKey(key);
     localStorage.setItem(ACTIVE_MENU_KEY, key);
   };
+  const handleClick = (e) => {
+    e.preventDefault();
+    setVisiable(!visiable);
+  };
 
   const [t] = useTranslation();
+
   return (
     <div className="menu-container">
-      <Avatar size={64} src="/assets/logo.png" className="avatars" />
+      <span className="menu-top">
+        <Link to="/">
+          <Avatar size={64} src="/assets/logo.png" className="avatars" />
+        </Link>
+        <Button className="btn Menu_Button" onClick={handleClick}>
+          <MenuOutlined />
+        </Button>
+      </span>
       <Menu
-        className="left-menu"
+        className={`left-menu ${visiable ? "" : "menu_show"}`}
         selectedKeys={selectedKey}
         mode="inline"
         onSelect={handleSelect}

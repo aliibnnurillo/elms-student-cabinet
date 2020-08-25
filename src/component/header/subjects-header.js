@@ -33,7 +33,7 @@ const SubjectsHeader = ({
         </Breadcrumb>
       </PageHeader>
       {pathname.endsWith("/subjects") ? (
-        <div>
+        <div className="">
           {activeSemester.id ? (
             <CSelect options={semesters} defaultValue={activeSemester.id} />
           ) : null}
