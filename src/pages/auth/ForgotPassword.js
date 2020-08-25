@@ -11,28 +11,27 @@ const ForgotPassword = () => {
         <Col span={24} sm={{ span: 12 }} lg={{ span: 7 }} className="auth-left">
           <Avatar src="/assets/userimg.jpg" alt="Alisher Saidov" size={112} />
 
-            <Form name="normal_login" className="login-form">
-              <h1>{t("Parolni qayta tiklash")}</h1>
-              <Form.Item name="username">
-                <Input
-                  prefix={<UserOutlined className="site-form-item-icon" />}
-                  placeholder={t("Login yoki email")}
-                />
-              </Form.Item>
+          <Form name="normal_login" className="login-form">
+            <h1>{t("Parolni qayta tiklash")}</h1>
+            <Form.Item name="username">
+              <Input
+                prefix={<UserOutlined className="site-form-item-icon" />}
+                placeholder={t("Login yoki email")}
+              />
+            </Form.Item>
 
-              <Form.Item>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  className="login-form-button"
-                  block
-                  href="reset-password"
-                >
-                  {t("Tiklash")}
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
+            <Form.Item>
+              <Button
+                type="primary"
+                htmlType="submit"
+                className="login-form-button"
+                block
+                href="reset-password"
+              >
+                {t("Tiklash")}
+              </Button>
+            </Form.Item>
+          </Form>
         </Col>
         <Col
           span={24}
