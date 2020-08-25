@@ -150,12 +150,12 @@ class AuthStore {
     this.state = "pending";
 
     try {
-      const res = await Axios.put(API_URL + `/auth/email`, credentials);
+      const res = await client.put(`/email`, credentials);
 
       const { status, data } = res;
 
       if (status === 200) {
-        console.log("attache email -> ", data);
+        console.log("attach email -> ", data);
       }
 
       return res;
@@ -189,7 +189,7 @@ class AuthStore {
   saveNewPassword = async (credentials) => {
     this.state = "pending";
     try {
-      const res = await Axios.put(API_URL + `/auth/password`, credentials);
+      const res = await client.put("/password", credentials);
 
       const { status, data } = res;
 
