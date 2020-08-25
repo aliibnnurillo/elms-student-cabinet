@@ -444,11 +444,12 @@
 }
 @media screen and (max-width: 576px) {
   .menu-container {
-    position: relative !important;
+    position: static !important;
     width: 100%;
     display: inline-block;
     height: auto;
   }
+
   .menu_show {
     display: none !important;
     transition: 0.5s;
