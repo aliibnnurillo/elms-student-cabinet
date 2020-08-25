@@ -42,7 +42,7 @@ const NewsHeader = ({ posts: { setType, type } }) => {
         </PageHeader>
 
         {pathname === "/posts" ? (
-          <div className="select-for-news">
+          <div className="center select-for-news">
             <Radio.Group
               value={type}
               buttonStyle="solid"

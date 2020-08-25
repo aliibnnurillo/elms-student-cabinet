@@ -9,8 +9,9 @@ const ForgotPassword = () => {
     <div className="auth  empty-page">
       <Row gutter={40}>
         <Col span={24} sm={{ span: 12 }} lg={{ span: 7 }} className="auth-left">
-          <Avatar src="/assets/userimg.jpg" alt="Alisher Saidov" size={112} />
-
+          <div>
+            <Avatar src="/assets/userimg.jpg" alt="Alisher Saidov" size={112} />
+          </div>
           <Form name="normal_login" className="login-form">
             <h1>{t("Parolni qayta tiklash")}</h1>
             <Form.Item name="username">

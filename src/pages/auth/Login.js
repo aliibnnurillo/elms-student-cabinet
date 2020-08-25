@@ -5,6 +5,7 @@ import "./auth.css";
 import { Link } from "react-router-dom";
 import { inject, observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
+import Avatar from "antd/lib/avatar/avatar";
 
 const Login = ({ authStore: { login, loading }, history }) => {
   const onFinish = (values) => {
@@ -81,7 +82,14 @@ const Login = ({ authStore: { login, loading }, history }) => {
             sm={{ span: 24 }}
             lg={{ span: 16 }}
             className="auth-right"
-          ></Col>
+          >
+            <Avatar
+              src="/assets/userimg.jpg"
+              alt="Logo"
+              size={100}
+              className="for_logo"
+            />
+          </Col>
         </Row>
       </Spin>
     </div>

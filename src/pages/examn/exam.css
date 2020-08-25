@@ -311,6 +311,7 @@
   }
   .content .all-exam .for-exam-list .ant-list-items .ant-list-item {
     padding: 16px !important;
+    flex-wrap: nowrap;
   }
   .content .all-exam .for-exam-list .ant-list-header {
     padding: 14px;
