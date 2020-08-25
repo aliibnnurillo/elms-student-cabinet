@@ -6,6 +6,8 @@ import {
   saveUser,
   getActiveSemester,
 } from "../common/utils/utils";
+import { client } from "../common/utils/request";
+
 import { API_URL, CURRENT_LANG, API_BASE_URL } from "../constants";
 import flash from "./Flash";
 import Axios from "axios";
@@ -294,6 +296,24 @@ class AuthStore {
   logout = () => {
     rmToken();
     this.reset();
+  };
+  @action
+  uploadAvatar = async (credentials = {}) => {
+    this.state = "pending";
+    try {
+      const response = await client({
+        method: "put",
+        url: "/photo",
+        data: credentials,
+      });
+      if (response.status === 200) {
+        this.setState("done");
+        flash.setFlash("success", "Successfully created!");
+      }
+    } catch (error) {
+      this.setState("error");
+      flash.setFlash("error", "Error occurred!");
+    }
   };
 }
 

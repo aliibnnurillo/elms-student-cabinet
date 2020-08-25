@@ -133,7 +133,8 @@ const HomePage = ({
                   xxl={{ span: 6 }}
                   xl={{ span: 8 }}
                   lg={{ span: 12 }}
-                  md={{ span: 24 }}
+                  md={{ span: 12 }}
+                  sm={{ span: 24 }}
                 >
                   <Card className="for-card-subjects">
                     <Meta

@@ -1,9 +1,11 @@
 .profile_page .profil_row {
   justify-content: center;
 }
+
 .profile_page .for-password-modal-button {
   position: absolute;
   top: 10px;
+  z-index: 99;
   right: 25px;
   background: #5767f6;
   border-radius: 6px;
@@ -12,6 +14,14 @@
   font-size: 14px;
   color: #ffffff;
   border: none;
+}
+@media screen and (max-width: 620px) {
+  .profile_page .for-password-modal-button {
+    position: relative;
+    margin-bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 }
 .profile_page .for-password-modal-button:hover,
 .profile_page .for-password-modal-button:focus {
@@ -117,6 +127,17 @@
   color: #17152e;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+}
+.profile_page
+  .profil_row
+  .lists
+  .ant-list-item
+  .ant-list-item-meta-description
+  p
+  span {
+  overflow: hidden;
+  display: flex;
 }
 .profile_page
   .profil_row
