@@ -93,7 +93,7 @@ const Login = ({ authStore: { login, loading, error }, history }) => {
             className="auth-right"
           >
             <Avatar
-              src="/assets/userimg.jpg"
+              src="/assets/tuit-logo.png"
               alt="Logo"
               size={100}
               className="for_logo"
