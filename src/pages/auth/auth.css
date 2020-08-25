@@ -285,11 +285,27 @@
   }
 }
 @media screen and (max-width: 575px) {
+  .auth,
+  .enter-email {
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+  .auth {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   .auth .auth-right {
     display: flex;
     justify-content: center;
   }
   .auth .auth-left .login-form h1 {
     text-align: center;
+  }
+  .auth .auth-left > div {
+    text-align: center;
+    margin-bottom: 20px;
   }
 }
