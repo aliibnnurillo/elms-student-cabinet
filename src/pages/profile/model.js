@@ -7,7 +7,7 @@ import { getImgaeUrl } from "../../common/services/common";
 import Axios from "axios";
 
 class ProfileModel extends CommonStore {
-  @observable type = "news";
+  @observable type = "profil";
 
   @action
   setType = (type) => {
