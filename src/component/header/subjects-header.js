@@ -32,6 +32,7 @@ const SubjectsHeader = ({
           <Breadcrumb.Item></Breadcrumb.Item>
         </Breadcrumb>
       </PageHeader>
+
       {pathname.endsWith("/subjects") ? (
         <div className="">
           {activeSemester.id ? (

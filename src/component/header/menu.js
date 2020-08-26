@@ -28,9 +28,9 @@ const LeftMenu = ({ authStore: { activeSemesterId } }) => {
     localStorage.setItem(ACTIVE_MENU_KEY, key);
   };
   const handleClick = (e) => {
-    e.preventDefault();
     setVisiable(!visiable);
   };
+  const n = document.getElementsByClassName("nav-item");
 
   const [t] = useTranslation();
 
@@ -50,38 +50,38 @@ const LeftMenu = ({ authStore: { activeSemesterId } }) => {
         mode="inline"
         onSelect={handleSelect}
       >
-        <Menu.Item key="home">
-          <NavLink to="/">
+        <Menu.Item key="home" className="nav-item">
+          <NavLink to="/" className="nav-link" onClick={handleClick}>
             <HomeOutlined />
             <span>{t("Bosh sahifa")}</span>
           </NavLink>
         </Menu.Item>
-        <Menu.Item key="curriculum">
-          <NavLink to="/curriculum">
+        <Menu.Item className="nav-item" key="curriculum">
+          <NavLink to="/curriculum" onClick={handleClick}>
             <BankOutlined />
             <span>{t("O'quv rejasi")}</span>
           </NavLink>
         </Menu.Item>
-        <Menu.Item key="subjects">
-          <NavLink to={`/${activeSemesterId}/subjects`}>
+        <Menu.Item className="nav-item" key="subjects">
+          <NavLink to={`/${activeSemesterId}/subjects`} onClick={handleClick}>
             <ReadOutlined />
             <span>{t("Fanlar")}</span>
           </NavLink>
         </Menu.Item>
-        <Menu.Item key="exam">
-          <NavLink to="/exam">
+        <Menu.Item className="nav-item" key="exam">
+          <NavLink to="/exam" onClick={handleClick}>
             <ScheduleOutlined />
             <span>{t("Imtixonlar jadvali")}</span>
           </NavLink>
         </Menu.Item>
-        <Menu.Item key="rating">
+        <Menu.Item className="nav-item" key="rating" onClick={handleClick}>
           <NavLink to="/rating">
             <BookOutlined />
             <span>{t("Reyting daftarchsi")}</span>
           </NavLink>
         </Menu.Item>
-        <Menu.Item key="posts">
-          <NavLink to="/posts">
+        <Menu.Item className="nav-item" key="posts">
+          <NavLink to="/posts" onClick={handleClick}>
             <ProfileOutlined />
             <span>{t("Yangiliklar va e'lonlar")}</span>
           </NavLink>
