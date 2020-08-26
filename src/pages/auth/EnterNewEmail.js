@@ -5,8 +5,9 @@ import { observer, inject } from "mobx-react";
 import { useTranslation } from "react-i18next";
 
 const EnterNewEmails = ({ authStore: { saveNewEmail }, history }) => {
+  const [form] = Form.useForm();
   const formFinish = (values) => {
-    saveNewEmail(values).then((res) => {
+    saveNewEmail(values, form).then((res) => {
       if (res.status !== 200) return;
       history.push("/user/new-password");
     });
@@ -31,11 +32,20 @@ const EnterNewEmails = ({ authStore: { saveNewEmail }, history }) => {
               )}
             </p>
             <Form
+              form={form}
               name="normal_login"
               className="login-form"
               onFinish={formFinish}
             >
-              <Form.Item name="email">
+              <Form.Item
+                name="email"
+                rules={[
+                  {
+                    required: true,
+                    message: t("Emailni kiritish shart!"),
+                  },
+                ]}
+              >
                 <Input
                   type="email"
                   prefix={<MailOutlined className="site-form-item-icon" />}

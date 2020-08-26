@@ -60,17 +60,19 @@ class AuthStore {
       }
       return res;
     } catch (error) {
+      this.state = "error";
+
       if (error.response) {
         if (error.response.status === 401) {
-          flash.setFlash("error", error.response.data.message);
+          const _res = error.response.data.message
+            ? error.response.data.message
+            : "";
+          runInAction(() => {
+            this.error = _res;
+          });
         }
-      }
-      runInAction(() => {
-        this.state = "error";
-        this.error = {
-          message: "Произошла ошибка сети или внутренняя ошибка сервера!",
-        };
-      });
+      } else flash.setFlash("error", "Error occured!");
+
       return error.response;
     }
   };
@@ -146,31 +148,37 @@ class AuthStore {
   };
 
   @action
-  saveNewEmail = async (credentials) => {
+  saveNewEmail = async (credentials, form) => {
     this.state = "pending";
 
     try {
-      const res = await Axios.put(API_URL + `/auth/email`, credentials);
+      const res = await client.put(`/email`, credentials);
 
       const { status, data } = res;
 
       if (status === 200) {
-        console.log("attache email -> ", data);
+        console.log("attach email -> ", data);
       }
 
       return res;
     } catch (error) {
+      this.state = "error";
+
       if (error.response) {
         if (error.response.status === 422) {
-          flash.setFlash("error", error.response.data.message.email[0]);
+          const _res = error.response.data.message
+            ? error.response.data.message
+            : {};
+          form.setFields([
+            {
+              name: "email",
+              value: credentials.email,
+              errors: _res.email,
+            },
+          ]);
         }
-      }
-      runInAction(() => {
-        this.state = "error";
-        this.error = {
-          message: "Произошла ошибка сети или внутренняя ошибка сервера!",
-        };
-      });
+      } else flash.setFlash("error", "Error occured!");
+
       return error.response;
     }
   };
@@ -189,12 +197,36 @@ class AuthStore {
   saveNewPassword = async (credentials) => {
     this.state = "pending";
     try {
-      const res = await Axios.put(API_URL + `/auth/password`, credentials);
+      const res = await client.put("/password", credentials);
 
       const { status, data } = res;
 
       if (status === 200) {
         console.log("new password response data -> ", data);
+      }
+
+      return res;
+    } catch (error) {
+      runInAction(() => {
+        this.state = "error";
+        this.error = {
+          message: "Произошла ошибка сети или внутренняя ошибка сервера!",
+        };
+      });
+      return error.response;
+    }
+  };
+
+  @action
+  uploadNewAvatar = async (profile_img) => {
+    this.state = "pending";
+    try {
+      const res = await client.put("/photo", { profile_img });
+
+      const { status, data } = res;
+
+      if (status === 200) {
+        console.log("new avatar response data -> ", data);
       }
 
       return res;

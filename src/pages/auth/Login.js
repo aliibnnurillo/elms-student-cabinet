@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, Form, Input, Button, Spin } from "antd";
+import { Row, Col, Form, Input, Button, Spin, Alert } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import "./auth.css";
 import { Link } from "react-router-dom";
@@ -7,7 +7,7 @@ import { inject, observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import Avatar from "antd/lib/avatar/avatar";
 
-const Login = ({ authStore: { login, loading }, history }) => {
+const Login = ({ authStore: { login, loading, error }, history }) => {
   const onFinish = (values) => {
     login(values).then((res) => {
       if (res.status !== 200) return;
@@ -60,6 +60,15 @@ const Login = ({ authStore: { login, loading }, history }) => {
                   placeholder={t("Parol")}
                 />
               </Form.Item>
+              {error ? (
+                <Alert
+                  message={t("Error")}
+                  description={error}
+                  type="error"
+                  showIcon
+                  style={{ marginBottom: 24, borderRadius: 6 }}
+                />
+              ) : null}
 
               <Form.Item>
                 <Button
