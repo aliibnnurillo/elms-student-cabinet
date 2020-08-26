@@ -8,7 +8,12 @@ import {
 } from "../common/utils/utils";
 import { client } from "../common/utils/request";
 
-import { API_URL, CURRENT_LANG, API_BASE_URL } from "../constants";
+import {
+  API_URL,
+  CURRENT_LANG,
+  API_BASE_URL,
+  ACTIVE_MENU_KEY,
+} from "../constants";
 import flash from "./Flash";
 import Axios from "axios";
 
@@ -29,34 +34,42 @@ class AuthStore {
   }
 
   @action
+  getRequiredData = (loginData) => {
+    this.fetchActiveSemester(loginData)
+      .then((res) => {
+        if (res.status === 200) {
+          const activeSemesterId =
+            Array.isArray(res.data.result.data) && res.data.result.data.length
+              ? res.data.result.data[0].id
+              : null;
+          localStorage.setItem("active_sem", activeSemesterId);
+          runInAction(() => {
+            this.activeSemesterId = activeSemesterId;
+          });
+        }
+      })
+      .catch((err) => {
+        console.log("fetch active  semester error => ", err);
+      });
+    return this.getProfileInfo(loginData);
+  };
+
+  @action
   login = async (credentials) => {
     this.state = "pending";
     this.reset();
     try {
       const res = await Axios.post(API_URL + "/auth/login", credentials);
 
-      const { status, data } = res;
+      const { status, data = {} } = res;
 
       if (status === 200) {
         console.log("login response data => ", data);
-        this.fetchActiveSemester(data.result.access_token)
-          .then((res) => {
-            if (res.status === 200) {
-              const activeSemesterId =
-                Array.isArray(res.data.result.data) &&
-                res.data.result.data.length
-                  ? res.data.result.data[0].id
-                  : null;
-              localStorage.setItem("active_sem", activeSemesterId);
-              runInAction(() => {
-                this.activeSemesterId = activeSemesterId;
-              });
-            }
-          })
-          .catch((err) => {
-            console.log("fetch active  semester error => ", err);
-          });
-        return await this.getUserInfo(data.result);
+        if (!data.result.first_time_login) {
+          return this.getRequiredData(data.result);
+        } else {
+          sessionStorage.setItem("temp_access_token", data.result.access_token);
+        }
       }
       return res;
     } catch (error) {
@@ -73,38 +86,6 @@ class AuthStore {
         }
       } else flash.setFlash("error", "Error occured!");
 
-      return error.response;
-    }
-  };
-
-  @action
-  getUserInfo = async (loginData) => {
-    this.state = "pending";
-    this.user = {};
-    try {
-      const res = await Axios.get(API_URL + "/auth/user", {
-        headers: {
-          Authorization: "Bearer " + loginData.access_token,
-        },
-      });
-
-      const { status, data } = res;
-      console.log("user getdan kelgan  response => ", res);
-
-      if (status === 200) {
-        Array.isArray(data.result) &&
-          data.result.length &&
-          this.setUserData(loginData, data.result[0]);
-      }
-
-      return { ...loginData, status };
-    } catch (error) {
-      runInAction(() => {
-        this.state = "error";
-        this.error = {
-          message: "Произошла ошибка сети или внутренняя ошибка сервера!",
-        };
-      });
       return error.response;
     }
   };
@@ -129,8 +110,7 @@ class AuthStore {
           data.result.length &&
           this.setUserData(loginData, data.result[0]);
       }
-
-      return { ...loginData, status };
+      return { ...loginData, ...res };
     } catch (error) {
       runInAction(() => {
         this.state = "error";
@@ -152,7 +132,12 @@ class AuthStore {
     this.state = "pending";
 
     try {
-      const res = await client.put(`/email`, credentials);
+      const res = await Axios.put(API_BASE_URL + `/email`, credentials, {
+        headers: {
+          Authorization:
+            "Bearer " + sessionStorage.getItem("temp_access_token"),
+        },
+      });
 
       const { status, data } = res;
 
@@ -184,11 +169,11 @@ class AuthStore {
   };
 
   @action
-  fetchActiveSemester = async (accessToken) => {
+  fetchActiveSemester = async (loginData) => {
     return Axios.get(API_BASE_URL + "/syllabus/semesters", {
       params: { active_semester: 1 },
       headers: {
-        Authorization: "Bearer " + accessToken,
+        Authorization: "Bearer " + loginData.access_token,
       },
     });
   };
@@ -197,12 +182,22 @@ class AuthStore {
   saveNewPassword = async (credentials) => {
     this.state = "pending";
     try {
-      const res = await client.put("/password", credentials);
+      const res = await Axios.put(API_BASE_URL + `/password`, credentials, {
+        headers: {
+          Authorization:
+            "Bearer " + sessionStorage.getItem("temp_access_token"),
+        },
+      });
 
       const { status, data } = res;
+      const token = sessionStorage.getItem("temp_access_token");
+      sessionStorage.removeItem("temp_access_token");
 
-      if (status === 200) {
+      if (status === 200) { 
         console.log("new password response data -> ", data);
+        return this.getRequiredData({
+          access_token: token,
+        });
       }
 
       return res;
@@ -322,13 +317,16 @@ class AuthStore {
     this.accessToken = "";
     this.error = null;
     this.activeSemesterId = "";
+    this.state = "";
   };
 
   @action
   logout = () => {
     rmToken();
+    localStorage.removeItem(ACTIVE_MENU_KEY);
     this.reset();
   };
+
   @action
   uploadAvatar = async (credentials = {}) => {
     this.state = "pending";

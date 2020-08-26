@@ -6,6 +6,7 @@ import {
   RightOutlined,
 } from "@ant-design/icons";
 import { Player } from "video-react";
+import "video-react/dist/video-react.css";
 import { Link, useParams } from "react-router-dom";
 import { SubjectsHeader } from "../../../component/header";
 import "../subject.css";
@@ -19,6 +20,7 @@ const SubjectList = ({ subjects: { fetchOne, loading, single } }) => {
     return () => {};
   }, [id, fetchOne]);
   const [t] = useTranslation();
+  console.log(single);
   return (
     <>
       <SubjectsHeader />

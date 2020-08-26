@@ -8,7 +8,7 @@ import "moment/locale/uz"; // for uzc
 import "moment/locale/ru"; // for ru
 import "moment/locale/uz-latn"; // for uz
 
-const allowedLanguages = ["oz", "ru"];
+const allowedLanguages = ["ru", "oz"];
 
 const defaultLng = "oz";
 let lng = defaultLng;
@@ -39,7 +39,7 @@ i18n
     },
     backend: {
       loadPath: `${API_URL}/crm/i18n/list?language={{lng}}&category={{ns}}`,
-      addPath: `${API_URL}/crm/i18n`,
+      // addPath: `${API_URL}/crm/i18n`,
       parsePayload: function (namespace, key, fallbackValue) {
         return {
           key: key,
@@ -55,7 +55,7 @@ i18n
         authorization: "Bearer " + getToken(),
       },
     },
-    saveMissing: true,
+    // saveMissing: true,
     react: {
       wait: true,
       useSuspense: true,

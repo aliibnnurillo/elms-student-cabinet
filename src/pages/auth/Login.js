@@ -10,11 +10,13 @@ import Avatar from "antd/lib/avatar/avatar";
 const Login = ({ authStore: { login, loading, error }, history }) => {
   const onFinish = (values) => {
     login(values).then((res) => {
-      if (res.status !== 200) return;
-      if (res.first_time_login) {
-        history.push("/user/new-email");
-      } else {
-        history.push("/");
+      console.log(res);
+      if (res.status === 200) {
+        if (res.data.result.first_time_login) {
+          history.push("/user/new-email");
+        } else {
+          history.push("/");
+        }
       }
     });
   };

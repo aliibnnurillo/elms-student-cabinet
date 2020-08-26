@@ -1,5 +1,14 @@
-import React, { useState } from "react";
-import { Tabs, message, Tag, Button, Collapse, Upload, Radio } from "antd";
+import React, { useState, useEffect } from "react";
+import {
+  Tabs,
+  message,
+  Tag,
+  Button,
+  Collapse,
+  Upload,
+  Radio,
+  Spin,
+} from "antd";
 import PropTypes from "prop-types";
 import { observer, inject } from "mobx-react";
 import { Player } from "video-react";
@@ -10,26 +19,57 @@ import {
   VideoCameraFilled,
   FileUnknownFilled,
   CheckSquareFilled,
+  FileZipOutlined,
+  PictureOutlined,
 } from "@ant-design/icons";
 import { UploadIcon } from "../../../component/icons";
+import { API_URL } from "../../../constants";
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 const { TabPane } = Tabs;
 
-const element = {
-  name: "file",
-  multiple: true,
-  action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
-  onChange(info) {
-    const { status } = info.file;
-    if (status !== "uploading") {
-      console.log(info.file, info.fileList);
-    }
-    if (status === "done") {
-      message.success(`${info.file.name} file uploaded successfully.`);
-    } else if (status === "error") {
-      message.error(`${info.file.name} file upload failed.`);
-    }
-  },
+const UploadDragger = ({
+  questionFiles,
+  setResource,
+  setQuestionFiles,
+  removeQuestionFile,
+  t,
+}) => {
+  const uploadProps = {
+    action: `${API_URL}/resources/storeFile`,
+    name: "files[]",
+    fileList: questionFiles,
+    listType: "picture",
+    onSuccess(ret, file) {
+      if (Array.isArray(ret.result) && ret.result.length) {
+        console.log("file onsuccess => ", ret.result[0]);
+        setQuestionFiles([...questionFiles, file]);
+        setResource(ret.result[0]);
+      }
+    },
+    onRemove(file) {
+      removeQuestionFile(file.uid);
+      setResource(null);
+    },
+  };
+  return (
+    <Dragger {...uploadProps} className="upload_file_block">
+      <div className="ant-upload-drag-icon">
+        <UploadIcon style={{ color: "hotpink" }} />
+        <h3>{t("Fayl yuklash")}</h3>
+      </div>
+      <p className="ant-upload-text">
+        <Tag>pdf</Tag>
+        <Tag>word</Tag>
+        <Tag>jpeg</Tag>
+        <Tag>png</Tag>
+        <Tag>zip</Tag>
+        <Tag>rar</Tag>
+      </p>
+      <p className="ant-upload-hint">Max: 10mb</p>
+    </Dragger>
+  );
 };
 
 const text = `
@@ -44,67 +84,147 @@ function callback(key) {
 const { Dragger } = Upload;
 const { Panel } = Collapse;
 
-const QuizItem = ({ data }) => {
-  return (
-    <div>
-      <div className="upload-file">
-        <h4>
-          C++ dasturlash tilida matnni kirildan lotinga o’zgartirish algoritmini
-          tuzish.
-        </h4>
-        <div className="upload-block">
-          <h3 className="upload-title">Javob</h3>
-          <Dragger {...element} className="upload_file_block">
-            <p className="ant-upload-drag-icon">
-              <UploadIcon style={{ color: "hotpink" }} />
-              <h3>Fayl yuklash </h3>
-            </p>
-            <p className="ant-upload-text">
-              <Tag>pdf</Tag>
-              <Tag>word</Tag>
-              <Tag>jpeg</Tag>
-              <Tag>png</Tag>
-              <Tag>zip</Tag>
-              <Tag>rar</Tag>
-            </p>
-            <p className="ant-upload-hint">Max: 10mb</p>
-          </Dragger>
-          <p className="confirm">
-            <Button className="confirm-button">Tasdiqlash</Button>
-          </p>
-          <h4>Eski javoblar</h4>
-          <Collapse
-            defaultActiveKey={["1"]}
-            onChange={callback}
-            expandIconPosition={"right"}
-          >
-            <Panel header={moment().format("DD.MM.YYYY, h:mm:ss a")} key="1">
-              <div>{text}</div>
-            </Panel>
-            <Panel header="This is panel header 2" key="2">
-              <div>{text}</div>
-            </Panel>
-          </Collapse>
-        </div>
-      </div>
-    </div>
-  );
-};
+const QuizItem = inject("subjects")(
+  observer(
+    ({
+      subjects: {
+        questionFiles,
+        saveQuestionFile,
+        fetchOldQuestionFiles,
+        setQuestionFiles,
+        removeQuestionFile,
+        oldQuestionFiles,
+        loading,
+      },
+      data,
+      lessonId,
+    }) => {
+      useEffect(() => {
+        fetchOldQuestionFiles(data.id);
+      }, [lessonId, fetchOldQuestionFiles]);
 
-const data = [
-  {
-    label: "public, private va polimorfizm",
-    value: 1,
-  },
-  {
-    label: "public, private va protected",
-    value: 2,
-  },
-  {
-    label: "throw, try  va catch",
-    value: 3,
-  },
-];
+      const [resource, setResource] = useState(null);
+      const [t] = useTranslation();
+
+      const handleSubmit = () => {
+        if (!resource) {
+          return;
+        }
+
+        saveQuestionFile(data.id, resource.id);
+      };
+
+      console.log(
+        "old questjion  fjaskfjkdslfjdskfjksfjklsaj fsa- x",
+        oldQuestionFiles
+      );
+
+      return (
+        <div>
+          <div className="upload-file">
+            <p dangerouslySetInnerHTML={{ __html: data.text }}></p>
+            <div className="upload-block">
+              <h3 className="upload-title">{t("Javob")}</h3>
+              <UploadDragger
+                questionFiles={questionFiles}
+                setResource={setResource}
+                t={t}
+                setQuestionFiles={setQuestionFiles}
+                removeQuestionFile={removeQuestionFile}
+              />
+              <p className="confirm">
+                <Button className="confirm-button" onClick={handleSubmit}>
+                  {t("Tasdiqlash")}
+                </Button>
+              </p>
+              <h4>{t("Eski javoblar")}</h4>
+              <Collapse
+                defaultActiveKey={["1"]}
+                onChange={callback}
+                expandIconPosition={"right"}
+              >
+                {oldQuestionFiles.map((item, idx) => {
+                  return (
+                    <Panel header={item.created_at} key={item.id}>
+                      <div style={{ display: "flex", flexWrap: "wrap" }}>
+                        {item.question_attempt_resource.map((resource) => {
+                          let IconType = "";
+                          const _item = resource.media[0];
+                          switch (_item.extension) {
+                            case "zip":
+                              IconType = FileZipOutlined;
+                              break;
+                            case "png":
+                            case "jpg":
+                            case "jpeg":
+                              IconType = PictureOutlined;
+                              break;
+                            case "pdf":
+                              IconType = FileTextFilled;
+                              break;
+                            default:
+                              break;
+                          }
+                          return (
+                            <div
+                              key={resource.id}
+                              style={{
+                                backgroundColor: "#F3F4FF",
+                                display: "flex",
+                                justifyContent: "center",
+                                flexDirection: "column",
+                                borderRadius: 12,
+                                alignItems: "center",
+                                padding: 6,
+                                width: 140,
+                                height: 140,
+                                margin: 6,
+                              }}
+                            >
+                              <span className="icon-wrapper bg-white">
+                                <IconType />
+                              </span>
+                              {resource.file_url_resource.length > 20 ? (
+                                <Link
+                                  to={resource.file_url_resource}
+                                  target="_blank"
+                                  onClick={(event) => {
+                                    event.preventDefault();
+                                    window.open(resource.file_url_resource);
+                                  }}
+                                >
+                                  {`${resource.file_url_resource.slice(
+                                    0,
+                                    13
+                                  )}... .${_item.extension}`}
+                                </Link>
+                              ) : (
+                                <Link
+                                  to={resource.file_url_resource}
+                                  target="_blank"
+                                  onClick={(event) => {
+                                    event.preventDefault();
+                                    window.open(resource.file_url_resource);
+                                  }}
+                                >
+                                  {resource.file_url_resource}
+                                </Link>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </Panel>
+                  );
+                })}
+              </Collapse>
+            </div>
+          </div>
+        </div>
+      );
+    }
+  )
+);
 
 const TestItem = ({ data }) => {
   const [current, setCurrent] = useState(0);
@@ -114,6 +234,7 @@ const TestItem = ({ data }) => {
     setCurrent(current + 1);
   };
 
+  console.log(data);
   const onChangeOne = (e) => {
     console.log("radio1 checked", e.target.value);
     setValueone(e.target.value);
@@ -141,6 +262,7 @@ const TestItem = ({ data }) => {
 function LessonItem(props) {
   const {
     subjects: { lessonItems },
+    lessonId,
   } = props;
   const callback = (key) => {
     console.log(key);
@@ -187,7 +309,7 @@ function LessonItem(props) {
               }
               key={idx}
             >
-              <QuizItem />
+              <QuizItem lessonId={lessonId} data={item} />
             </TabPane>
           ) : item.type === "test" ? (
             <TabPane
@@ -198,7 +320,7 @@ function LessonItem(props) {
               }
               key={idx}
             >
-              <TestItem />
+              <TestItem data={item} />
             </TabPane>
           ) : null;
         })}

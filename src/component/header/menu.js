@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Menu, Avatar, Button } from "antd";
 import {
   HomeOutlined,
@@ -19,7 +19,7 @@ const LeftMenu = ({ authStore: { activeSemesterId } }) => {
   const [selectedKey, setSelectedKey] = useState(
     localStorage.getItem(ACTIVE_MENU_KEY)
       ? [localStorage.getItem(ACTIVE_MENU_KEY)]
-      : []
+      : ["home"]
   );
   const [visiable, setVisiable] = useState(false);
 
@@ -30,7 +30,6 @@ const LeftMenu = ({ authStore: { activeSemesterId } }) => {
   const handleClick = (e) => {
     setVisiable(!visiable);
   };
-  const n = document.getElementsByClassName("nav-item");
 
   const [t] = useTranslation();
 

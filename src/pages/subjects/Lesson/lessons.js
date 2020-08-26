@@ -14,11 +14,11 @@ import {
   Spin,
 } from "antd";
 import { SendOutlined } from "@ant-design/icons";
-import StepsBlock from "./steps";
 import { SubjectsHeader } from "../../../component/header";
 import { inject, observer } from "mobx-react";
 import { useParams, useHistory, useLocation } from "react-router-dom";
 import LessonItem from "./lessonItems";
+import { extractFirstCharacter } from "../../../common/utils/utils";
 
 const { Link } = Anchor;
 
@@ -28,32 +28,57 @@ const CommentList = ({ comments }) => (
   <List
     dataSource={comments}
     itemLayout="horizontal"
-    renderItem={(props) => <Comment {...props} />}
+    renderItem={(props) => (
+      <Comment
+        {...props}
+        avatar={
+          props.avatar ? (
+            <Avatar
+              src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+              alt="Han Solo"
+            />
+          ) : (
+            <Avatar size="large">
+              {extractFirstCharacter(props.author).toUpperCase()}
+            </Avatar>
+          )
+        }
+      />
+    )}
   />
 );
 
-const Editor = ({ onChange, onSubmit, submitting, value }) => (
-  <>
-    <Form.Item className="write-comment">
-      <TextArea
-        rows={1}
-        cols={24}
-        onChange={onChange}
-        value={value}
-        placeholder="Sharh qoldirish"
-      />
-      <Button
-        type="link"
-        htmlType="submit"
-        loading={submitting}
-        onClick={onSubmit}
-        className="comment-send"
-      >
-        <SendOutlined />
-      </Button>
-    </Form.Item>
-  </>
-);
+const Editor = ({ onSubmit, submitting, lessonId }) => {
+  const [value, setValue] = useState("");
+  const handleSubmit = () => {
+    if (!value) {
+      return;
+    }
+    onSubmit(lessonId, value);
+  };
+
+  return (
+    <>
+      <Form.Item className="write-comment">
+        <TextArea
+          rows={1}
+          cols={24}
+          onChange={(e) => setValue(e.target.value)}
+          value={value}
+          placeholder="Sharh qoldirish"
+        />
+        <Button
+          type="link"
+          loading={submitting}
+          onClick={handleSubmit}
+          className="comment-send"
+        >
+          <SendOutlined />
+        </Button>
+      </Form.Item>
+    </>
+  );
+};
 
 const Lesson = ({
   subjects: {
@@ -65,18 +90,20 @@ const Lesson = ({
     fetchLessonResources,
     single,
     fetchOne,
+    fetchComments,
+    comments,
+    saveComment,
   },
 }) => {
-  const [submitting, setSubmitting] = useState(false);
-  const [comments, setComments] = useState([]);
-  const [value, setValue] = useState("");
   const { semesterId, subjectId, id } = useParams();
   const his = useHistory();
   const { hash } = useLocation();
   useEffect(() => {
     console.log(semesterId, subjectId, hash);
 
-    fetchOne(subjectId);
+    fetchOne(subjectId).then((res) => {
+      fetchComments(id);
+    });
   }, []);
 
   useEffect(() => {
@@ -92,18 +119,7 @@ const Lesson = ({
           lessonId: single.module[0].lessons[0].id,
         });
     } else fetchLessonItems({ semesterId, subjectId, lessonId: hash.slice(1) });
-    // fetchLessonResources({ semesterId, subjectId, lessonId: hash.slice(1) });
-  }, [hash, semesterId, subjectId, fetchLessonItems, fetchLessonResources]);
-
-  const handleSubmit = () => {
-    if (!value) {
-      return;
-    }
-  };
-
-  const handleChange = (e) => {
-    setValue(e.target.value);
-  };
+  }, [hash, semesterId, subjectId, fetchLessonItems]);
 
   return (
     <>
@@ -161,7 +177,7 @@ const Lesson = ({
                 {lessonItems.length ? (
                   <Row>
                     <Col span={18} offset={3}>
-                      <LessonItem />
+                      <LessonItem lessonId={id} />
                     </Col>
                     <Col span={18} offset={3} className="comments-list">
                       <h3>{comments.length}-ta sharh</h3>
@@ -176,10 +192,9 @@ const Lesson = ({
                           }
                           content={
                             <Editor
-                              onChange={handleChange}
-                              onSubmit={handleSubmit}
-                              submitting={submitting}
-                              value={value}
+                              onSubmit={saveComment}
+                              submitting={loading}
+                              lessonId={id}
                             />
                           }
                         />

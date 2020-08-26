@@ -43,11 +43,9 @@ class SubjectsModel extends CommonStore {
   fetchSemesterSubjects = async () => {
     this.setState("pending");
     this.semesterSubjects = [];
-    this.activeSemester = {};
 
-    console.log(authStore.activeSemesterId);
     client({
-      url: this.url + "/semesterSubject/" + authStore.activeSemesterId,
+      url: this.url + "/semesterSubject/" + localStorage.getItem("active_sem"),
     })
       .then((res) => {
         const { data, status } = res;
@@ -164,6 +162,129 @@ class SubjectsModel extends CommonStore {
     } catch (error) {
       this.setState("error");
       flash.setFlash("error", "Error occurred!");
+    }
+  };
+
+  @observable comments = [];
+
+  @action
+  fetchComments = async (lessonId = "") => {
+    this.setState("pending");
+    this.comments = [];
+    try {
+      const response = await client.get(
+        `/syllabus/CommentaryLesson/${lessonId}`
+      );
+      const {
+        status,
+        data: { result },
+      } = response;
+      console.log("fetch comments response => ", response);
+      if (status === 200) {
+        const _finalResult = Array.isArray(result.data)
+          ? result.data.map((comment) => {
+              return {
+                author: comment.user.username,
+                avatar: comment.user.avatar,
+                content: comment.title,
+                datetime: comment.updated_at,
+              };
+            })
+          : [];
+        this.comments = _finalResult;
+        this.setState("done");
+      }
+    } catch (error) {
+      this.setState("error");
+      flash.setFlash("error", "Error occurred!");
+    }
+  };
+
+  @action
+  saveComment = async (lessonId = "", message = "") => {
+    this.setState("pending");
+    try {
+      const response = await client.post(
+        "/syllabus/CommentaryLessonStore/" + lessonId,
+        { title: message }
+      );
+      const { status, data } = response;
+      if (status === 200) {
+        this.fetchComments(lessonId);
+        this.setState("done");
+      }
+    } catch (error) {
+      this.setState("error");
+      flash.setFlash("error", "Error occurred!");
+    }
+  };
+
+  @observable questionFiles = [];
+  @observable oldQuestionFiles = [];
+
+  @action
+  setOldQuestionFiles = (files) => {
+    this.oldQuestionFiles = files;
+  };
+
+  @action
+  setQuestionFiles = (files) => {
+    this.questionFiles = files;
+  };
+
+  removeQuestionFile = (uid) => {
+    this.questionFiles = this.questionFiles.filter((item) => item.uid !== uid);
+  };
+
+  @action
+  fetchOldQuestionFiles = async (itemId = "") => {
+    this.state = "pending";
+    this.oldQuestionFiles = [];
+    try {
+      const response = await client({
+        url: `/syllabus/QuestionAttempt/${itemId}`,
+      });
+      const {
+        status,
+        data: { result },
+      } = response;
+      console.log("old questionni fayllari => ", response);
+
+      if (status === 200) {
+        const _result = Array.isArray(result.data) ? result.data : [];
+        console.log(_result);
+        this.setOldQuestionFiles(_result);
+        this.setState("done");
+      }
+      return response;
+    } catch (error) {
+      this.setState("error");
+      flash.setFlash("error", "Error occurred!");
+    }
+  };
+
+  @action
+  saveQuestionFile = async (itemId = "", resource = 0) => {
+    this.state = "pending";
+    try {
+      const response = await client({
+        method: "post",
+        url: `/syllabus/QuestionAttemptStore/${itemId}`,
+        data: { resource },
+      });
+
+      if (response.status === 200) {
+        console.log("save question => ", response);
+        this.setQuestionFiles([]);
+        flash.setFlash("success", "Fayl muvaffaqiyatli yuklandi!");
+        this.state = "done";
+      }
+
+      return response;
+    } catch (error) {
+      this.setState("error");
+      flash.setFlash("error", "Error occurred!");
+      return error.response;
     }
   };
 
