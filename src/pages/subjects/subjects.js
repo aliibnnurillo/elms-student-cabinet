@@ -37,13 +37,21 @@ const Subjects = ({
                             <span>
                               {t("Modullar soni")}
                               <Tag className="count_teg">
-                                <span>{12}</span>
+                                <span>
+                                  {semSub.total_module
+                                    ? semSub.total_module
+                                    : 0}
+                                </span>
                               </Tag>
                             </span>
                             <span>
                               {t("Darslar soni")}
                               <Tag className="count_teg">
-                                <span>{43}</span>
+                                <span>
+                                  {semSub.total_lesson
+                                    ? semSub.total_lesson
+                                    : 0}
+                                </span>
                               </Tag>
                             </span>
                           </p>

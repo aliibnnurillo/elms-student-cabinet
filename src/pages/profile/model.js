@@ -1,13 +1,38 @@
 import CommonStore from "../../stores/commonStore";
-import { observable, action, reaction } from "mobx";
+import { observable, action, reaction, runInAction } from "mobx";
 import { client } from "../../common/utils/request";
-import { CURRENT_LANG } from "../../constants";
 import flash from "../../stores/Flash";
-import { getImgaeUrl } from "../../common/services/common";
-import Axios from "axios";
+import { CURRENT_LANG } from "../../constants";
 
 class ProfileModel extends CommonStore {
   @observable type = "profil";
+
+  @observable profile = {};
+
+  @action
+  fetchProfile = async () => {
+    this.state = "pending";
+    try {
+      const res = await client.get("/profile/show", {
+        params: { language: CURRENT_LANG },
+      });
+
+      const { status, data } = res;
+
+      if (status === 200) {
+        if (Array.isArray(data.result) && data.result.length) {
+          runInAction(() => {
+            this.state = "done";
+            this.profile = data.result[0];
+          });
+        }
+      }
+    } catch (error) {
+      runInAction(() => {
+        this.state = "error";
+      });
+    }
+  };
 
   @action
   setType = (type) => {

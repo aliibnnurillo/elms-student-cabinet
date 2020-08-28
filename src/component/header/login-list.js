@@ -8,7 +8,11 @@ import {
 } from "@ant-design/icons";
 import { inject, observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import { extractFirstCharacter } from "../../common/utils/utils";
+import {
+  extractFirstCharacter,
+  isExistUser,
+  getUser,
+} from "../../common/utils/utils";
 
 const LoginList = ({ authStore: { logout, user }, history }) => {
   const onLogout = (e) => {
@@ -16,13 +20,6 @@ const LoginList = ({ authStore: { logout, user }, history }) => {
     logout();
     history.push("/user/login");
   };
-
-  const [currentUser, setCurrentUser] = useState(user);
-
-  useEffect(() => {
-    setCurrentUser(user);
-    console.log("user chage");
-  }, [user]);
 
   const [t] = useTranslation();
   return (
@@ -54,11 +51,11 @@ const LoginList = ({ authStore: { logout, user }, history }) => {
       trigger="click"
       overlayClassName="loginList-class"
     >
-      {currentUser && currentUser.avatar ? (
+      {isExistUser() && getUser().avatar ? (
         <Avatar
           size={40}
           className="img-avatars user-icon"
-          src={currentUser.avatar}
+          src={getUser().avatar}
           alt="avatar"
         />
       ) : (
@@ -71,8 +68,8 @@ const LoginList = ({ authStore: { logout, user }, history }) => {
               ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, "0"),
           }}
         >
-          {currentUser && currentUser.username
-            ? extractFirstCharacter(currentUser.username).toUpperCase()
+          {isExistUser() && getUser().username
+            ? extractFirstCharacter(getUser().username).toUpperCase()
             : "U"}
         </Avatar>
       )}

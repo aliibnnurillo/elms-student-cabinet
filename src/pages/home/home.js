@@ -196,7 +196,8 @@ const HomePage = ({
                         description={
                           <p>
                             <span>
-                              {t("Modul")} {item.total_module} / 1-{t("Dars")}
+                              {t("Modul")} {item.total_module} /&nbsp;
+                              {`${item.total_lesson} - ${t("Dars")}`}
                             </span>
                             <span>
                               <PercentsIcon /> 56%

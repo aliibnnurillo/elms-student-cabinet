@@ -10,11 +10,7 @@ import {
 } from "../common/utils/utils";
 import { client } from "../common/utils/request";
 
-import {
-  API_URL,
-  CURRENT_LANG,
-  API_BASE_URL,
-} from "../constants";
+import { API_URL, CURRENT_LANG, API_BASE_URL } from "../constants";
 import flash from "./Flash";
 import Axios from "axios";
 
@@ -127,7 +123,7 @@ class AuthStore {
   reloadProfileInfo = async () => {
     this.state = "pending";
     try {
-      const res = await client.get(API_BASE_URL + "/profile/show", {
+      const res = await client.get("/profile/show", {
         params: { language: CURRENT_LANG },
       });
 
@@ -142,6 +138,7 @@ class AuthStore {
             email: data.result[0].email,
             avatar: data.result[0].file_url_photo,
             language: data.result[0].language,
+            phone: data.result[0].phone,
           });
         }
       }
@@ -330,6 +327,7 @@ class AuthStore {
       email: data.email,
       avatar: data.file_url_photo,
       language: data.language,
+      phone: data.phone,
     };
   };
 
@@ -345,6 +343,7 @@ class AuthStore {
       email: userData.email,
       avatar: userData.file_url_photo,
       language: userData.language,
+      phone: userData.phone,
     });
     this.authenticated = true;
     this.accessToken = access_token;
