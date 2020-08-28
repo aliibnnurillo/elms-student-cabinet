@@ -76,6 +76,9 @@ function ProfilePage(props) {
   const currentUser = isExistUser() ? getUser() : {};
   console.log(currentUser);
 
+  const {
+    authStore: { reloadProfileInfo },
+  } = props;
   const setModalPasswordVisible = (visiblePassword) => {
     setVisiblePassword(visiblePassword);
   };
@@ -92,6 +95,8 @@ function ProfilePage(props) {
     setVisiblePhone(visiblePhone);
   };
 
+  const [t] = useTranslation();
+
   const modal_password = () => {
     const [form] = Form.useForm();
 
@@ -102,11 +107,11 @@ function ProfilePage(props) {
           type="primary"
           onClick={() => setModalPasswordVisible(true)}
         >
-          Parolni yangilash
+          {t("Parolni yangilash")}
         </Button>
 
         <Modal
-          title={<p>Parolni yangilash</p>}
+          title={<p>{t("Parolni yangilash")}</p>}
           centered
           visible={visiblePassword}
           onOk={() => setModalPasswordVisible(false)}
@@ -126,7 +131,6 @@ function ProfilePage(props) {
                 type="password"
               />
             </Form.Item>
-
             <Form.Item
               name="password"
               rules={[
@@ -141,7 +145,7 @@ function ProfilePage(props) {
             </Form.Item>
             <Form.Item>
               <Button className="button-submit" htmlType="submit">
-                Yangilash
+                {t("Yangilash")}
               </Button>
             </Form.Item>
           </Form>
@@ -296,13 +300,16 @@ function ProfilePage(props) {
             className="forAvatars"
           >
             <span>
-              <OperationForm onUploadFinish={uploadAvatar} />
+              <OperationForm
+                onUploadFinish={uploadAvatar}
+                reloadProfileInfo={reloadProfileInfo}
+              />
             </span>
           </Col>
           <Col span={24} sm={{ span: 24 }} md={{ span: 16 }}>
             <div className="all-list">
-              {data.map((item) => (
-                <div>
+              {data.map((item, idx) => (
+                <div key={idx}>
                   <List itemLayout="horizontal" className="lists">
                     <List.Item>
                       <List.Item.Meta
@@ -339,4 +346,4 @@ ProfilePage.propTypes = {
   profile: object,
 };
 
-export default inject("profile")(observer(ProfilePage));
+export default inject("profile", "authStore")(observer(ProfilePage));

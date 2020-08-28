@@ -1,16 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Upload } from "antd";
 import { API_URL } from "../../constants";
 import { LoadingOutlined, CameraFilled } from "@ant-design/icons";
-import { beforeUpload, getBase64 } from "../../common/utils/utils";
+import { beforeUpload, isExistUser, getUser } from "../../common/utils/utils";
 import { uploadFileToServer } from "../../common/services/common";
-import { useTranslation } from "react-i18next";
 
-const OperationForm = ({ onUploadFinish = () => null, form }) => {
-  const [t] = useTranslation();
-
+const OperationForm = ({ onUploadFinish = () => null, reloadProfileInfo }) => {
   const [loading, setLoading] = useState(false);
   const [photo, setPhoto] = useState("");
+
+  useEffect(() => {
+    isExistUser() && setPhoto(getUser().avatar);
+  }, []);
 
   const uploadProps = {
     action: `${API_URL}/resources/storeImage`,
@@ -19,19 +20,18 @@ const OperationForm = ({ onUploadFinish = () => null, form }) => {
     listType: "picture-card",
     showUploadList: false,
     className: "avatar-uploader",
-
     beforeUpload,
     onStart(file) {
       setLoading(true);
     },
     multiple: false,
     onSuccess(ret, file) {
-      getBase64(file, (imageUrl) => {
-        setPhoto(imageUrl);
-        setLoading(false);
-      });
       if (Array.isArray(ret) && ret.length) {
-        onUploadFinish({ profile_img: ret[0].id });
+        setPhoto(ret[0].file_url);
+        setLoading(false);
+        onUploadFinish({ profile_img: ret[0].id }).then(() => {
+          reloadProfileInfo();
+        });
       }
     },
     onError(err) {

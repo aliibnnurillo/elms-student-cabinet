@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Menu, Avatar, Button } from "antd";
 import {
   HomeOutlined,
@@ -10,23 +10,35 @@ import {
   MenuOutlined,
 } from "@ant-design/icons";
 import "./menu.css";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { ACTIVE_MENU_KEY } from "../../constants";
 import { observer, inject } from "mobx-react";
 
+const keys = ["home", "subjects", "curriculum", "posts", "rating", "exam"];
+
 const LeftMenu = ({ authStore: { activeSemesterId } }) => {
-  const [selectedKey, setSelectedKey] = useState(
-    localStorage.getItem(ACTIVE_MENU_KEY)
-      ? [localStorage.getItem(ACTIVE_MENU_KEY)]
-      : ["home"]
-  );
+  const [selectedKey, setSelectedKey] = useState(["home"]);
   const [visiable, setVisiable] = useState(false);
+  const { pathname } = useLocation();
+  useEffect(() => {
+    console.log(setSelectedKey(["home"]));
+    let f;
+    if (
+      pathname.split("/").some((item) => {
+        f = keys.findIndex((i) => i === item);
+        return f !== -1;
+      })
+    ) {
+      setSelectedKey([keys[f]]);
+    } else {
+      setSelectedKey([keys[0]]);
+    }
+  }, [pathname]);
 
   const handleSelect = ({ key }) => {
     setSelectedKey(key);
-    localStorage.setItem(ACTIVE_MENU_KEY, key);
   };
+
   const handleClick = (e) => {
     setVisiable(!visiable);
   };
@@ -49,37 +61,37 @@ const LeftMenu = ({ authStore: { activeSemesterId } }) => {
         mode="inline"
         onSelect={handleSelect}
       >
-        <Menu.Item key="home" className="nav-item">
-          <NavLink to="/" className="nav-link" onClick={handleClick}>
+        <Menu.Item key="home">
+          <NavLink to="/" onClick={handleClick}>
             <HomeOutlined />
             <span>{t("Bosh sahifa")}</span>
           </NavLink>
         </Menu.Item>
-        <Menu.Item className="nav-item" key="curriculum">
+        <Menu.Item key="curriculum">
           <NavLink to="/curriculum" onClick={handleClick}>
             <BankOutlined />
             <span>{t("O'quv rejasi")}</span>
           </NavLink>
         </Menu.Item>
-        <Menu.Item className="nav-item" key="subjects">
+        <Menu.Item key="subjects">
           <NavLink to={`/${activeSemesterId}/subjects`} onClick={handleClick}>
             <ReadOutlined />
             <span>{t("Fanlar")}</span>
           </NavLink>
         </Menu.Item>
-        <Menu.Item className="nav-item" key="exam">
+        <Menu.Item key="exam">
           <NavLink to="/exam" onClick={handleClick}>
             <ScheduleOutlined />
             <span>{t("Imtixonlar jadvali")}</span>
           </NavLink>
         </Menu.Item>
-        <Menu.Item className="nav-item" key="rating" onClick={handleClick}>
+        <Menu.Item key="rating" onClick={handleClick}>
           <NavLink to="/rating">
             <BookOutlined />
             <span>{t("Reyting daftarchsi")}</span>
           </NavLink>
         </Menu.Item>
-        <Menu.Item className="nav-item" key="posts">
+        <Menu.Item key="posts">
           <NavLink to="/posts" onClick={handleClick}>
             <ProfileOutlined />
             <span>{t("Yangiliklar va e'lonlar")}</span>

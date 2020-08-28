@@ -88,7 +88,7 @@
   color: #17152e;
   margin: 0;
 }
-.subject_about .subject-list-left .videos {
+.videos {
   border-radius: 12px;
   overflow: hidden;
 }
@@ -575,7 +575,7 @@
   background: #f3f4ff;
   border-radius: 12px;
   padding: 12px 0px;
-  width: 240px;
+  width: 100%;
   overflow: unset !important;
 }
 .task-list .ant-anchor-ink {

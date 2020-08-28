@@ -52,13 +52,17 @@ const SubjectList = ({ subjects: { fetchOne, loading, single } }) => {
                     <span>
                       {t("Modullar soni")}
                       <Tag className="count_teg">
-                        <Link to="#">10</Link>
+                        <Link to="#">
+                          {single.total_module ? single.total_module : 0}
+                        </Link>
                       </Tag>
                     </span>
                     <span>
                       {t("Darslar soni")}
                       <Tag className="count_teg">
-                        <Link to="#">10</Link>
+                        <Link to="#">
+                          {single.total_lesson ? single.total_lesson : 0}
+                        </Link>
                       </Tag>
                     </span>
                   </p>
@@ -124,7 +128,13 @@ const SubjectList = ({ subjects: { fetchOne, loading, single } }) => {
                                   <span className="list-icons">
                                     <span>
                                       <PieChartOutlined />
-                                      20%
+                                      {lesson.total_lesson_item
+                                        ? `${
+                                            (lesson.read_total_lesson_item /
+                                              lesson.total_lesson_item) *
+                                            100
+                                          }%`
+                                        : "0%"}
                                     </span>
                                     <RightOutlined />
                                   </span>

@@ -294,11 +294,13 @@ function LessonItem(props) {
               }
               key={idx}
             >
-              <Player
-                playsInline
-                poster="/photo.png"
-                src={item.file_url_video}
-              />
+              <div className="videos">
+                <Player
+                  playsInline
+                  poster="/photo.png"
+                  src={item.file_url_video}
+                />
+              </div>
             </TabPane>
           ) : item.type === "question-answer" ? (
             <TabPane

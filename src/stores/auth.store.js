@@ -5,6 +5,8 @@ import {
   validToken,
   saveUser,
   getActiveSemester,
+  isExistUser,
+  getUser,
 } from "../common/utils/utils";
 import { client } from "../common/utils/request";
 
@@ -12,14 +14,13 @@ import {
   API_URL,
   CURRENT_LANG,
   API_BASE_URL,
-  ACTIVE_MENU_KEY,
 } from "../constants";
 import flash from "./Flash";
 import Axios from "axios";
 
 class AuthStore {
   @observable authenticated = false;
-  @observable user = {};
+  @observable user = isExistUser() ? getUser() : {};
   @observable accessToken = "";
   @observable state = "";
   @observable error = null;
@@ -123,6 +124,35 @@ class AuthStore {
   };
 
   @action
+  reloadProfileInfo = async () => {
+    this.state = "pending";
+    try {
+      const res = await client.get(API_BASE_URL + "/profile/show", {
+        params: { language: CURRENT_LANG },
+      });
+
+      const { status, data } = res;
+
+      if (status === 200) {
+        if (Array.isArray(data.result) && data.result.length) {
+          this.setUser(data.result[0]);
+          saveUser({
+            id: data.result[0].id,
+            username: data.result[0].username,
+            email: data.result[0].email,
+            avatar: data.result[0].file_url_photo,
+            language: data.result[0].language,
+          });
+        }
+      }
+    } catch (error) {
+      runInAction(() => {
+        this.state = "error";
+      });
+    }
+  };
+
+  @action
   setUser = (val) => {
     this.user = val;
   };
@@ -193,7 +223,7 @@ class AuthStore {
       const token = sessionStorage.getItem("temp_access_token");
       sessionStorage.removeItem("temp_access_token");
 
-      if (status === 200) { 
+      if (status === 200) {
         console.log("new password response data -> ", data);
         return this.getRequiredData({
           access_token: token,
@@ -293,12 +323,29 @@ class AuthStore {
   };
 
   @action
+  setUser = (data) => {
+    this.user = {
+      id: data.id,
+      username: data.username,
+      email: data.email,
+      avatar: data.file_url_photo,
+      language: data.language,
+    };
+  };
+
+  @action
   setUserData = (loginData, userData) => {
     if (!loginData || !userData) return;
     const { access_token } = loginData;
     setToken(access_token);
-    this.user = userData;
-    saveUser(userData);
+    this.setUser(loginData);
+    saveUser({
+      id: userData.id,
+      username: userData.username,
+      email: userData.email,
+      avatar: userData.file_url_photo,
+      language: userData.language,
+    });
     this.authenticated = true;
     this.accessToken = access_token;
     this.state = "done";
@@ -323,7 +370,6 @@ class AuthStore {
   @action
   logout = () => {
     rmToken();
-    localStorage.removeItem(ACTIVE_MENU_KEY);
     this.reset();
   };
 

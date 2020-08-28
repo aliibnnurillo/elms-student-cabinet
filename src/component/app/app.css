@@ -21,3 +21,8 @@
 .bg-white {
   background-color: #fff;
 }
+
+.ant-tabs {
+  font-size: 1rem !important;
+  line-height: 1.8 !important;
+}

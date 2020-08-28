@@ -8,6 +8,8 @@ import { PercentsIcon } from "../../component/icons";
 import { observer, inject } from "mobx-react";
 import "moment/locale/uz-latn";
 import moment from "moment";
+import { getActiveSemester } from "../../common/utils/utils";
+import { useTranslation } from "react-i18next";
 moment.locale("uz-latn");
 
 const data = [
@@ -59,6 +61,8 @@ const HomePage = ({
     fetchSemesterSubjects();
     console.log("salom");
   }, []);
+
+  const [t] = useTranslation();
 
   return (
     <>
@@ -166,7 +170,7 @@ const HomePage = ({
             </div>
           </div>
           <div className="for-subjects-block">
-            <h2>Fanlar</h2>
+            <h2>{t("Fanlar")}</h2>
             <Row gutter={[20, 14]}>
               {semesterSubjects.map((item) => (
                 <Col
@@ -178,24 +182,30 @@ const HomePage = ({
                   md={{ span: 12 }}
                   sm={{ span: 24 }}
                 >
-                  <Card className="for-card-subjects">
-                    <Meta
-                      avatar={<Avatar size={64} src={item.file_url_photo} />}
-                      title={
-                        <Link to="">
-                          {item.subject_name ? item.subject_name : null}
-                        </Link>
-                      }
-                      description={
-                        <p>
-                          <span>Modul 4 / 9-Dars</span>
-                          <span>
-                            <PercentsIcon /> 56%
-                          </span>
-                        </p>
-                      }
-                    />
-                  </Card>
+                  <Link
+                    to={`/${getActiveSemester()}/subjects/${item.subject_id}`}
+                  >
+                    <Card className="for-card-subjects">
+                      <Meta
+                        avatar={<Avatar size={64} src={item.file_url_photo} />}
+                        title={
+                          <h3>
+                            {item.subject_name ? item.subject_name : null}
+                          </h3>
+                        }
+                        description={
+                          <p>
+                            <span>
+                              {t("Modul")} {item.total_module} / 1-{t("Dars")}
+                            </span>
+                            <span>
+                              <PercentsIcon /> 56%
+                            </span>
+                          </p>
+                        }
+                      />
+                    </Card>
+                  </Link>
                 </Col>
               ))}
             </Row>

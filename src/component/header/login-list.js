@@ -1,5 +1,5 @@
-import React from "react";
-import { Avatar, Popover, List, Typography } from "antd";
+import React, { useEffect, useState } from "react";
+import { Avatar, Popover, List } from "antd";
 import { Link, withRouter } from "react-router-dom";
 import {
   UserOutlined,
@@ -8,7 +8,7 @@ import {
 } from "@ant-design/icons";
 import { inject, observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import { getUser, isExistUser } from "../../common/utils/utils";
+import { extractFirstCharacter } from "../../common/utils/utils";
 
 const LoginList = ({ authStore: { logout, user }, history }) => {
   const onLogout = (e) => {
@@ -17,7 +17,12 @@ const LoginList = ({ authStore: { logout, user }, history }) => {
     history.push("/user/login");
   };
 
-  const currentUser = user || isExistUser() ? getUser() : {};
+  const [currentUser, setCurrentUser] = useState(user);
+
+  useEffect(() => {
+    setCurrentUser(user);
+    console.log("user chage");
+  }, [user]);
 
   const [t] = useTranslation();
   return (
@@ -49,11 +54,11 @@ const LoginList = ({ authStore: { logout, user }, history }) => {
       trigger="click"
       overlayClassName="loginList-class"
     >
-      {currentUser.photo ? (
+      {currentUser && currentUser.avatar ? (
         <Avatar
           size={40}
           className="img-avatars user-icon"
-          src={currentUser.photo}
+          src={currentUser.avatar}
           alt="avatar"
         />
       ) : (
@@ -65,7 +70,11 @@ const LoginList = ({ authStore: { logout, user }, history }) => {
               "#" +
               ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, "0"),
           }}
-        />
+        >
+          {currentUser && currentUser.username
+            ? extractFirstCharacter(currentUser.username).toUpperCase()
+            : "U"}
+        </Avatar>
       )}
     </Popover>
   );

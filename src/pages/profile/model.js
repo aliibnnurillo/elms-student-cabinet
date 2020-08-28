@@ -28,7 +28,6 @@ class ProfileModel extends CommonStore {
       });
       if (response.status === 200) {
         this.setState("done");
-        flash.setFlash("success", "Successfully created!");
       }
     } catch (error) {
       this.setState("error");

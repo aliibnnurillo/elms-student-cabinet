@@ -18,7 +18,13 @@ import { SubjectsHeader } from "../../../component/header";
 import { inject, observer } from "mobx-react";
 import { useParams, useHistory, useLocation } from "react-router-dom";
 import LessonItem from "./lessonItems";
-import { extractFirstCharacter } from "../../../common/utils/utils";
+import {
+  extractFirstCharacter,
+  getUser,
+  isExistUser,
+} from "../../../common/utils/utils";
+import { useTranslation } from "react-i18next";
+import UserAvatar from "../../../component/UserAvatar";
 
 const { Link } = Anchor;
 
@@ -33,10 +39,7 @@ const CommentList = ({ comments }) => (
         {...props}
         avatar={
           props.avatar ? (
-            <Avatar
-              src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-              alt="Han Solo"
-            />
+            <Avatar src={props.avatar} alt={props.author} size="large" />
           ) : (
             <Avatar size="large">
               {extractFirstCharacter(props.author).toUpperCase()}
@@ -54,7 +57,9 @@ const Editor = ({ onSubmit, submitting, lessonId }) => {
     if (!value) {
       return;
     }
-    onSubmit(lessonId, value);
+    onSubmit(lessonId, value).then(() => {
+      setValue("");
+    });
   };
 
   return (
@@ -62,6 +67,7 @@ const Editor = ({ onSubmit, submitting, lessonId }) => {
       <Form.Item className="write-comment">
         <TextArea
           rows={1}
+          autoSize
           cols={24}
           onChange={(e) => setValue(e.target.value)}
           value={value}
@@ -106,6 +112,8 @@ const Lesson = ({
     });
   }, []);
 
+  const [t] = useTranslation();
+
   useEffect(() => {
     if (!hash) {
       single &&
@@ -127,8 +135,8 @@ const Lesson = ({
       <div className="content">
         <div className="tasks">
           <Spin spinning={loading}>
-            <Row gutter={20}>
-              <Col span={6}>
+            <Row gutter={[20, 20]}>
+              <Col xs={24} md={8} lg={4}>
                 <div className="task-list">
                   <Anchor
                     className="task-menu"
@@ -159,9 +167,9 @@ const Lesson = ({
                                       key={lesson.id}
                                       href={`#${lesson.id}`}
                                       title={`${idx + 1}.${index + 1} ${
-                                        module.name.length > 32
-                                          ? `${module.name.substr(0, 31)}...`
-                                          : module.name
+                                        lesson.name.length > 29
+                                          ? `${lesson.name.substr(0, 27)}...`
+                                          : lesson.name
                                       }`}
                                     />
                                   ))
@@ -173,22 +181,31 @@ const Lesson = ({
                   </Anchor>
                 </div>
               </Col>
-              <Col span={18}>
+              <Col xs={24} md={16} lg={20}>
                 {lessonItems.length ? (
                   <Row>
-                    <Col span={18} offset={3}>
+                    <Col
+                      xs={24}
+                      lg={{ offset: 1, span: 20 }}
+                      xl={{ offset: 3, span: 18 }}
+                      xxl={{ offset: 4, span: 16 }}
+                    >
                       <LessonItem lessonId={id} />
                     </Col>
-                    <Col span={18} offset={3} className="comments-list">
-                      <h3>{comments.length}-ta sharh</h3>
+                    <Col
+                      xs={24}
+                      lg={{ offset: 1, span: 20 }}
+                      xl={{ offset: 3, span: 18 }}
+                      xxl={{ offset: 4, span: 16 }}
+                      className="comments-list"
+                    >
+                      <h3>
+                        {comments.length}-{t("ta sharh")}
+                      </h3>
                       <>
                         <Comment
                           avatar={
-                            <Avatar
-                              src="/assets/userimg.jpg"
-                              alt="Alisher Saidov"
-                              size={40}
-                            />
+                            <UserAvatar user={isExistUser() ? getUser() : {}} />
                           }
                           content={
                             <Editor
@@ -205,7 +222,7 @@ const Lesson = ({
                     </Col>
                   </Row>
                 ) : !loading ? (
-                  <h2>Hali bu dars uchun ma'lumot yuklanmagan.</h2>
+                  <h2>{t("Hali bu dars uchun ma'lumot yuklanmagan.")}</h2>
                 ) : null}
               </Col>
             </Row>
