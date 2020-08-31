@@ -136,13 +136,15 @@ const Lesson = ({
         <div className="tasks">
           <Spin spinning={loading}>
             <Row gutter={[20, 20]}>
-              <Col xs={24} md={8} lg={4}>
+              <Col xs={24} md={8} lg={7}>
                 <div className="task-list">
                   <Anchor
                     className="task-menu"
                     onClick={(e, link) => {
+                      e.preventDefault();
                       console.log(link);
                     }}
+                    affix={false}
                   >
                     {Array.isArray(single.module)
                       ? single.module.map((module, idx, modules) => {
@@ -155,11 +157,7 @@ const Lesson = ({
                               }}
                               href={`#${modules[idx].lessons[0].id}`}
                               className="lesson-name"
-                              title={`${idx + 1} ${
-                                module.name.length > 30
-                                  ? `${module.name.substr(0, 29)}...`
-                                  : module.name
-                              }`}
+                              title={`${idx + 1} ${module.name}`}
                             >
                               {Array.isArray(module.lessons)
                                 ? module.lessons.map((lesson, index) => (
@@ -167,9 +165,7 @@ const Lesson = ({
                                       key={lesson.id}
                                       href={`#${lesson.id}`}
                                       title={`${idx + 1}.${index + 1} ${
-                                        lesson.name.length > 29
-                                          ? `${lesson.name.substr(0, 27)}...`
-                                          : lesson.name
+                                        lesson.name
                                       }`}
                                     />
                                   ))
@@ -181,22 +177,20 @@ const Lesson = ({
                   </Anchor>
                 </div>
               </Col>
-              <Col xs={24} md={16} lg={20}>
+              <Col xs={24} md={16} lg={17}>
                 {lessonItems.length ? (
                   <Row>
                     <Col
                       xs={24}
                       lg={{ offset: 1, span: 20 }}
-                      xl={{ offset: 3, span: 18 }}
-                      xxl={{ offset: 4, span: 16 }}
+                      xxl={{ offset: 2, span: 16 }}
                     >
                       <LessonItem lessonId={id} />
                     </Col>
                     <Col
                       xs={24}
                       lg={{ offset: 1, span: 20 }}
-                      xl={{ offset: 3, span: 18 }}
-                      xxl={{ offset: 4, span: 16 }}
+                      xxl={{ offset: 2, span: 16 }}
                       className="comments-list"
                     >
                       <h3>

@@ -26,3 +26,7 @@
   font-size: 1rem !important;
   line-height: 1.8 !important;
 }
+
+.ant-tabs-tabpane p {
+  text-align: justify;
+}

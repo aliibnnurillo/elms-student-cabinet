@@ -113,8 +113,9 @@
 .subject_about .subject-list-left > p {
   font-style: normal;
   font-weight: normal;
-  font-size: 18px;
+  font-size: 1rem;
   line-height: 200%;
+  text-align: justify;
   color: #17152e;
 }
 .lesson-list {
@@ -124,7 +125,7 @@
   color: #17152e;
   font-style: normal;
   font-weight: bold;
-  font-size: 18px;
+  font-size: 17px;
 }
 .subject_about .lesson-list p {
   color: #17152e;
@@ -618,6 +619,7 @@
   color: #fff;
   transition: 0.3s ease all;
 }
+
 .task-list .ant-anchor-ink-ball {
   width: 2.8px;
   height: 38px !important;
@@ -647,6 +649,7 @@
 }
 .task-list .ant-anchor-link .ant-anchor-link-title {
   overflow: unset !important;
+  white-space: unset;
 }
 @media screen and (max-width: 1367px) {
   .line {
