@@ -572,16 +572,55 @@
 /* .task-list .ant-anchor-wrapper {
  
 } */
+
 .task-list .task-menu {
   background: #f3f4ff;
   border-radius: 12px;
-  padding: 12px 0px;
+  padding: 12px 0;
+  padding-left: 6px;
   width: 100%;
   overflow: unset !important;
+  text-decoration: none;
+  list-style-type: none;
+  position: relative;
 }
+.task-list .task-menu:after {
+  content: "";
+  width: 6px;
+  height: 99.5%;
+  position: absolute;
+  left: 1px;
+  top: 2px;
+  background: #22c86422;
+  z-index: 999;
+  border-radius: 5px;
+}
+.task-list .task-menu li h3 {
+  margin-bottom: 0;
+}
+.task-list .task-menu li a {
+  width: 100% !important;
+  display: block;
+  padding: 10px 14px;
+  position: relative;
+}
+.task-list .task-menu li a.active {
+  background: #5767f6;
+  color: #fff;
+}
+.task-list .task-menu li a.active::after {
+  content: "";
+  height: 20px;
+  width: 20px;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: rotate(45deg) translateY(-50%);
+  background: #5767f6;
+}
+
 .task-list .ant-anchor-ink {
   left: 0px;
-
   width: 3px !important;
 }
 .task-list .ant-anchor-ink::before {
@@ -589,8 +628,8 @@
   background: #22c86422;
 }
 .task-list .lesson-name {
-  padding: 0;
-  padding-left: 2px;
+  padding: 5px 12px;
+  padding-right: 16px;
 }
 .task-list .lesson-name > a {
   color: #17152e;

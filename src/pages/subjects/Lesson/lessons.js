@@ -16,7 +16,7 @@ import {
 import { SendOutlined } from "@ant-design/icons";
 import { SubjectsHeader } from "../../../component/header";
 import { inject, observer } from "mobx-react";
-import { useParams, useHistory, useLocation } from "react-router-dom";
+import { useParams, useHistory, useLocation, Link } from "react-router-dom";
 import LessonItem from "./lessonItems";
 import {
   extractFirstCharacter,
@@ -25,8 +25,6 @@ import {
 } from "../../../common/utils/utils";
 import { useTranslation } from "react-i18next";
 import UserAvatar from "../../../component/UserAvatar";
-
-const { Link } = Anchor;
 
 const { TextArea } = Input;
 
@@ -104,6 +102,7 @@ const Lesson = ({
   const { semesterId, subjectId, id } = useParams();
   const his = useHistory();
   const { hash } = useLocation();
+
   useEffect(() => {
     console.log(semesterId, subjectId, hash);
 
@@ -129,6 +128,14 @@ const Lesson = ({
     } else fetchLessonItems({ semesterId, subjectId, lessonId: hash.slice(1) });
   }, [hash, semesterId, subjectId, fetchLessonItems]);
 
+  const events = (e) => {
+    let l = document.querySelectorAll(".les-item-link");
+    let n = document.getElementsByClassName("");
+    let i = document.getElementsByClassName("les-items");
+
+    let m = e.target;
+    m.classList.add("active");
+  };
   return (
     <>
       <SubjectsHeader />
@@ -138,8 +145,8 @@ const Lesson = ({
             <Row gutter={[20, 20]}>
               <Col xs={24} md={8} lg={7}>
                 <div className="task-list">
-                  <Anchor
-                    className="task-menu"
+                  <ul
+                    className="task-menu "
                     onClick={(e, link) => {
                       e.preventDefault();
                       console.log(link);
@@ -149,32 +156,27 @@ const Lesson = ({
                     {Array.isArray(single.module)
                       ? single.module.map((module, idx, modules) => {
                           return (
-                            <Link
-                              key={idx}
-                              onClick={(e) => {
-                                e.prevendDefault();
-                                alert("ass");
-                              }}
-                              href={`#${modules[idx].lessons[0].id}`}
-                              className="lesson-name"
-                              title={`${idx + 1} ${module.name}`}
-                            >
+                            <li key={idx} classList="les-items">
+                              <h3 className="lesson-name">{`${idx + 1} ${
+                                module.name
+                              }`}</h3>
                               {Array.isArray(module.lessons)
                                 ? module.lessons.map((lesson, index) => (
                                     <Link
+                                      className="les-item-link"
                                       key={lesson.id}
-                                      href={`#${lesson.id}`}
-                                      title={`${idx + 1}.${index + 1} ${
-                                        lesson.name
-                                      }`}
-                                    />
+                                      onClick={events}
+                                      to={`#${lesson.id}`}
+                                    >{`${idx + 1}.${index + 1} ${
+                                      lesson.name
+                                    }`}</Link>
                                   ))
                                 : null}
-                            </Link>
+                            </li>
                           );
                         })
                       : null}
-                  </Anchor>
+                  </ul>
                 </div>
               </Col>
               <Col xs={24} md={16} lg={17}>
