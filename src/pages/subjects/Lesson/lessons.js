@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import moment from "moment";
 import { useState } from "react";
 import {
   Row,
@@ -13,10 +12,16 @@ import {
   Anchor,
   Spin,
 } from "antd";
-import { SendOutlined } from "@ant-design/icons";
+import {
+  SendOutlined,
+  PictureOutlined,
+  FileZipOutlined,
+  FileTextFilled,
+  FileWordOutlined,
+} from "@ant-design/icons";
 import { SubjectsHeader } from "../../../component/header";
 import { inject, observer } from "mobx-react";
-import { useParams, useHistory, useLocation } from "react-router-dom";
+import { useParams, useLocation, Link } from "react-router-dom";
 import LessonItem from "./lessonItems";
 import {
   extractFirstCharacter,
@@ -26,7 +31,7 @@ import {
 import { useTranslation } from "react-i18next";
 import UserAvatar from "../../../component/UserAvatar";
 
-const { Link } = Anchor;
+const AnchorLink = Anchor.Link;
 
 const { TextArea } = Input;
 
@@ -93,21 +98,39 @@ const Lesson = ({
     currentLesson,
     fetchLessonItems,
     lessonItems,
-    fetchLessonResources,
     single,
     fetchOne,
     fetchComments,
     comments,
     saveComment,
+    resourceFiles,
+    fetchLessonResources,
   },
 }) => {
   const { semesterId, subjectId, id } = useParams();
-  const his = useHistory();
   const { hash } = useLocation();
   useEffect(() => {
     console.log(semesterId, subjectId, hash);
 
     fetchOne(subjectId).then((res) => {
+      if (hash) {
+        fetchLessonItems({ semesterId, subjectId, lessonId: hash.slice(1) });
+        fetchLessonResources({
+          semesterId,
+          subjectId,
+          lessonId: hash.slice(1),
+        });
+      } else
+        fetchLessonItems({
+          semesterId,
+          subjectId,
+          lessonId: id,
+        });
+      fetchLessonResources({
+        semesterId,
+        subjectId,
+        lessonId: hash.slice(1),
+      });
       fetchComments(id);
     });
   }, []);
@@ -115,19 +138,15 @@ const Lesson = ({
   const [t] = useTranslation();
 
   useEffect(() => {
-    if (!hash) {
-      single &&
-        Array.isArray(single.module) &&
-        single.module.length &&
-        Array.isArray(single.module[0].lessons) &&
-        single.module[0].lessons.length &&
-        fetchLessonItems({
-          semesterId,
-          subjectId,
-          lessonId: single.module[0].lessons[0].id,
-        });
-    } else fetchLessonItems({ semesterId, subjectId, lessonId: hash.slice(1) });
-  }, [hash, semesterId, subjectId, fetchLessonItems]);
+    if (hash) {
+      fetchLessonItems({ semesterId, subjectId, lessonId: hash.slice(1) });
+      fetchLessonResources({
+        semesterId,
+        subjectId,
+        lessonId: hash.slice(1),
+      });
+    }
+  }, [hash, semesterId, subjectId, fetchLessonItems, fetchLessonResources]);
 
   return (
     <>
@@ -141,7 +160,6 @@ const Lesson = ({
                   <Anchor
                     className="task-menu"
                     onClick={(e, link) => {
-                      e.preventDefault();
                       console.log(link);
                     }}
                     affix={false}
@@ -149,7 +167,7 @@ const Lesson = ({
                     {Array.isArray(single.module)
                       ? single.module.map((module, idx, modules) => {
                           return (
-                            <Link
+                            <AnchorLink
                               key={idx}
                               onClick={(e) => {
                                 e.prevendDefault();
@@ -161,7 +179,7 @@ const Lesson = ({
                             >
                               {Array.isArray(module.lessons)
                                 ? module.lessons.map((lesson, index) => (
-                                    <Link
+                                    <AnchorLink
                                       key={lesson.id}
                                       href={`#${lesson.id}`}
                                       title={`${idx + 1}.${index + 1} ${
@@ -170,7 +188,7 @@ const Lesson = ({
                                     />
                                   ))
                                 : null}
-                            </Link>
+                            </AnchorLink>
                           );
                         })
                       : null}
@@ -213,6 +231,68 @@ const Lesson = ({
                           <CommentList comments={comments} />
                         )}
                       </>
+                    </Col>
+                    <Col
+                      xs={24}
+                      lg={{ offset: 1, span: 20 }}
+                      xxl={{ offset: 2, span: 16 }}
+                    >
+                      <h2>{t("Darsga doir resurslar")}</h2>
+                      <div style={{ display: "flex", flexDirection: "column" }}>
+                        {resourceFiles.map((resource) => {
+                          let IconType = "";
+                          const _item = resource.media[0];
+                          switch (_item.extension) {
+                            case "zip":
+                              IconType = FileZipOutlined;
+                              break;
+                            case "png":
+                            case "jpg":
+                            case "jpeg":
+                              IconType = PictureOutlined;
+                              break;
+                            case "pdf":
+                              IconType = FileTextFilled;
+                              break;
+                            case "doc":
+                            case "docx":
+                              IconType = FileWordOutlined;
+                              break;
+                            default:
+                              break;
+                          }
+                          return (
+                            <div
+                              key={resource.id}
+                              style={{
+                                backgroundColor: "#F3F4FF",
+                                display: "flex",
+                                borderRadius: 12,
+                                alignItems: "center",
+                                padding: 12,
+                                margin: 6,
+                              }}
+                            >
+                              <span
+                                className="icon-wrapper bg-white"
+                                style={{ marginRight: 12 }}
+                              >
+                                <IconType />
+                              </span>
+                              <Link
+                                to={resource.file_url_resource}
+                                target="_blank"
+                                onClick={(event) => {
+                                  event.preventDefault();
+                                  window.open(resource.file_url_resource);
+                                }}
+                              >
+                                {resource.fileName ? resource.fileName : "Fayl"}
+                              </Link>
+                            </div>
+                          );
+                        })}
+                      </div>
                     </Col>
                   </Row>
                 ) : !loading ? (

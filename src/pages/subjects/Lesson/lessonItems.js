@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Tabs,
   message,
@@ -7,13 +7,12 @@ import {
   Collapse,
   Upload,
   Radio,
-  Spin,
+  Carousel,
+  Result,
 } from "antd";
-import PropTypes from "prop-types";
 import { observer, inject } from "mobx-react";
 import { Player } from "video-react";
 import "./lesson.css";
-import moment from "moment";
 import {
   FileTextFilled,
   VideoCameraFilled,
@@ -25,7 +24,7 @@ import {
 import { UploadIcon } from "../../../component/icons";
 import { API_URL } from "../../../constants";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const { TabPane } = Tabs;
 
@@ -43,7 +42,6 @@ const UploadDragger = ({
     listType: "picture",
     onSuccess(ret, file) {
       if (Array.isArray(ret.result) && ret.result.length) {
-        console.log("file onsuccess => ", ret.result[0]);
         setQuestionFiles([...questionFiles, file]);
         setResource(ret.result[0]);
       }
@@ -226,34 +224,74 @@ const QuizItem = inject("subjects")(
   )
 );
 
-const TestItem = ({ data }) => {
+const TestItem = ({ data, sendAnswerToTestQuestion }) => {
   const [current, setCurrent] = useState(0);
   const [valueone, setValueone] = useState("");
 
-  const next = () => {
-    setCurrent(current + 1);
-  };
+  const [t] = useTranslation();
 
   console.log(data);
-  const onChangeOne = (e) => {
+  const onChangeAnswer = (e) => {
     console.log("radio1 checked", e.target.value);
     setValueone(e.target.value);
+  };
+  const onChange = (from, to) => {
+    setCurrent(current + 1);
+  };
+  const carousel = useRef(null);
+
+  const onSendAnswer = () => {
+    if (!valueone) {
+      message.error(t("Siz javob tanlamadingiz!"));
+      return;
+    }
+    sendAnswerToTestQuestion(
+      data.id,
+      data.test_question[current].id,
+      valueone
+    ).then((res) => {
+      if (res.status === 200) {
+        setValueone("");
+        carousel.current.next();
+      }
+    });
   };
   return (
     <div>
       <div className="question-test">
-        <h2>
-          Test savoli <span>3/10</span>
-        </h2>
-        <p className="question">
-          Merosxo'rlik turlari to'gri ko'rsatilgan javobni tanlang
-        </p>
+        {current < data.test_question.length ? (
+          <>
+            <h2>
+              {t("Test savoli")}
+              <span>
+                {current + 1} / {data.test_question.length}
+              </span>
+            </h2>
+            <Carousel ref={carousel} beforeChange={onChange}>
+              {data.test_question.map((test) => {
+                return (
+                  <div key={test.id}>
+                    <p
+                      className="question"
+                      dangerouslySetInnerHTML={{ __html: test.question }}
+                    ></p>
 
-        <Radio.Group options={data} onChange={onChangeOne} value={valueone} />
-
-        <p className="next">
-          <Button>Keyingi savol</Button>
-        </p>
+                    <Radio.Group
+                      options={test.test_answers}
+                      onChange={onChangeAnswer}
+                      value={valueone}
+                    />
+                  </div>
+                );
+              })}
+            </Carousel>
+            <p className="next">
+              <Button onClick={onSendAnswer}>{t("Keyingi savol")}</Button>
+            </p>
+          </>
+        ) : (
+          <Result status="success" title="Test result successfully saved!" />
+        )}
       </div>
     </div>
   );
@@ -261,13 +299,22 @@ const TestItem = ({ data }) => {
 
 function LessonItem(props) {
   const {
-    subjects: { lessonItems },
+    subjects: { lessonItems, fetchOneLessonItem, sendAnswerToTestQuestion },
     lessonId,
   } = props;
+  const { semesterId, subjectId } = useParams();
+
   const callback = (key) => {
-    console.log(key);
+    const id = key.split("=>")[0];
+    const type = key.split("=>")[1];
+    fetchOneLessonItem({
+      semesterId,
+      subjectId,
+      lessonId,
+      id,
+      type,
+    });
   };
-  console.log(lessonItems);
   return (
     <div sytle={{ width: "100%" }}>
       <Tabs onChange={callback} type="card">
@@ -279,7 +326,7 @@ function LessonItem(props) {
                   <FileTextFilled />
                 </span>
               }
-              key={idx}
+              key={`${item.id}=>text`}
             >
               {item.text ? (
                 <p dangerouslySetInnerHTML={{ __html: item.text }}></p>
@@ -292,7 +339,7 @@ function LessonItem(props) {
                   <VideoCameraFilled />
                 </span>
               }
-              key={idx}
+              key={`${item.id}=>video`}
             >
               <div className="videos">
                 <Player
@@ -309,7 +356,7 @@ function LessonItem(props) {
                   <FileUnknownFilled />
                 </span>
               }
-              key={idx}
+              key={`${item.id}=>question-answer`}
             >
               <QuizItem lessonId={lessonId} data={item} />
             </TabPane>
@@ -320,9 +367,14 @@ function LessonItem(props) {
                   <CheckSquareFilled />
                 </span>
               }
-              key={idx}
+              key={`${item.id}=>test`}
             >
-              <TestItem data={item} />
+              {Array.isArray(item.test_question) ? (
+                <TestItem
+                  data={item}
+                  sendAnswerToTestQuestion={sendAnswerToTestQuestion}
+                />
+              ) : null}
             </TabPane>
           ) : null;
         })}

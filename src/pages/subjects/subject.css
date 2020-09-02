@@ -452,7 +452,7 @@
 .question-test {
   background: #f3f4ff;
   border-radius: 12px;
-  padding: 24px 20px;
+  padding: 24px 0;
 }
 .question-test h2 {
   margin: 0;
@@ -460,18 +460,23 @@
   font-weight: bold;
   font-size: 18px !important;
   line-height: 18px;
-  margin-bottom: 24px;
+  margin-bottom: 12px;
   display: flex;
+  padding: 0 20px;
   justify-content: space-between;
 }
 .question-test h2 span {
   color: #aab1f1;
 }
+.question-test .slick-slide {
+  padding: 16px 20px;
+}
 .question-test .question {
   color: #17152e;
   font-weight: normal;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 180%;
+  margin-bottom: 18px;
 }
 .question-test .ant-list.ant-list-sm.ant-list-split.ant-list-bordered {
   border: none;
@@ -556,7 +561,7 @@
 }
 .question-test .next {
   text-align: center;
-  margin: 24px 0 0;
+  margin: 4px 0 4px;
 }
 .question-test .next button {
   background: #5767f6;
