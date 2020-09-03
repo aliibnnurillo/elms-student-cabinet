@@ -137,14 +137,21 @@ class SubjectsModel extends CommonStore {
   };
 
   @action
-  fetchLessonItems = async ({ semesterId, subjectId, lessonId } = {}) => {
+  fetchLessonItems = async ({
+    semesterId,
+    subjectId,
+    lessonId,
+    params = {},
+  } = {}) => {
     this.setState("pending");
     this.lessonItems = [];
+
     try {
       const response = await client.get(
         `/syllabus/SubjectLessonItems/${semesterId}`,
         {
           params: {
+            ...params,
             subject_id: subjectId,
             language: CURRENT_LANG,
             syllabus_module_lesson_id: lessonId,
@@ -158,6 +165,66 @@ class SubjectsModel extends CommonStore {
           ? data.result.data
           : [];
         this.setState("done");
+      }
+    } catch (error) {
+      this.setState("error");
+      flash.setFlash("error", "Error occurred!");
+    }
+  };
+
+  @action
+  fetchOneLessonItem = async ({
+    semesterId,
+    subjectId,
+    lessonId,
+    id = "",
+    type = "",
+  } = {}) => {
+    this.setState("pending");
+
+    try {
+      const response = await client.get(
+        `/syllabus/SubjectLessonItems/${semesterId}`,
+        {
+          params: {
+            type,
+            syllabus_module_lesson_item_id: id,
+            subject_id: subjectId,
+            language: CURRENT_LANG,
+            syllabus_module_lesson_id: lessonId,
+          },
+        }
+      );
+      const { status, data } = response;
+      console.log("fetch one lesson item => ", data);
+      if (status === 200) {
+        const copy = Array.from(this.lessonItems);
+
+        if (Array.isArray(data.result.data) && data.result.data.length) {
+          const removedIndex = copy.findIndex((item) => +item.id === +id);
+          let _res = { ...data.result.data[0] };
+
+          if (type === "test") {
+            _res.test_question = Array.isArray(_res.test_question)
+              ? _res.test_question.map((item) => ({
+                  ...item,
+                  test_answers: Array.isArray(item.test_answers)
+                    ? item.test_answers.map((ans) => ({
+                        label: ans.answer,
+                        value: ans.id,
+                      }))
+                    : [],
+                }))
+              : [];
+          }
+
+          if (removedIndex !== -1) {
+            copy[removedIndex] = _res;
+            this.lessonItems = copy;
+            console.log("ichida ", copy[removedIndex], copy);
+          }
+          this.setState("done");
+        }
       }
     } catch (error) {
       this.setState("error");
@@ -197,6 +264,29 @@ class SubjectsModel extends CommonStore {
     } catch (error) {
       this.setState("error");
       flash.setFlash("error", "Error occurred!");
+    }
+  };
+
+  @action
+  sendAnswerToTestQuestion = async (
+    itemId = "",
+    test_question_id = "",
+    test_answer_id = ""
+  ) => {
+    this.setState("pending");
+    try {
+      const response = await client.post(
+        "/syllabus/InCompleteTestStore/" + itemId,
+        { test_question_id, test_answer_id }
+      );
+      const { status } = response;
+      if (status === 200) {
+        this.setState("done");
+      }
+      return response;
+    } catch (error) {
+      this.setState("error");
+      return error.response;
     }
   };
 
@@ -288,25 +378,36 @@ class SubjectsModel extends CommonStore {
     }
   };
 
+  @observable resourceFiles = [];
+
   @action
   fetchLessonResources = async ({ semesterId, subjectId, lessonId } = {}) => {
     this.setState("pending");
-    // this.currentLesson = {};
+    this.resourceFiles = [];
     try {
       const response = await client.get(
         `/syllabus/SubjectLessonResource/${semesterId}`,
         {
           params: {
             subject_id: subjectId,
-            language: CURRENT_LANG,
             syllabus_module_lesson_id: lessonId,
           },
         }
       );
       const { status, data } = response;
-      console.log("fetch lesson items => ", response);
+      console.log("fetch lesson resources => ", response);
       if (status === 200) {
+        const _result = Array.isArray(data.result.data)
+          ? data.result.data.map((item) => ({
+              ...item,
+              fileName: item.file_url_resource.slice(
+                item.file_url_resource.lastIndexOf("/") + 1
+              ),
+            }))
+          : [];
+        this.resourceFiles = _result;
         this.setState("done");
+        console.log("fayllar => ", this.resourceFiles);
       }
     } catch (error) {
       this.setState("error");
