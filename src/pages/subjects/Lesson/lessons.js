@@ -150,8 +150,8 @@ const Lesson = ({
   const events = (e) => {
     let l = document.querySelectorAll(".les-item-link");
     let n = document.getElementsByClassName("");
-    let i = document.getElementsByClassName("les-items");
-
+    let i = document.getElementsByClassName(".les-items");
+    i.remove("active");
     let m = e.target;
     m.classList.add("active");
   };
