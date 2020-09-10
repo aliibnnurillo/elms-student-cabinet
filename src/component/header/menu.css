@@ -536,4 +536,15 @@
   .page-header .header-right > span:first-child {
     margin-left: 0;
   }
+
+  .news-header
+    .ant-page-header.site-page-header.ant-page-header-ghost.ant-page-header-compact {
+    order: 1;
+  }
+  .news-header .header-right {
+    order: 2;
+  }
+  .news-header .center.select-for-news {
+    order: 3;
+  }
 }

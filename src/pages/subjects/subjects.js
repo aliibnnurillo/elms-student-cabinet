@@ -18,7 +18,7 @@ const Subjects = ({
 
   const [t] = useTranslation();
   return (
-    <>
+    <div>
       <SubjectsHeader />
       <div className="content">
         <div className="subject_page">
@@ -71,7 +71,7 @@ const Subjects = ({
           </Spin>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

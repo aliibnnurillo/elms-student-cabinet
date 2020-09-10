@@ -27,7 +27,7 @@ const NewsHeader = ({ posts: { setType, type } }) => {
   const [t] = useTranslation();
   return (
     <>
-      <div className="page-header">
+      <div className="page-header news-header">
         <PageHeader className="site-page-header" title={t("Yangiliklar")}>
           <Breadcrumb separator={<Arrow />}>
             <Breadcrumb.Item href="/">
