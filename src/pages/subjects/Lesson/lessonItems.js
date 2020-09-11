@@ -21,7 +21,7 @@ import {
   FileZipOutlined,
   PictureOutlined,
 } from "@ant-design/icons";
-import { UploadIcon } from "../../../component/icons";
+import { UploadIcon, Checked, Canceled } from "../../../component/icons";
 import { API_URL } from "../../../constants";
 import { useTranslation } from "react-i18next";
 import { Link, useParams } from "react-router-dom";
@@ -57,7 +57,7 @@ const UploadDragger = ({
         <UploadIcon style={{ color: "hotpink" }} />
         <h3>{t("Fayl yuklash")}</h3>
       </div>
-      <p className="ant-upload-text">
+      <p className="ant-upload-text text-center">
         <Tag>pdf</Tag>
         <Tag>word</Tag>
         <Tag>jpeg</Tag>
@@ -65,7 +65,7 @@ const UploadDragger = ({
         <Tag>zip</Tag>
         <Tag>rar</Tag>
       </p>
-      <p className="ant-upload-hint">Max: 10mb</p>
+      <p className="ant-upload-hint text-center">Max: 10mb</p>
     </Dragger>
   );
 };
@@ -131,7 +131,11 @@ const QuizItem = inject("subjects")(
                 removeQuestionFile={removeQuestionFile}
               />
               <p className="confirm">
-                <Button className="confirm-button" onClick={handleSubmit}>
+                <Button
+                  disabled={!resource}
+                  className="confirm-button"
+                  onClick={handleSubmit}
+                >
                   {t("Tasdiqlash")}
                 </Button>
               </p>
@@ -143,7 +147,22 @@ const QuizItem = inject("subjects")(
               >
                 {oldQuestionFiles.map((item, idx) => {
                   return (
-                    <Panel header={item.created_at} key={item.id}>
+                    <Panel
+                      header={
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                          }}
+                        >
+                          {item.status ? <Checked /> : <Canceled />}
+                          <span style={{ marginLeft: 12 }}>
+                            {item.created_at}
+                          </span>
+                        </div>
+                      }
+                      key={item.id}
+                    >
                       <div style={{ display: "flex", flexWrap: "wrap" }}>
                         {item.question_attempt_resource.map((resource) => {
                           let IconType = "";
@@ -161,6 +180,7 @@ const QuizItem = inject("subjects")(
                               IconType = FileTextFilled;
                               break;
                             default:
+                              IconType = FileUnknownFilled;
                               break;
                           }
                           return (
@@ -286,7 +306,9 @@ const TestItem = ({ data, sendAnswerToTestQuestion }) => {
               })}
             </Carousel>
             <p className="next">
-              <Button onClick={onSendAnswer}>{t("Keyingi savol")}</Button>
+              <Button disabled={!valueone} onClick={onSendAnswer}>
+                {t("Keyingi savol")}
+              </Button>
             </p>
           </>
         ) : (
@@ -307,6 +329,15 @@ function LessonItem(props) {
   const callback = (key) => {
     const id = key.split("=>")[0];
     const type = key.split("=>")[1];
+    const find = lessonItems.find((item) => +item.id === +id);
+    if (
+      type === "test" ||
+      type === "question-answer" ||
+      !find ||
+      find.read_total_lesson_item
+    ) {
+      return;
+    }
     fetchOneLessonItem({
       semesterId,
       subjectId,
@@ -322,7 +353,11 @@ function LessonItem(props) {
           return item.type === "text" && item.text ? (
             <TabPane
               tab={
-                <span>
+                <span
+                  className={`tabIconWrapper ${
+                    item.read_total_lesson_item ? "read" : ""
+                  }`}
+                >
                   <FileTextFilled />
                 </span>
               }
@@ -335,7 +370,11 @@ function LessonItem(props) {
           ) : item.type === "video" && item.file_url_video ? (
             <TabPane
               tab={
-                <span>
+                <span
+                  className={`tabIconWrapper ${
+                    item.read_total_lesson_item ? "read" : ""
+                  }`}
+                >
                   <VideoCameraFilled />
                 </span>
               }
@@ -352,7 +391,11 @@ function LessonItem(props) {
           ) : item.type === "question-answer" ? (
             <TabPane
               tab={
-                <span>
+                <span
+                  className={`tabIconWrapper ${
+                    item.read_total_lesson_item ? "read" : ""
+                  }`}
+                >
                   <FileUnknownFilled />
                 </span>
               }
@@ -363,7 +406,11 @@ function LessonItem(props) {
           ) : item.type === "test" ? (
             <TabPane
               tab={
-                <span>
+                <span
+                  className={`tabIconWrapper ${
+                    item.read_total_lesson_item ? "read" : ""
+                  }`}
+                >
                   <CheckSquareFilled />
                 </span>
               }

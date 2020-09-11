@@ -71,3 +71,7 @@ export const fetchLanguages = async () => {
     throw e;
   }
 };
+
+export const checkChoiceOfSubject = async () => {
+  return client({ url: "/syllabus/messageChoiceSubject" });
+};

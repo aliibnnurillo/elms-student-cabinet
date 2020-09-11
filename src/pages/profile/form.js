@@ -84,7 +84,11 @@ const OperationForm = ({ onUploadFinish = () => null, reloadProfileInfo }) => {
     <Upload {...uploadProps}>
       {photo ? (
         <>
-          <img src={photo} alt="avatar" style={{ width: "100%" }} />
+          <img
+            src={photo}
+            alt="avatar"
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          />
           {uploadButtonOne}
         </>
       ) : (

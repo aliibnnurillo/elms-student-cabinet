@@ -159,7 +159,6 @@
   font-size: 18px;
   line-height: 200%;
   color: #17152e;
-  text-align: justify;
 }
 @media screen and (max-width: 1367px) {
   .news-page-container .news-card .ant-card-cover img {

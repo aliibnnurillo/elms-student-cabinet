@@ -115,7 +115,6 @@
   font-weight: normal;
   font-size: 1rem;
   line-height: 200%;
-  text-align: justify;
   color: #17152e;
 }
 .lesson-list {
@@ -416,7 +415,7 @@
   text-align: center;
   margin: 24px 0;
 }
-.upload-file .upload-block .confirm-button {
+.upload-block .confirm-button {
   background: #5767f6;
   border-radius: 6px;
   padding: 6px 8px;
@@ -563,7 +562,7 @@
   text-align: center;
   margin: 4px 0 4px;
 }
-.question-test .next button {
+.next .ant-btn {
   background: #5767f6;
   border-radius: 6px;
   height: 42px;
@@ -577,6 +576,25 @@
 /* .task-list .ant-anchor-wrapper {
  
 } */
+
+.btn-success.ant-btn {
+  background: #22c864;
+  border-radius: 6px;
+  height: 42px;
+  width: 200px;
+  font-weight: bold;
+  font-size: 15px;
+  line-height: 200%;
+  color: #fff;
+  padding: 6px 8px;
+  border: none;
+}
+
+.btn-success.ant-btn:hover,
+.btn-success.ant-btn:focus {
+  background: #17aa52;
+  color: #fff;
+}
 
 .task-list .task-menu {
   background: #f3f4ff;
@@ -606,8 +624,16 @@
 .task-list .task-menu li a {
   width: 100% !important;
   display: block;
-  padding: 10px 14px;
+  padding: 10px 14px 10px 24px;
   position: relative;
+}
+
+.task-menu li a span {
+  display: inline-block;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap; /* Don't forget this one */
+  text-overflow: ellipsis;
 }
 .task-list .task-menu li a.active {
   background: #5767f6;
@@ -635,6 +661,9 @@
 .task-list .lesson-name {
   padding: 5px 12px;
   padding-right: 16px;
+  overflow: hidden;
+  white-space: nowrap; /* Don't forget this one */
+  text-overflow: ellipsis;
 }
 .task-list .lesson-name > a {
   color: #17152e;

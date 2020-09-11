@@ -9,19 +9,25 @@ import {
   Comment,
   Form,
   Avatar,
-  Anchor,
   Spin,
 } from "antd";
 import {
   SendOutlined,
   PictureOutlined,
   FileZipOutlined,
-  FileTextFilled,
+  FilePdfOutlined,
   FileWordOutlined,
+  FileUnknownOutlined,
 } from "@ant-design/icons";
 import { SubjectsHeader } from "../../../component/header";
 import { inject, observer } from "mobx-react";
-import { useParams, useHistory, useLocation, Link } from "react-router-dom";
+import {
+  useParams,
+  useHistory,
+  useLocation,
+  Link,
+  NavLink,
+} from "react-router-dom";
 import LessonItem from "./lessonItems";
 import {
   extractFirstCharacter,
@@ -30,6 +36,10 @@ import {
 } from "../../../common/utils/utils";
 import { useTranslation } from "react-i18next";
 import UserAvatar from "../../../component/UserAvatar";
+
+import katex from "katex";
+import "katex/dist/katex.min.css";
+window.katex = katex;
 
 const { TextArea } = Input;
 
@@ -106,7 +116,7 @@ const Lesson = ({
   },
 }) => {
   const { semesterId, subjectId, id } = useParams();
-  const { hash } = useLocation();
+  const { hash, pathname } = useLocation();
 
   useEffect(() => {
     console.log(semesterId, subjectId, hash);
@@ -119,18 +129,9 @@ const Lesson = ({
           subjectId,
           lessonId: hash.slice(1),
         });
-      } else
-        fetchLessonItems({
-          semesterId,
-          subjectId,
-          lessonId: id,
-        });
-      fetchLessonResources({
-        semesterId,
-        subjectId,
-        lessonId: hash.slice(1),
-      });
-      fetchComments(id);
+
+        fetchComments(id);
+      }
     });
   }, []);
 
@@ -147,13 +148,13 @@ const Lesson = ({
     }
   }, [hash, semesterId, subjectId, fetchLessonItems, fetchLessonResources]);
 
-  const events = (e) => {
-    let l = document.querySelectorAll(".les-item-link");
-    let n = document.getElementsByClassName("");
-    let i = document.getElementsByClassName("les-items");
-
-    let m = e.target;
-    m.classList.add("active");
+  const history = useHistory();
+  const onNextLesson = () => {
+    if (hash) {
+      let currentLessonId = +hash.slice(1);
+      const nextLessonId = currentLessonId + 1;
+      history.push(`${pathname}#${nextLessonId}`);
+    }
   };
   return (
     <>
@@ -161,33 +162,37 @@ const Lesson = ({
       <div className="content">
         <div className="tasks">
           <Spin spinning={loading}>
-            <Row gutter={[20, 20]}>
-              <Col xs={24} md={8} lg={7}>
+            <Row gutter={[48, 20]}>
+              <Col xs={24} md={8} lg={5}>
                 <div className="task-list">
-                  <ul
-                    className="task-menu "
-                    onClick={(e, link) => {
-                      console.log(link);
-                    }}
-                    affix={false}
-                  >
+                  <ul className="task-menu ">
                     {Array.isArray(single.module)
                       ? single.module.map((module, idx, modules) => {
                           return (
-                            <li key={idx} classList="les-items">
-                              <h3 className="lesson-name">{`${idx + 1} ${
-                                module.name
-                              }`}</h3>
+                            <li key={idx} className="les-items">
+                              <h3
+                                className="lesson-name"
+                                title={`${idx + 1} ${module.name}`}
+                              >{`${idx + 1} ${module.name}`}</h3>
                               {Array.isArray(module.lessons)
                                 ? module.lessons.map((lesson, index) => (
-                                    <Link
+                                    <NavLink
                                       className="les-item-link"
                                       key={lesson.id}
-                                      onClick={events}
+                                      isActive={(loc, moc, cok) => {
+                                        return moc.hash === `#${lesson.id}`;
+                                      }}
                                       to={`#${lesson.id}`}
-                                    >{`${idx + 1}.${index + 1} ${
-                                      lesson.name
-                                    }`}</Link>
+                                      title={`${idx + 1}.${index + 1} ${
+                                        lesson.name
+                                      }`}
+                                    >
+                                      <span>
+                                        {`${idx + 1}.${index + 1} ${
+                                          lesson.name
+                                        }`}
+                                      </span>
+                                    </NavLink>
                                   ))
                                 : null}
                             </li>
@@ -197,20 +202,103 @@ const Lesson = ({
                   </ul>
                 </div>
               </Col>
-              <Col xs={24} md={16} lg={17}>
+
+              <Col xs={24} md={16} lg={19}>
                 {lessonItems.length ? (
                   <Row>
-                    <Col
-                      xs={24}
-                      lg={{ offset: 1, span: 20 }}
-                      xxl={{ offset: 2, span: 16 }}
-                    >
+                    <Col xs={24} lg={{ span: 20 }} xxl={{ span: 18 }}>
                       <LessonItem lessonId={id} />
                     </Col>
+                    <Col xs={24} lg={{ span: 20 }} xxl={{ span: 18 }}>
+                      <div
+                        style={{
+                          backgroundColor: "#F3F4FF",
+                          height: 3,
+                          margin: "40px 0",
+                        }}
+                      ></div>
+                      <div className="text-center">
+                        <Button className="btn-success" onClick={onNextLesson}>
+                          {t("Keyingi dars")}
+                        </Button>
+                      </div>
+                      <div
+                        style={{
+                          backgroundColor: "#F3F4FF",
+                          height: 3,
+                          margin: "40px 0",
+                        }}
+                      ></div>
+                    </Col>
+                    {Array.isArray(resourceFiles) && resourceFiles.length ? (
+                      <Col xs={24} lg={{ span: 20 }} xxl={{ span: 18 }}>
+                        <h2>{t("Darsga doir resurslar")}</h2>
+                        <div
+                          style={{ display: "flex", flexDirection: "column" }}
+                        >
+                          {resourceFiles.map((resource) => {
+                            let IconType = "";
+                            const _item = resource.media[0];
+                            switch (_item.extension) {
+                              case "zip":
+                                IconType = FileZipOutlined;
+                                break;
+                              case "png":
+                              case "jpg":
+                              case "jpeg":
+                                IconType = PictureOutlined;
+                                break;
+                              case "pdf":
+                                IconType = FilePdfOutlined;
+                                break;
+                              case "doc":
+                              case "docx":
+                                IconType = FileWordOutlined;
+                                break;
+                              default:
+                                IconType = FileUnknownOutlined;
+                                break;
+                            }
+                            return (
+                              <div
+                                key={resource.id}
+                                style={{
+                                  backgroundColor: "#F3F4FF",
+                                  display: "flex",
+                                  borderRadius: 12,
+                                  alignItems: "center",
+                                  padding: 12,
+                                  margin: 6,
+                                }}
+                              >
+                                <span
+                                  className="icon-wrapper bg-white"
+                                  style={{ marginRight: 12 }}
+                                >
+                                  <IconType />
+                                </span>
+                                <Link
+                                  to={resource.file_url_resource}
+                                  target="_blank"
+                                  onClick={(event) => {
+                                    event.preventDefault();
+                                    window.open(resource.file_url_resource);
+                                  }}
+                                >
+                                  {resource.fileName
+                                    ? resource.fileName
+                                    : "Fayl"}
+                                </Link>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </Col>
+                    ) : null}
                     <Col
                       xs={24}
-                      lg={{ offset: 1, span: 20 }}
-                      xxl={{ offset: 2, span: 16 }}
+                      lg={{ span: 20 }}
+                      xxl={{ span: 18 }}
                       className="comments-list"
                     >
                       <h3>
@@ -233,68 +321,6 @@ const Lesson = ({
                           <CommentList comments={comments} />
                         )}
                       </>
-                    </Col>
-                    <Col
-                      xs={24}
-                      lg={{ offset: 1, span: 20 }}
-                      xxl={{ offset: 2, span: 16 }}
-                    >
-                      <h2>{t("Darsga doir resurslar")}</h2>
-                      <div style={{ display: "flex", flexDirection: "column" }}>
-                        {resourceFiles.map((resource) => {
-                          let IconType = "";
-                          const _item = resource.media[0];
-                          switch (_item.extension) {
-                            case "zip":
-                              IconType = FileZipOutlined;
-                              break;
-                            case "png":
-                            case "jpg":
-                            case "jpeg":
-                              IconType = PictureOutlined;
-                              break;
-                            case "pdf":
-                              IconType = FileTextFilled;
-                              break;
-                            case "doc":
-                            case "docx":
-                              IconType = FileWordOutlined;
-                              break;
-                            default:
-                              break;
-                          }
-                          return (
-                            <div
-                              key={resource.id}
-                              style={{
-                                backgroundColor: "#F3F4FF",
-                                display: "flex",
-                                borderRadius: 12,
-                                alignItems: "center",
-                                padding: 12,
-                                margin: 6,
-                              }}
-                            >
-                              <span
-                                className="icon-wrapper bg-white"
-                                style={{ marginRight: 12 }}
-                              >
-                                <IconType />
-                              </span>
-                              <Link
-                                to={resource.file_url_resource}
-                                target="_blank"
-                                onClick={(event) => {
-                                  event.preventDefault();
-                                  window.open(resource.file_url_resource);
-                                }}
-                              >
-                                {resource.fileName ? resource.fileName : "Fayl"}
-                              </Link>
-                            </div>
-                          );
-                        })}
-                      </div>
                     </Col>
                   </Row>
                 ) : !loading ? (

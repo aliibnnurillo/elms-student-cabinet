@@ -280,7 +280,6 @@
   margin: 0;
   position: relative;
   border-radius: 50%;
-  z-index: 999;
 }
 .content.profile_page
   .forAvatars

@@ -13,6 +13,21 @@
   margin-right: 20px;
   position: relative;
 }
+
+.tabIconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tabIconWrapper.read {
+  background-color: #22c864;
+  padding: 7px;
+  border-radius: 6px;
+}
+
+.tabIconWrapper.read svg {
+  color: #fff;
+}
 .content
   .tasks
   .ant-tabs
@@ -30,6 +45,28 @@
   .ant-tabs-nav-list
   .ant-tabs-tab.ant-tabs-tab-active {
   border-color: #5767f6;
+}
+
+.content
+  .tasks
+  .ant-tabs
+  .ant-tabs-nav
+  .ant-tabs-nav-list
+  .ant-tabs-tab.ant-tabs-tab-active
+  .tabIconWrapper.read {
+  background-color: unset;
+  padding: 0;
+}
+
+.content
+  .tasks
+  .ant-tabs
+  .ant-tabs-nav
+  .ant-tabs-nav-list
+  .ant-tabs-tab.ant-tabs-tab-active
+  .tabIconWrapper.read
+  svg {
+  color: #5767f6;
 }
 
 .content

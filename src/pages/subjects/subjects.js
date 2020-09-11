@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Row, Col, Card, Avatar, Tag, Spin } from "antd";
+import { Row, Col, Card, Avatar, Tag, Spin, Button, Alert } from "antd";
 import { ArrowRightOutlined } from "@ant-design/icons";
 import { Link, useParams } from "react-router-dom";
 import { SubjectsHeader } from "../../component/header";
@@ -21,6 +21,26 @@ const Subjects = ({
     <>
       <SubjectsHeader />
       <div className="content">
+        <Alert
+          style={{ marginBottom: 24 }}
+          message={
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <p style={{ margin: 0 }}>
+                Sizda ushbu semesterda tanlanadigan fanlar mavjud!. O'qishni
+                boshlash uchun siz tanlandigan fanlar guruhidan o'zingizga
+                ma'qul fanni tanlashingiz kerak!
+              </p>
+              <Button type="ghost">Tanlash</Button>
+            </div>
+          }
+          type="error"
+        />
         <div className="subject_page">
           <Spin spinning={loading}>
             <Row gutter={[24, 24]}>

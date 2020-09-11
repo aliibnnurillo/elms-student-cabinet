@@ -162,7 +162,25 @@ class SubjectsModel extends CommonStore {
       console.log("fetch lesson items => ", response);
       if (status === 200) {
         this.lessonItems = Array.isArray(data.result.data)
-          ? data.result.data
+          ? data.result.data.map((item) => {
+              if (item.type === "test") {
+                let current = { ...item };
+                current.test_question = Array.isArray(current.test_question)
+                  ? current.test_question.map((item) => ({
+                      ...item,
+                      test_answers: Array.isArray(item.test_answers)
+                        ? item.test_answers.map((ans) => ({
+                            label: ans.answer,
+                            value: ans.id,
+                          }))
+                        : [],
+                    }))
+                  : [];
+                return current;
+              } else {
+                return item;
+              }
+            })
           : [];
         this.setState("done");
       }
@@ -199,32 +217,13 @@ class SubjectsModel extends CommonStore {
       console.log("fetch one lesson item => ", data);
       if (status === 200) {
         const copy = Array.from(this.lessonItems);
+        const removedIndex = copy.findIndex((item) => +item.id === +id);
 
-        if (Array.isArray(data.result.data) && data.result.data.length) {
-          const removedIndex = copy.findIndex((item) => +item.id === +id);
-          let _res = { ...data.result.data[0] };
-
-          if (type === "test") {
-            _res.test_question = Array.isArray(_res.test_question)
-              ? _res.test_question.map((item) => ({
-                  ...item,
-                  test_answers: Array.isArray(item.test_answers)
-                    ? item.test_answers.map((ans) => ({
-                        label: ans.answer,
-                        value: ans.id,
-                      }))
-                    : [],
-                }))
-              : [];
-          }
-
-          if (removedIndex !== -1) {
-            copy[removedIndex] = _res;
-            this.lessonItems = copy;
-            console.log("ichida ", copy[removedIndex], copy);
-          }
-          this.setState("done");
+        if (removedIndex !== -1) {
+          copy[removedIndex].read_total_lesson_item = 1;
+          this.lessonItems = copy;
         }
+        this.setState("done");
       }
     } catch (error) {
       this.setState("error");

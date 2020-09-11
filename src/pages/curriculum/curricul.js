@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { CuriculHeader } from "../../component/header";
 import { List } from "antd";
 import { ClockCircleFilled } from "@ant-design/icons";
 import "../examn/exam.css";
 import "./curicul.css";
-const Curiculum = () => {
+import { inject, observer } from "mobx-react";
+const Curiculum = (props) => {
+  const {
+    curriculum: { fetchAll },
+  } = props;
+
+  useEffect(() => {
+    fetchAll();
+  }, []);
+
   return (
     <>
       <CuriculHeader />
@@ -151,4 +160,4 @@ const Curiculum = () => {
   );
 };
 
-export default Curiculum;
+export default inject("curriculum")(observer(Curiculum));

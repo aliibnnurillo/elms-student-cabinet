@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { HomeHeader } from "../../component/header";
-import { Card, Avatar, Row, Col, Calendar, Spin } from "antd";
+import { Card, Avatar, Row, Col, Calendar, Spin, Alert, Button } from "antd";
 import "./home.css";
 import Meta from "antd/lib/card/Meta";
 import { Link } from "react-router-dom";
@@ -12,53 +12,17 @@ import { getActiveSemester } from "../../common/utils/utils";
 import { useTranslation } from "react-i18next";
 moment.locale("uz-latn");
 
-const data = [
-  {
-    id: 1,
-    title: "Oliy Matematika",
-    modul: "2/4",
-    imgUrl: "/assets/subjecticon.png",
-    precen: "60%",
-  },
-  {
-    id: 2,
-    title: "C++ dasturlash",
-    modul: "1/3",
-    imgUrl: "/assets/subjecticon.png",
-    precen: "33%",
-  },
-  {
-    id: 3,
-    title: "Fizika",
-    modul: "2/9",
-    imgUrl: "/assets/subjecticon.png",
-    precen: "84%",
-  },
-  {
-    id: 4,
-    title: "Ingliz Tili",
-    modul: "1/2",
-    imgUrl: "/assets/subjecticon.png",
-    precen: "19%",
-  },
-  {
-    id: 5,
-    title: "O’zbekiston Tarixi",
-    modul: "4/7",
-    imgUrl: "/assets/subjecticon.png",
-    precen: "45%",
-  },
-];
-
 function onPanelChange(value, mode) {
   console.log(value, mode);
 }
 
 const HomePage = ({
   subjects: { fetchSemesterSubjects, semesterSubjects, loading },
+  glo: { checkIsAvailableChoice, isAvailableChoice },
 }) => {
   useEffect(() => {
     fetchSemesterSubjects();
+    checkIsAvailableChoice();
     console.log("salom");
   }, []);
 
@@ -69,6 +33,26 @@ const HomePage = ({
       <HomeHeader />
 
       <div className="content home-page">
+        <Alert
+          style={{ marginBottom: 24 }}
+          message={
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <p style={{ margin: 0 }}>
+                Sizda ushbu semesterda tanlanadigan fanlar mavjud!. O'qishni
+                boshlash uchun siz tanlandigan fanlar guruhidan o'zingizga
+                ma'qul fanni tanlashingiz kerak!
+              </p>
+              <Button type="ghost">Tanlash</Button>
+            </div>
+          }
+          type="error"
+        />
         <Spin spinning={loading}>
           <div className="for-calendar">
             <div className="site-calendar-card">
@@ -81,6 +65,7 @@ const HomePage = ({
                   );
                 }}
                 fullscreen={false}
+                defaultValue={moment("2020-08-12")}
                 onPanelChange={onPanelChange}
               />
             </div>
@@ -217,4 +202,4 @@ const HomePage = ({
   );
 };
 
-export default inject("subjects")(observer(HomePage));
+export default inject("subjects", "glo")(observer(HomePage));

@@ -79,7 +79,7 @@ const LeftMenu = ({ authStore: { activeSemesterId } }) => {
             <span>{t("Fanlar")}</span>
           </NavLink>
         </Menu.Item>
-        <Menu.Item key="exam">
+        {/* <Menu.Item key="exam">
           <NavLink to="/exam" onClick={handleClick}>
             <ScheduleOutlined />
             <span>{t("Imtixonlar jadvali")}</span>
@@ -90,7 +90,7 @@ const LeftMenu = ({ authStore: { activeSemesterId } }) => {
             <BookOutlined />
             <span>{t("Reyting daftarchsi")}</span>
           </NavLink>
-        </Menu.Item>
+        </Menu.Item> */}
         <Menu.Item key="posts">
           <NavLink to="/posts" onClick={handleClick}>
             <ProfileOutlined />
