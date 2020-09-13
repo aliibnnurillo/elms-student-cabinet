@@ -5,156 +5,96 @@ import { ClockCircleFilled } from "@ant-design/icons";
 import "../examn/exam.css";
 import "./curicul.css";
 import { inject, observer } from "mobx-react";
+import { useTranslation } from "react-i18next";
+
 const Curiculum = (props) => {
   const {
-    curriculum: { fetchAll },
+    curriculum: { fetchAll, result },
   } = props;
 
   useEffect(() => {
     fetchAll();
   }, []);
 
+  const [t] = useTranslation();
   return (
     <>
       <CuriculHeader />
+
       <div className="content exam-page curicul-page">
-        <h3>Kompyuter injiniringi</h3>
-        <h1>Multimedia texnologiyalari</h1>
-        <div className="all-exam">
-          <div>
-            <h4>1-kurs</h4>
-            <div className="curicul-content">
-              <List
-                size="large"
-                className="curicul-list"
-                header={
-                  <p>
-                    <span>1-smestr</span>
-                    <span>02.09.2020 - 20.02.2021</span>
-                  </p>
-                }
-              >
-                <List.Item>
-                  <span>Algoritm loyihalash</span>
-                  <span>
-                    180
-                    <ClockCircleFilled />
-                  </span>
-                </List.Item>
-                <List.Item>
-                  <span>Xorijiy til 2</span>
-                  <span>
-                    180
-                    <ClockCircleFilled />
-                  </span>
-                </List.Item>
-                <List.Item>
-                  <span>Chiziqli algebra</span>
-                  <span>
-                    180
-                    <ClockCircleFilled />
-                  </span>
-                </List.Item>
-                <List.Item>
-                  <span>Fizika 2</span>
-                  <span>
-                    180
-                    <ClockCircleFilled />
-                  </span>
-                </List.Item>
-                <List.Item>
-                  <span>Dasturlash 2</span>
-                  <span>
-                    180
-                    <ClockCircleFilled />
-                  </span>
-                </List.Item>
-                <List.Item className="for-choice">
-                  <List className="choice" header={<p>tanlangan</p>}>
-                    <List.Item>
-                      <span>Telekommunikatsiyada operatsion tizimlar</span>
-                      <span>
-                        120
-                        <ClockCircleFilled />
-                      </span>
-                    </List.Item>
-                    <List.Item>
-                      <span>Akademik yozuv 2</span>
-                      <span>
-                        105
-                        <ClockCircleFilled />
-                      </span>
-                    </List.Item>
-                  </List>
-                </List.Item>
-              </List>
-              <List
-                size="large"
-                className="curicul-list"
-                header={
-                  <p>
-                    <span>1-smestr</span>
-                    <span>02.09.2020 - 20.02.2021</span>
-                  </p>
-                }
-              >
-                <List.Item>
-                  <span>Algoritm loyihalash</span>
-                  <span>
-                    180
-                    <ClockCircleFilled />
-                  </span>
-                </List.Item>
-                <List.Item>
-                  <span>Xorijiy til 2</span>
-                  <span>
-                    180
-                    <ClockCircleFilled />
-                  </span>
-                </List.Item>
-                <List.Item>
-                  <span>Chiziqli algebra</span>
-                  <span>
-                    180
-                    <ClockCircleFilled />
-                  </span>
-                </List.Item>
-                <List.Item>
-                  <span>Fizika 2</span>
-                  <span>
-                    180
-                    <ClockCircleFilled />
-                  </span>
-                </List.Item>
-                <List.Item>
-                  <span>Dasturlash 2</span>
-                  <span>
-                    180
-                    <ClockCircleFilled />
-                  </span>
-                </List.Item>
-                <List.Item className="for-choice">
-                  <List className="choice" header={<p>tanlangan</p>}>
-                    <List.Item>
-                      <span>Telekommunikatsiyada operatsion tizimlar</span>
-                      <span>
-                        120
-                        <ClockCircleFilled />
-                      </span>
-                    </List.Item>
-                    <List.Item>
-                      <span>Akademik yozuv 2</span>
-                      <span>
-                        105
-                        <ClockCircleFilled />
-                      </span>
-                    </List.Item>
-                  </List>
-                </List.Item>
-              </List>
+        {/* <Spin spinning={loading}> */}
+        {Array.isArray(result) && result.length ? (
+          <>
+            <h3>{result[0].faculty_name ? result[0].faculty_name : null}</h3>
+            <h1>
+              {result[0].speciality_name ? result[0].speciality_name : null}
+            </h1>
+            <div className="all-exam">
+              {result.map((sem, index) => {
+                return (
+                  <div key={index}>
+                    {index % 2 === 0 ? <h4>{sem.semester_name}-kurs</h4> : null}
+
+                    <div className="curicul-content">
+                      <List
+                        size="large"
+                        className="curicul-list"
+                        dataSource={sem.student_subject.notChoice}
+                        header={
+                          <p>
+                            <span>{sem.semester_name}-smestr</span>
+                            <span>
+                              {sem.start_date} - {sem.end_date}
+                            </span>
+                          </p>
+                        }
+                        renderItem={(item, idx) => {
+                          return (
+                            <List.Item key={idx}>
+                              <span>
+                                {item.subject_name && item.subject_name.name
+                                  ? item.subject_name.name
+                                  : null}
+                              </span>
+                              <span>
+                                180
+                                <ClockCircleFilled />
+                              </span>
+                            </List.Item>
+                          );
+                        }}
+                      >
+                        <List.Item className="for-choice">
+                          <List
+                            className="choice"
+                            header={<p>{t("tanlov")}</p>}
+                            dataSource={sem.student_subject.choice}
+                            renderItem={(item, idx) => {
+                              return (
+                                <List.Item>
+                                  <span>
+                                    {item.subject_name && item.subject_name.name
+                                      ? item.subject_name.name
+                                      : null}
+                                  </span>
+                                  <span>
+                                    120
+                                    <ClockCircleFilled />
+                                  </span>
+                                </List.Item>
+                              );
+                            }}
+                          />
+                        </List.Item>
+                      </List>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
-          </div>
-        </div>
+          </>
+        ) : null}
+        {/* </Spin> */}
       </div>
     </>
   );

@@ -1,6 +1,11 @@
 import React, { useEffect } from "react";
 import { LeftMenu } from "../header";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  useHistory,
+} from "react-router-dom";
 import "./app.css";
 import APINotification from "../APINotification";
 import { privateRoutes, publicRoutes, errorRoutes } from "../../routes";
@@ -8,6 +13,11 @@ import PrivateRoute from "../PrivateRoute";
 import { Button, Radio, Col, Spin, Modal, message, Form } from "antd";
 import { observer, inject } from "mobx-react";
 import { useTranslation } from "react-i18next";
+import {
+  isExistUser,
+  getActiveSemester,
+  validToken,
+} from "../../common/utils/utils";
 
 const App = () => {
   return (
@@ -34,7 +44,10 @@ const App = () => {
 
 export default App;
 
-export const SubjectSelectModal = inject("glo")(
+export const SubjectSelectModal = inject(
+  "glo",
+  "authStore"
+)(
   observer(
     ({
       glo: {
@@ -42,20 +55,27 @@ export const SubjectSelectModal = inject("glo")(
         setSubjectModalVisible,
         subjectModalVisible,
         data,
+        fanTanlash,
+        isAvailableChoice,
+        choice_of_subject,
       },
+      authStore: { authenticated },
     }) => {
       useEffect(() => {
-        fetchChoiceOfSubject();
-      }, []);
+        authenticated && fetchChoiceOfSubject(choice_of_subject);
+      }, [authenticated, choice_of_subject, fetchChoiceOfSubject]);
 
       const [t] = useTranslation();
 
       const handleCancel = () => {
-        setSubjectModalVisible(false);
+        if (isAvailableChoice) setSubjectModalVisible(false);
       };
 
       const handleFinish = (values) => {
         console.log(Object.values(values));
+        fanTanlash(Object.values(values));
+        if (choice_of_subject)
+          window.location.href = `/${getActiveSemester()}/subjects`;
       };
 
       return (
@@ -67,7 +87,12 @@ export const SubjectSelectModal = inject("glo")(
           onCancel={() => {
             handleCancel();
           }}
+          closable={isAvailableChoice}
+          maskClosable={isAvailableChoice}
         >
+          {choice_of_subject ? (
+            <p>Bu tanlanadigan fan. Siz oldin fan tanlashingiz zarur!</p>
+          ) : null}
           <Form layout="vertical" onFinish={handleFinish}>
             {data.map((item, idx) => {
               return (
@@ -93,7 +118,7 @@ export const SubjectSelectModal = inject("glo")(
                             <Radio
                               style={{ display: "block" }}
                               key={ind}
-                              value={subject.id}
+                              value={subject.subject_id}
                             >
                               {subject.subject_choice_name
                                 ? subject.subject_choice_name.name

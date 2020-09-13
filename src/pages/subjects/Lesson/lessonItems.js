@@ -20,6 +20,7 @@ import {
   CheckSquareFilled,
   FileZipOutlined,
   PictureOutlined,
+  LockOutlined,
 } from "@ant-design/icons";
 import { UploadIcon, Checked, Canceled } from "../../../component/icons";
 import { API_URL } from "../../../constants";
@@ -93,6 +94,8 @@ const QuizItem = inject("subjects")(
         removeQuestionFile,
         oldQuestionFiles,
         loading,
+        single,
+        semesterSubjects,
       },
       data,
       lessonId,
@@ -117,7 +120,25 @@ const QuizItem = inject("subjects")(
         oldQuestionFiles
       );
 
-      return (
+      return single.choice_of_subject &&
+        semesterSubjects.filter(
+          (item) => item.choice_of_subject === single.choice_of_subject
+        ).length > 1 ? (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "column",
+          }}
+        >
+          <LockOutlined style={{ color: "red", fontSize: 150 }} />
+          <p>
+            Bu tanlanadigan fan. Kontentni ko'rish uchun tanlovni amalga
+            oshirishingiz kerak!
+          </p>
+        </div>
+      ) : (
         <div>
           <div className="upload-file">
             <p dangerouslySetInnerHTML={{ __html: data.text }}></p>
@@ -244,7 +265,12 @@ const QuizItem = inject("subjects")(
   )
 );
 
-const TestItem = ({ data, sendAnswerToTestQuestion }) => {
+const TestItem = ({
+  data,
+  sendAnswerToTestQuestion,
+  single,
+  semesterSubjects,
+}) => {
   const [current, setCurrent] = useState(0);
   const [valueone, setValueone] = useState("");
 
@@ -276,7 +302,20 @@ const TestItem = ({ data, sendAnswerToTestQuestion }) => {
       }
     });
   };
-  return (
+  return single.choice_of_subject &&
+    semesterSubjects.filter(
+      (item) => item.choice_of_subject === single.choice_of_subject
+    ).length > 1 ? (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      locked
+    </div>
+  ) : (
     <div>
       <div className="question-test">
         {current < data.test_question.length ? (
@@ -321,7 +360,14 @@ const TestItem = ({ data, sendAnswerToTestQuestion }) => {
 
 function LessonItem(props) {
   const {
-    subjects: { lessonItems, fetchOneLessonItem, sendAnswerToTestQuestion },
+    subjects: {
+      lessonItems,
+      fetchOneLessonItem,
+      sendAnswerToTestQuestion,
+      single,
+      semesterSubjects,
+    },
+    glo: { setSubjectModalVisible, isAvailableChoice },
     lessonId,
   } = props;
   const { semesterId, subjectId } = useParams();
@@ -330,12 +376,16 @@ function LessonItem(props) {
     const id = key.split("=>")[0];
     const type = key.split("=>")[1];
     const find = lessonItems.find((item) => +item.id === +id);
-    if (
-      type === "test" ||
-      type === "question-answer" ||
-      !find ||
-      find.read_total_lesson_item
-    ) {
+    if (type === "test" || type === "question-answer") {
+      single.choice_of_subject &&
+        isAvailableChoice &&
+        semesterSubjects.filter(
+          (item) => item.choice_of_subject === single.choice_of_subject
+        ).length > 1 &&
+        setSubjectModalVisible(true);
+      return;
+    }
+    if (!find || find.read_total_lesson_item) {
       return;
     }
     fetchOneLessonItem({
@@ -419,6 +469,8 @@ function LessonItem(props) {
               {Array.isArray(item.test_question) ? (
                 <TestItem
                   data={item}
+                  single={single}
+                  semesterSubjects={semesterSubjects}
                   sendAnswerToTestQuestion={sendAnswerToTestQuestion}
                 />
               ) : null}
@@ -432,4 +484,4 @@ function LessonItem(props) {
 
 LessonItem.propTypes = {};
 
-export default inject("subjects")(observer(LessonItem));
+export default inject("subjects", "glo")(observer(LessonItem));

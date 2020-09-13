@@ -99,28 +99,33 @@ const Editor = ({ onSubmit, submitting, lessonId }) => {
   );
 };
 
-const Lesson = ({
-  subjects: {
-    loading,
-    fetchLesson,
-    currentLesson,
-    fetchLessonItems,
-    lessonItems,
-    single,
-    fetchOne,
-    fetchComments,
-    comments,
-    saveComment,
-    resourceFiles,
-    fetchLessonResources,
-  },
-}) => {
+const Lesson = (props) => {
+  const {
+    subjects: {
+      loading,
+      fetchLesson,
+      currentLesson,
+      fetchLessonItems,
+      lessonItems,
+      single,
+      fetchOne,
+      fetchComments,
+      comments,
+      saveComment,
+      resourceFiles,
+      fetchLessonResources,
+      fetchSemesterSubjects,
+      semesterSubjects,
+    },
+    glo: { checkIsAvailableChoice, fetchChoiceOfSubject, setChoiceOfSubject },
+  } = props;
+
   const { semesterId, subjectId, id } = useParams();
   const { hash, pathname } = useLocation();
 
   useEffect(() => {
     console.log(semesterId, subjectId, hash);
-
+    fetchSemesterSubjects();
     fetchOne(subjectId).then((res) => {
       if (hash) {
         fetchLessonItems({ semesterId, subjectId, lessonId: hash.slice(1) });
@@ -130,9 +135,13 @@ const Lesson = ({
           lessonId: hash.slice(1),
         });
 
+        console.log("choice of subject => ", single);
+        setChoiceOfSubject(props.subjects.single.choice_of_subject);
+
         fetchComments(id);
       }
     });
+    checkIsAvailableChoice();
   }, []);
 
   const [t] = useTranslation();
@@ -335,4 +344,4 @@ const Lesson = ({
   );
 };
 
-export default inject("subjects")(observer(Lesson));
+export default inject("subjects", "glo")(observer(Lesson));

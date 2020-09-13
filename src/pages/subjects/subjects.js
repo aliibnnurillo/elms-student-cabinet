@@ -8,11 +8,19 @@ import { observer, inject } from "mobx-react";
 import { useTranslation } from "react-i18next";
 
 const Subjects = ({
-  subjects: { fetchSemesterSubjects, loading, semesterSubjects },
+  subjects: {
+    fetchSemesterSubjects,
+    loading,
+    semesterSubjects,
+    setCurrentSubject,
+  },
+  glo: { showChoiceAlert, checkIsAvailableChoice, setSubjectModalVisible },
 }) => {
   const { semesterId } = useParams();
   useEffect(() => {
     fetchSemesterSubjects();
+    checkIsAvailableChoice();
+    setCurrentSubject(null);
     return () => {};
   }, []);
 
@@ -21,33 +29,48 @@ const Subjects = ({
     <div>
       <SubjectsHeader />
       <div className="content">
-        <Alert
-          style={{ marginBottom: 24 }}
-          message={
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <p style={{ margin: 0 }}>
-                Sizda ushbu semesterda tanlanadigan fanlar mavjud!. O'qishni
-                boshlash uchun siz tanlandigan fanlar guruhidan o'zingizga
-                ma'qul fanni tanlashingiz kerak!
-              </p>
-              <Button type="ghost">Tanlash</Button>
-            </div>
-          }
-          type="error"
-        />
+        {showChoiceAlert ? (
+          <Alert
+            style={{ marginBottom: 24 }}
+            message={
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <p style={{ margin: 0 }}>
+                  Sizda ushbu semesterda tanlanadigan fanlar mavjud!. O'qishni
+                  boshlash uchun siz tanlandigan fanlar guruhidan o'zingizga
+                  ma'qul fanni tanlashingiz kerak!
+                </p>
+                <Button
+                  type="ghost"
+                  onClick={() => setSubjectModalVisible(true)}
+                >
+                  Tanlash
+                </Button>
+              </div>
+            }
+            type="error"
+          />
+        ) : null}
         <div className="subject_page">
           <Spin spinning={loading}>
             <Row gutter={[24, 24]}>
               {semesterSubjects.map((semSub, idx) => (
                 <Col key={idx} xs={24} md={24} lg={12} xl={8}>
                   <Link to={`/${semesterId}/subjects/${semSub.subject_id}`}>
-                    <Card hoverable className="card">
+                    <Card
+                      hoverable
+                      className="card"
+                      style={
+                        semSub.choice_of_subject
+                          ? { backgroundColor: "rgba(223, 177, 177, 0.15)" }
+                          : {}
+                      }
+                    >
                       <div className="card-header">
                         <div className="title">
                           <h2>
@@ -95,4 +118,4 @@ const Subjects = ({
   );
 };
 
-export default inject("subjects")(observer(Subjects));
+export default inject("subjects", "glo")(observer(Subjects));

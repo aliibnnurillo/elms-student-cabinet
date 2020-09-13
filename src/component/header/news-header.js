@@ -33,8 +33,8 @@ const NewsHeader = ({ posts: { setType, type } }) => {
             <Breadcrumb.Item href="/">
               <HomeOutlined />
             </Breadcrumb.Item>
-            {m.map((item) => (
-              <Breadcrumb.Item>
+            {m.map((item, idx) => (
+              <Breadcrumb.Item key={idx}>
                 <span>{t(item.title)}</span>
               </Breadcrumb.Item>
             ))}

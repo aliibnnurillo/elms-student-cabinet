@@ -9,15 +9,23 @@ import LoginList from "./login-list";
 import { observer, inject } from "mobx-react";
 import CSelect from "../CSelect";
 import { useTranslation } from "react-i18next";
+import { getActiveSemester } from "../../common/utils/utils";
 
 const SubjectsHeader = ({
-  subjects: { fetchSemesters, semesters, activeSemester },
+  subjects: {
+    fetchSemesters,
+    semesters,
+    activeSemester,
+    breadcrumb,
+    currentSubject,
+  },
 }) => {
   const { pathname } = useLocation();
 
   useEffect(() => {
     fetchSemesters();
-  }, [fetchSemesters]);
+  }, [fetchSemesters, currentSubject]);
+
   const [t] = useTranslation();
   return (
     <div className="page-header">
@@ -26,10 +34,20 @@ const SubjectsHeader = ({
           <Breadcrumb.Item href="/">
             <HomeOutlined />
           </Breadcrumb.Item>
-          <Breadcrumb.Item href="">
+          <Breadcrumb.Item href={`/${getActiveSemester()}/subjects`}>
             <span>{t("Fanlar")}</span>
           </Breadcrumb.Item>
-          <Breadcrumb.Item></Breadcrumb.Item>
+          {breadcrumb.length && currentSubject
+            ? breadcrumb.map((item) => {
+                return (
+                  <Breadcrumb.Item
+                    href={`/${getActiveSemester()}/subjects/${item.id}`}
+                  >
+                    {item.name}
+                  </Breadcrumb.Item>
+                );
+              })
+            : null}
         </Breadcrumb>
       </PageHeader>
 

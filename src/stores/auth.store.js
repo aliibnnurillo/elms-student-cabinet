@@ -7,6 +7,7 @@ import {
   getActiveSemester,
   isExistUser,
   getUser,
+  getToken,
 } from "../common/utils/utils";
 import { client } from "../common/utils/request";
 
@@ -15,7 +16,7 @@ import flash from "./Flash";
 import Axios from "axios";
 
 class AuthStore {
-  @observable authenticated = false;
+  @observable authenticated = getToken();
   @observable user = isExistUser() ? getUser() : {};
   @observable accessToken = "";
   @observable state = "";

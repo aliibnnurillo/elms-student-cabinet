@@ -6,24 +6,64 @@ import Meta from "antd/lib/card/Meta";
 import { Link } from "react-router-dom";
 import { PercentsIcon } from "../../component/icons";
 import { observer, inject } from "mobx-react";
-import "moment/locale/uz-latn";
+// import uz from "moment/locale/uz-latn";
 import moment from "moment";
 import { getActiveSemester } from "../../common/utils/utils";
 import { useTranslation } from "react-i18next";
-moment.locale("uz-latn");
+// moment.locale("uz-latn");
 
 function onPanelChange(value, mode) {
   console.log(value, mode);
 }
 
+const loc = {
+  lang: {
+    locale: "oz_OZ",
+    placeholder: "Select date",
+    rangePlaceholder: ["Start date", "End date"],
+    today: "Today",
+    now: "Now",
+    backToToday: "Back to today",
+    ok: "Ok",
+    clear: "Clear",
+    month: "Oy",
+    year: "Yil",
+    timeSelect: "Vaqtni tanlang",
+    dateSelect: "Sanani tanlang",
+    monthSelect: "Choose a month",
+    yearSelect: "Choose a year",
+    decadeSelect: "Choose a decade",
+    yearFormat: "YYYY",
+    dateFormat: "M/D/YYYY",
+    dayFormat: "D",
+    dateTimeFormat: "M/D/YYYY HH:mm:ss",
+    monthFormat: "MMMM",
+    monthBeforeYear: true,
+    previousMonth: "Previous month (PageUp)",
+    nextMonth: "Next month (PageDown)",
+    previousYear: "Last year (Control + left)",
+    nextYear: "Next year (Control + right)",
+    previousDecade: "Last decade",
+    nextDecade: "Next decade",
+    previousCentury: "Last century",
+    nextCentury: "Next century",
+  },
+  timePickerLocale: {
+    placeholder: "Select time",
+  },
+  dateFormat: "YYYY-MM-DD",
+  dateTimeFormat: "YYYY-MM-DD HH:mm:ss",
+  weekFormat: "YYYY-wo",
+  monthFormat: "YYYY-MM",
+};
+
 const HomePage = ({
   subjects: { fetchSemesterSubjects, semesterSubjects, loading },
-  glo: { checkIsAvailableChoice, isAvailableChoice },
+  glo: { checkIsAvailableChoice, showChoiceAlert, setSubjectModalVisible },
 }) => {
   useEffect(() => {
     fetchSemesterSubjects();
     checkIsAvailableChoice();
-    console.log("salom");
   }, []);
 
   const [t] = useTranslation();
@@ -33,30 +73,38 @@ const HomePage = ({
       <HomeHeader />
 
       <div className="content home-page">
-        <Alert
-          style={{ marginBottom: 24 }}
-          message={
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <p style={{ margin: 0 }}>
-                Sizda ushbu semesterda tanlanadigan fanlar mavjud!. O'qishni
-                boshlash uchun siz tanlandigan fanlar guruhidan o'zingizga
-                ma'qul fanni tanlashingiz kerak!
-              </p>
-              <Button type="ghost">Tanlash</Button>
-            </div>
-          }
-          type="error"
-        />
+        {showChoiceAlert ? (
+          <Alert
+            style={{ marginBottom: 24 }}
+            message={
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <p style={{ margin: 0 }}>
+                  Sizda ushbu semesterda tanlanadigan fanlar mavjud!. O'qishni
+                  boshlash uchun siz tanlandigan fanlar guruhidan o'zingizga
+                  ma'qul fanni tanlashingiz kerak!
+                </p>
+                <Button
+                  type="ghost"
+                  onClick={() => setSubjectModalVisible(true)}
+                >
+                  Tanlash
+                </Button>
+              </div>
+            }
+            type="error"
+          />
+        ) : null}
         <Spin spinning={loading}>
           <div className="for-calendar">
             <div className="site-calendar-card">
               <Calendar
+                locale={loc}
                 headerRender={({ value, type, onChange, onTypeChange }) => {
                   return (
                     <div>
@@ -71,6 +119,7 @@ const HomePage = ({
             </div>
             <div className="site-calendar-card">
               <Calendar
+                locale={loc}
                 headerRender={({ value, type, onChange, onTypeChange }) => {
                   return (
                     <div>
@@ -85,6 +134,7 @@ const HomePage = ({
             </div>
             <div className="site-calendar-card">
               <Calendar
+                locale={loc}
                 headerRender={({ value, type, onChange, onTypeChange }) => {
                   return (
                     <div>
@@ -99,6 +149,7 @@ const HomePage = ({
             </div>
             <div className="site-calendar-card">
               <Calendar
+                locale={loc}
                 headerRender={({ value, type, onChange, onTypeChange }) => {
                   return (
                     <div>
@@ -113,6 +164,7 @@ const HomePage = ({
             </div>
             <div className="site-calendar-card">
               <Calendar
+                locale={loc}
                 headerRender={({ value, type, onChange, onTypeChange }) => {
                   return (
                     <div>
@@ -127,6 +179,7 @@ const HomePage = ({
             </div>
             <div className="site-calendar-card">
               <Calendar
+                locale={loc}
                 headerRender={({ value, type, onChange, onTypeChange }) => {
                   return (
                     <div>
@@ -141,6 +194,7 @@ const HomePage = ({
             </div>
             <div className="site-calendar-card">
               <Calendar
+                locale={loc}
                 headerRender={({ value, type, onChange, onTypeChange }) => {
                   return (
                     <div>

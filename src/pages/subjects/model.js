@@ -1,5 +1,5 @@
 import CommonStore from "../../stores/commonStore";
-import { observable, action, runInAction } from "mobx";
+import { observable, action, runInAction, computed } from "mobx";
 import { client } from "../../common/utils/request";
 import { CURRENT_LANG } from "../../constants";
 import flash from "../../stores/Flash";
@@ -53,7 +53,9 @@ class SubjectsModel extends CommonStore {
           console.log(data);
           runInAction(() => {
             this.semesterSubjects = Array.isArray(data.result.data)
-              ? data.result.data
+              ? data.result.data.sort(
+                  (a, b) => a.choice_of_subject - b.choice_of_subject
+                )
               : [];
           });
           this.setState("done");
@@ -69,6 +71,7 @@ class SubjectsModel extends CommonStore {
   fetchOne = async (subject_id = "") => {
     this.setState("pending");
     this.setSingle({});
+    this.setCurrentSubject(null);
 
     // if (!authStore.activeSemesterId) {
     //   await this.fetchActiveSemester()
@@ -119,6 +122,7 @@ class SubjectsModel extends CommonStore {
               }
             : {};
         this.setSingle(_result);
+        this.setCurrentSubject(_result);
         this.setState("done");
       }
     } catch (error) {
@@ -189,6 +193,33 @@ class SubjectsModel extends CommonStore {
       flash.setFlash("error", "Error occurred!");
     }
   };
+
+  // @observable breadcrumb = [];
+
+  @observable currentSubject = null;
+
+  @action
+  setCurrentSubject = (val) => {
+    this.currentSubject = val;
+  };
+
+  @computed
+  get breadcrumb() {
+    let result = [];
+    if (this.currentSubject) {
+      result.push({
+        name: this.currentSubject.subject_name,
+        id: this.currentSubject.subject_id,
+      });
+    }
+    if (this.currentLesson) {
+      result.push({
+        name: this.currentLesson.name,
+        id: this.currentLesson.id,
+      });
+    }
+    return result;
+  }
 
   @action
   fetchOneLessonItem = async ({
