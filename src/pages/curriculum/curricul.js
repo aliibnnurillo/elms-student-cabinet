@@ -42,7 +42,9 @@ const Curiculum = (props) => {
                         dataSource={sem.student_subject.notChoice}
                         header={
                           <p>
-                            <span>{sem.semester_name}-smestr</span>
+                            <span style={{ textTransform: "uppercase" }}>
+                              {sem.semester_name}-{t("Semestr")}
+                            </span>
                             <span>
                               {sem.start_date} - {sem.end_date}
                             </span>

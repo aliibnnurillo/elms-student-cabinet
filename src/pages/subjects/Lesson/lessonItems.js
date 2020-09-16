@@ -220,7 +220,7 @@ const QuizItem = inject("subjects")(
                                 margin: 6,
                               }}
                             >
-                              <span className="icon-wrapper bg-white">
+                              <span className="icon-wrapper bg-white shadowed">
                                 <IconType />
                               </span>
                               {resource.file_url_resource.length > 20 ? (

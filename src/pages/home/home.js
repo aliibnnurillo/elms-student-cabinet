@@ -224,7 +224,14 @@ const HomePage = ({
                   <Link
                     to={`/${getActiveSemester()}/subjects/${item.subject_id}`}
                   >
-                    <Card className="for-card-subjects">
+                    <Card
+                      className="for-card-subjects"
+                      style={
+                        item.choice_of_subject
+                          ? { backgroundColor: "rgba(223, 177, 177, 0.15)" }
+                          : {}
+                      }
+                    >
                       <Meta
                         avatar={<Avatar size={64} src={item.file_url_photo} />}
                         title={

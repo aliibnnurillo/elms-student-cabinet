@@ -304,33 +304,37 @@ const Lesson = (props) => {
                         </div>
                       </Col>
                     ) : null}
-                    <Col
-                      xs={24}
-                      lg={{ span: 20 }}
-                      xxl={{ span: 18 }}
-                      className="comments-list"
-                    >
-                      <h3>
-                        {comments.length}-{t("ta sharh")}
-                      </h3>
-                      <>
-                        <Comment
-                          avatar={
-                            <UserAvatar user={isExistUser() ? getUser() : {}} />
-                          }
-                          content={
-                            <Editor
-                              onSubmit={saveComment}
-                              submitting={loading}
-                              lessonId={id}
-                            />
-                          }
-                        />
-                        {comments.length > 0 && (
-                          <CommentList comments={comments} />
-                        )}
-                      </>
-                    </Col>
+                    {single.allow_comment_after_correct_answer ? (
+                      <Col
+                        xs={24}
+                        lg={{ span: 20 }}
+                        xxl={{ span: 18 }}
+                        className="comments-list"
+                      >
+                        <h3>
+                          {comments.length}-{t("ta sharh")}
+                        </h3>
+                        <>
+                          <Comment
+                            avatar={
+                              <UserAvatar
+                                user={isExistUser() ? getUser() : {}}
+                              />
+                            }
+                            content={
+                              <Editor
+                                onSubmit={saveComment}
+                                submitting={loading}
+                                lessonId={id}
+                              />
+                            }
+                          />
+                          {comments.length > 0 && (
+                            <CommentList comments={comments} />
+                          )}
+                        </>
+                      </Col>
+                    ) : null}
                   </Row>
                 ) : !loading ? (
                   <h2>{t("Hali bu dars uchun ma'lumot yuklanmagan.")}</h2>
