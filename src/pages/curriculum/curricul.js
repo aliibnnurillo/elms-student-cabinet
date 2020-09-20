@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { CuriculHeader } from "../../component/header";
 import { List } from "antd";
-import { ClockCircleFilled } from "@ant-design/icons";
+import { ClockCircleFilled, CreditCardFilled } from "@ant-design/icons";
 import "../examn/exam.css";
 import "./curicul.css";
 import { inject, observer } from "mobx-react";
@@ -39,7 +39,7 @@ const Curiculum = (props) => {
                       <List
                         size="large"
                         className="curicul-list"
-                        dataSource={sem.student_subject.notChoice}
+                        dataSource={sem.semestr_subject.notChoice}
                         header={
                           <p>
                             <span style={{ textTransform: "uppercase" }}>
@@ -54,14 +54,24 @@ const Curiculum = (props) => {
                           return (
                             <List.Item key={idx}>
                               <span>
-                                {item.subject_name && item.subject_name.name
-                                  ? item.subject_name.name
+                                {item.subject_choice_name &&
+                                item.subject_choice_name.name
+                                  ? item.subject_choice_name.name
                                   : null}
                               </span>
-                              <span>
-                                180
-                                <ClockCircleFilled />
-                              </span>
+                              {item.hour && item.credit_hour ? (
+                                <span>
+                                  <span>
+                                    {item.hour}
+                                    <ClockCircleFilled />
+                                  </span>
+                                  <span>
+                                    <span style={{ fontSize: 24 }}>/</span>
+                                    &nbsp; {item.credit_hour}
+                                    <CreditCardFilled />
+                                  </span>
+                                </span>
+                              ) : null}
                             </List.Item>
                           );
                         }}
@@ -70,19 +80,29 @@ const Curiculum = (props) => {
                           <List
                             className="choice"
                             header={<p>{t("tanlov")}</p>}
-                            dataSource={sem.student_subject.choice}
+                            dataSource={sem.semestr_subject.choice}
                             renderItem={(item, idx) => {
                               return (
                                 <List.Item>
                                   <span>
-                                    {item.subject_name && item.subject_name.name
-                                      ? item.subject_name.name
+                                    {item.subject_choice_name &&
+                                    item.subject_choice_name.name
+                                      ? item.subject_choice_name.name
                                       : null}
                                   </span>
-                                  <span>
-                                    120
-                                    <ClockCircleFilled />
-                                  </span>
+                                  {item.hour && item.credit_hour ? (
+                                    <span>
+                                      <span>
+                                        {item.hour}
+                                        <ClockCircleFilled />
+                                      </span>
+                                      <span>
+                                        <span style={{ fontSize: 24 }}>/</span>
+                                        &nbsp; {item.credit_hour}
+                                        <CreditCardFilled />
+                                      </span>
+                                    </span>
+                                  ) : null}
                                 </List.Item>
                               );
                             }}

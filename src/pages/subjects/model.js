@@ -11,6 +11,13 @@ class SubjectsModel extends CommonStore {
   @observable semesters = [];
   @observable semesterSubjects = [];
 
+  @observable activeItemId = "";
+
+  @action
+  setActiveItemId = (val) => {
+    this.activeItemId = val;
+  };
+
   @action
   fetchActiveSemester = async () => {
     return client.get(this.url + "/semesters", {
@@ -73,24 +80,6 @@ class SubjectsModel extends CommonStore {
     this.setSingle({});
     this.setCurrentSubject(null);
 
-    // if (!authStore.activeSemesterId) {
-    //   await this.fetchActiveSemester()
-    //     .then((res) => {
-    //       const { data: { result } = {}, status } = res;
-    //       if (status === 200) {
-    //         runInAction(() => {
-    //           this.activeSemester =
-    //             Array.isArray(result.data) && result.data.length
-    //               ? result.data[0]
-    //               : {};
-    //         });
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
-    // }
-
     try {
       const response = await client.get(
         `${this.url}/semesterSubjectPlan/${authStore.activeSemesterId}`,
@@ -111,6 +100,20 @@ class SubjectsModel extends CommonStore {
                 module: Array.isArray(result.data[0].module)
                   ? result.data[0].module.map((module) => ({
                       ...module,
+                      read_total_lesson_item: Array.isArray(module.lessons)
+                        ? module.lessons.reduce(
+                            (accumulator, currentValue) =>
+                              accumulator + currentValue.read_total_lesson_item,
+                            0
+                          )
+                        : 0,
+                      total_lesson_item: Array.isArray(module.lessons)
+                        ? module.lessons.reduce(
+                            (accumulator, currentValue) =>
+                              accumulator + currentValue.total_lesson_item,
+                            0
+                          )
+                        : 0,
                       start_date: module.start_date
                         ? moment(module.start_date).format("D MMMM YYYY")
                         : null,
@@ -139,6 +142,7 @@ class SubjectsModel extends CommonStore {
   setResourceType = (type) => {
     this.resourceType = type;
   };
+  @observable allowCommentToLesson = false;
 
   @action
   fetchLessonItems = async ({
@@ -149,6 +153,7 @@ class SubjectsModel extends CommonStore {
   } = {}) => {
     this.setState("pending");
     this.lessonItems = [];
+    this.setTestResult([]);
 
     try {
       const response = await client.get(
@@ -165,7 +170,7 @@ class SubjectsModel extends CommonStore {
       const { status, data } = response;
       console.log("fetch lesson items => ", response);
       if (status === 200) {
-        this.lessonItems = Array.isArray(data.result.data)
+        const _ans = Array.isArray(data.result.data)
           ? data.result.data.map((item) => {
               if (item.type === "test") {
                 let current = { ...item };
@@ -186,6 +191,9 @@ class SubjectsModel extends CommonStore {
               }
             })
           : [];
+        this.allowCommentToLesson =
+          _ans.length && _ans[0].allow_comment_after_correct_answer;
+        this.lessonItems = _ans;
         this.setState("done");
       }
     } catch (error) {
@@ -317,6 +325,55 @@ class SubjectsModel extends CommonStore {
     } catch (error) {
       this.setState("error");
       return error.response;
+    }
+  };
+
+  @action
+  completeTest = async (itemId = "") => {
+    this.setState("pending");
+    try {
+      const response = await client.post(
+        "/syllabus/CompleteTestStore/" + itemId
+      );
+      const { status } = response;
+      console.log("complte test response => ", response);
+      if (status === 200) {
+        this.setState("done");
+        this.getTestResult(itemId);
+      }
+    } catch (error) {
+      this.setState("error");
+    }
+  };
+  @observable testResult = [];
+
+  @action
+  setTestResult = (val) => {
+    this.testResult = val;
+  };
+  @action
+  getTestResult = async (itemId = "") => {
+    this.setState("pending");
+    this.testResult = [];
+    try {
+      const response = await client.get("/syllabus/CompleteTest", {
+        params: {
+          language: CURRENT_LANG,
+          syllabus_module_lesson_item_id: itemId,
+        },
+      });
+      const { status, data } = response;
+      if (status === 200) {
+        this.setState("done");
+        const _res = Array.isArray(data.result.data)
+          ? data.result.data.reverse()
+          : [];
+        runInAction(() => {
+          this.testResult = _res;
+        });
+      }
+    } catch (error) {
+      this.setState("error");
     }
   };
 

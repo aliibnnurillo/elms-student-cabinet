@@ -20,11 +20,11 @@ class CurriculumModel extends CommonStore {
         if (Array.isArray(data.result.data)) {
           const _res = data.result.data.map((item) => ({
             ...item,
-            student_subject: {
-              notChoice: item.student_subject.filter(
+            semestr_subject: {
+              notChoice: item.semestr_subject.filter(
                 (item) => !item.choice_of_subject
               ),
-              choice: item.student_subject.filter(
+              choice: item.semestr_subject.filter(
                 (item) => item.choice_of_subject
               ),
             },

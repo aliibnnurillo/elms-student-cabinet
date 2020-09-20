@@ -38,9 +38,10 @@ const SubjectsHeader = ({
             <span>{t("Fanlar")}</span>
           </Breadcrumb.Item>
           {breadcrumb.length && currentSubject
-            ? breadcrumb.map((item) => {
+            ? breadcrumb.map((item, idx) => {
                 return (
                   <Breadcrumb.Item
+                    key={idx}
                     href={`/${getActiveSemester()}/subjects/${item.id}`}
                   >
                     {item.name}

@@ -106,7 +106,13 @@ const SubjectList = ({ subjects: { fetchOne, loading, single } }) => {
                               <PieChartOutlined
                                 style={{ marginRight: "10px" }}
                               />
-                              60%
+                              {module.total_lesson_item
+                                ? `${Math.round(
+                                    (module.read_total_lesson_item /
+                                      module.total_lesson_item) *
+                                      100
+                                  )}%`
+                                : "0%"}
                             </Tag>
                           </div>
                           <List
@@ -120,7 +126,7 @@ const SubjectList = ({ subjects: { fetchOne, loading, single } }) => {
                             renderItem={(lesson) => (
                               <List.Item>
                                 <Link
-                                  to={`/${semesterId}/subjects/${id}/${lesson.id}#${lesson.id}`}
+                                  to={`/${semesterId}/subjects/${id}/${lesson.id}`}
                                 >
                                   <span>
                                     {lesson.name ? lesson.name : null}

@@ -61,7 +61,13 @@ const Subjects = ({
             <Row gutter={[24, 24]}>
               {semesterSubjects.map((semSub, idx) => (
                 <Col key={idx} xs={24} md={24} lg={12} xl={8}>
-                  <Link to={`/${semesterId}/subjects/${semSub.subject_id}`}>
+                  <Link
+                    to={
+                      semSub.last_lesson_id && semSub.last_lesson_item_id
+                        ? `/${semesterId}/subjects/${semSub.subject_id}/${semSub.last_lesson_id}#${semSub.last_lesson_id}`
+                        : `/${semesterId}/subjects/${semSub.subject_id}`
+                    }
+                  >
                     <Card
                       hoverable
                       className="card"
@@ -103,7 +109,10 @@ const Subjects = ({
                       </div>
                       <p>{semSub.short_info ? semSub.short_info : null}</p>
                       <span className="goSubject">
-                        {t("Fanni Boshlash")}&nbsp;
+                        {semSub.last_lesson_id && semSub.last_lesson_item_id
+                          ? t("Davom etish")
+                          : t("Fanni boshlash")}
+                        &nbsp;
                         <ArrowRightOutlined />
                       </span>
                     </Card>

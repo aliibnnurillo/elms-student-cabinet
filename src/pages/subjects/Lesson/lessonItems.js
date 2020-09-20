@@ -9,6 +9,7 @@ import {
   Radio,
   Carousel,
   Result,
+  Table,
 } from "antd";
 import { observer, inject } from "mobx-react";
 import { Player } from "video-react";
@@ -25,7 +26,8 @@ import {
 import { UploadIcon, Checked, Canceled } from "../../../component/icons";
 import { API_URL } from "../../../constants";
 import { useTranslation } from "react-i18next";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useHistory } from "react-router-dom";
+import { computed } from "mobx";
 
 const { TabPane } = Tabs;
 
@@ -71,11 +73,6 @@ const UploadDragger = ({
   );
 };
 
-const text = `
-  A dog is a type of domesticated animal.
-  Known for its loyalty and faithfulness,
-  it can be found as a welcome guest in many households across the world.
-`;
 function callback(key) {
   console.log(key);
 }
@@ -265,20 +262,37 @@ const QuizItem = inject("subjects")(
   )
 );
 
+const columnsForTestResult = [
+  { title: "Urinish", align: "center", dataIndex: "count_of_attempts" },
+  {
+    title: "Talaba",
+    dataIndex: "fio",
+  },
+  { title: "Jami", dataIndex: "test_total" },
+  { title: "To'g'ri", dataIndex: "test_answered" },
+  { title: "Noto'g'ri", dataIndex: "test_un_answered" },
+  {
+    title: "Ball",
+    dataIndex: "mark",
+    render: (cell) => <span>{cell ? cell : null}%</span>,
+  },
+  { title: "Sana", dataIndex: "test_date" },
+];
+
 const TestItem = ({
   data,
   sendAnswerToTestQuestion,
   single,
   semesterSubjects,
+  completeTest,
+  testResult,
 }) => {
   const [current, setCurrent] = useState(0);
   const [valueone, setValueone] = useState("");
 
   const [t] = useTranslation();
 
-  console.log(data);
   const onChangeAnswer = (e) => {
-    console.log("radio1 checked", e.target.value);
     setValueone(e.target.value);
   };
   const onChange = (from, to) => {
@@ -297,8 +311,12 @@ const TestItem = ({
       valueone
     ).then((res) => {
       if (res.status === 200) {
-        setValueone("");
-        carousel.current.next();
+        if (current + 1 !== data.test_question.length) {
+          setValueone("");
+          carousel.current.next();
+        } else {
+          completeTest(data.id);
+        }
       }
     });
   };
@@ -318,7 +336,7 @@ const TestItem = ({
   ) : (
     <div>
       <div className="question-test">
-        {current < data.test_question.length ? (
+        {!testResult.length ? (
           <>
             <h2>
               {t("Test savoli")}
@@ -346,12 +364,22 @@ const TestItem = ({
             </Carousel>
             <p className="next">
               <Button disabled={!valueone} onClick={onSendAnswer}>
-                {t("Keyingi savol")}
+                {current + 1 === data.test_question.length
+                  ? t("Yakunlash")
+                  : t("Keyingi savol")}
               </Button>
             </p>
           </>
         ) : (
-          <Result status="success" title="Test result successfully saved!" />
+          <div style={{ padding: "0 24px" }}>
+            <h3>Test natijalari: </h3>
+            <Table
+              columns={columnsForTestResult}
+              dataSource={testResult}
+              pagination={false}
+              rowKey={"id"}
+            />
+          </div>
         )}
       </div>
     </div>
@@ -366,16 +394,36 @@ function LessonItem(props) {
       sendAnswerToTestQuestion,
       single,
       semesterSubjects,
+      completeTest,
+      testResult,
+      activeItemId,
+      setActiveItemId,
     },
     glo: { setSubjectModalVisible, isAvailableChoice },
     lessonId,
   } = props;
   const { semesterId, subjectId } = useParams();
 
+  const { hash } = useParams();
+  const history = useHistory();
+
+  useEffect(() => {
+    if (lessonItems.length) {
+      if (hash) {
+        const found = lessonItems.find((item) => +item.id === +hash.slice(1));
+        found && setActiveItemId(`${found.id}=>${found.type}`);
+      } else {
+        setActiveItemId(`${lessonItems[0].id}=>${lessonItems[0].type}`);
+      }
+    }
+  }, []);
+
   const callback = (key) => {
     const id = key.split("=>")[0];
     const type = key.split("=>")[1];
     const find = lessonItems.find((item) => +item.id === +id);
+    setActiveItemId(key);
+    history.push(history.location.pathname + "#" + id);
     if (type === "test" || type === "question-answer") {
       single.choice_of_subject &&
         isAvailableChoice &&
@@ -396,9 +444,10 @@ function LessonItem(props) {
       type,
     });
   };
+
   return (
     <div sytle={{ width: "100%" }}>
-      <Tabs onChange={callback} type="card">
+      <Tabs onChange={callback} type="card" activeKey={activeItemId}>
         {lessonItems.map((item, idx) => {
           return item.type === "text" && item.text ? (
             <TabPane
@@ -472,6 +521,8 @@ function LessonItem(props) {
                   single={single}
                   semesterSubjects={semesterSubjects}
                   sendAnswerToTestQuestion={sendAnswerToTestQuestion}
+                  completeTest={completeTest}
+                  testResult={testResult}
                 />
               ) : null}
             </TabPane>

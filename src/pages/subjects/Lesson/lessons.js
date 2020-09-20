@@ -116,6 +116,7 @@ const Lesson = (props) => {
       fetchLessonResources,
       fetchSemesterSubjects,
       semesterSubjects,
+      allowCommentToLesson,
     },
     glo: { checkIsAvailableChoice, fetchChoiceOfSubject, setChoiceOfSubject },
   } = props;
@@ -124,22 +125,18 @@ const Lesson = (props) => {
   const { hash, pathname } = useLocation();
 
   useEffect(() => {
-    console.log(semesterId, subjectId, hash);
     fetchSemesterSubjects();
     fetchOne(subjectId).then((res) => {
-      if (hash) {
-        fetchLessonItems({ semesterId, subjectId, lessonId: hash.slice(1) });
-        fetchLessonResources({
-          semesterId,
-          subjectId,
-          lessonId: hash.slice(1),
-        });
+      fetchLessonItems({ semesterId, subjectId, lessonId: id });
+      fetchLessonResources({
+        semesterId,
+        subjectId,
+        lessonId: id,
+      });
 
-        console.log("choice of subject => ", single);
-        setChoiceOfSubject(props.subjects.single.choice_of_subject);
+      setChoiceOfSubject(props.subjects.single.choice_of_subject);
 
-        fetchComments(id);
-      }
+      fetchComments(id);
     });
     checkIsAvailableChoice();
   }, []);
@@ -147,24 +144,21 @@ const Lesson = (props) => {
   const [t] = useTranslation();
 
   useEffect(() => {
-    if (hash) {
-      fetchLessonItems({ semesterId, subjectId, lessonId: hash.slice(1) });
-      fetchLessonResources({
-        semesterId,
-        subjectId,
-        lessonId: hash.slice(1),
-      });
-    }
-  }, [hash, semesterId, subjectId, fetchLessonItems, fetchLessonResources]);
+    fetchLessonItems({ semesterId, subjectId, lessonId: id });
+    fetchLessonResources({
+      semesterId,
+      subjectId,
+      lessonId: id,
+    });
+  }, [id, semesterId, subjectId, fetchLessonItems, fetchLessonResources]);
 
   const history = useHistory();
   const onNextLesson = () => {
-    if (hash) {
-      let currentLessonId = +hash.slice(1);
-      const nextLessonId = currentLessonId + 1;
-      history.push(`${pathname}#${nextLessonId}`);
-    }
+    let currentLessonId = +id;
+    const nextLessonId = currentLessonId + 1;
+    history.push(`/${semesterId}/subjects/${subjectId}/${nextLessonId}`);
   };
+
   return (
     <>
       <SubjectsHeader />
@@ -188,10 +182,10 @@ const Lesson = (props) => {
                                     <NavLink
                                       className="les-item-link"
                                       key={lesson.id}
-                                      isActive={(loc, moc, cok) => {
-                                        return moc.hash === `#${lesson.id}`;
+                                      isActive={(loc, moc) => {
+                                        return moc.pathname.includes(lesson.id);
                                       }}
-                                      to={`#${lesson.id}`}
+                                      to={`/${semesterId}/subjects/${subjectId}/${lesson.id}`}
                                       title={`${idx + 1}.${index + 1} ${
                                         lesson.name
                                       }`}
@@ -211,34 +205,13 @@ const Lesson = (props) => {
                   </ul>
                 </div>
               </Col>
-
               <Col xs={24} md={16} lg={19}>
                 {lessonItems.length ? (
                   <Row>
                     <Col xs={24} lg={{ span: 20 }} xxl={{ span: 18 }}>
                       <LessonItem lessonId={id} />
                     </Col>
-                    <Col xs={24} lg={{ span: 20 }} xxl={{ span: 18 }}>
-                      <div
-                        style={{
-                          backgroundColor: "#F3F4FF",
-                          height: 3,
-                          margin: "40px 0",
-                        }}
-                      ></div>
-                      <div className="text-center">
-                        <Button className="btn-success" onClick={onNextLesson}>
-                          {t("Keyingi dars")}
-                        </Button>
-                      </div>
-                      <div
-                        style={{
-                          backgroundColor: "#F3F4FF",
-                          height: 3,
-                          margin: "40px 0",
-                        }}
-                      ></div>
-                    </Col>
+
                     {Array.isArray(resourceFiles) && resourceFiles.length ? (
                       <Col xs={24} lg={{ span: 20 }} xxl={{ span: 18 }}>
                         <h2>{t("Darsga doir resurslar")}</h2>
@@ -304,7 +277,28 @@ const Lesson = (props) => {
                         </div>
                       </Col>
                     ) : null}
-                    {single.allow_comment_after_correct_answer ? (
+                    <Col xs={24} lg={{ span: 20 }} xxl={{ span: 18 }}>
+                      <div
+                        style={{
+                          backgroundColor: "#F3F4FF",
+                          height: 3,
+                          margin: "40px 0",
+                        }}
+                      ></div>
+                      <div className="text-center">
+                        <Button className="btn-success" onClick={onNextLesson}>
+                          {t("Keyingi dars")}
+                        </Button>
+                      </div>
+                      <div
+                        style={{
+                          backgroundColor: "#F3F4FF",
+                          height: 3,
+                          margin: "40px 0",
+                        }}
+                      ></div>
+                    </Col>
+                    {allowCommentToLesson ? (
                       <Col
                         xs={24}
                         lg={{ span: 20 }}
