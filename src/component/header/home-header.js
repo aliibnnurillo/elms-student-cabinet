@@ -8,8 +8,12 @@ import Pop from "./pop";
 import { Link } from "react-router-dom";
 import "./menu.css";
 import LoginList from "./login-list";
+import LanguageBox from "../LanguageBox";
+import { inject, observer } from "mobx-react";
+import { useTranslation } from "react-i18next";
 
-const HomeHeader = () => {
+const HomeHeader = (props) => {
+  const [t] = useTranslation();
   return (
     <div className="page-header home">
       <PageHeader className="site-page-header" title="Bosh sahifa">
@@ -18,15 +22,13 @@ const HomeHeader = () => {
             <HomeOutlined />
           </Breadcrumb.Item>
           <Breadcrumb.Item href="">
-            <span>O’quv rejasi</span>
-          </Breadcrumb.Item>
-          <Breadcrumb.Item>
-            <span>Reja</span>
+            <span>{t("Bosh sahifa")}</span>
           </Breadcrumb.Item>
         </Breadcrumb>
       </PageHeader>
 
       <div className="header-right">
+        <LanguageBox />
         <Badge count={4}>
           <Link to="/messages" className="head-example">
             <MessageOutlined />

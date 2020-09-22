@@ -9,6 +9,7 @@ import Pop from "./pop";
 import { Link } from "react-router-dom";
 import LoginList from "./login-list";
 import { useTranslation } from "react-i18next";
+import LanguageBox from "../LanguageBox";
 
 const CuriculHeader = () => {
   const [t] = useTranslation();
@@ -27,6 +28,7 @@ const CuriculHeader = () => {
       </PageHeader>
 
       <div className="header-right">
+        <LanguageBox />
         <Badge count={4}>
           <Link to="" className="head-example">
             <MessageOutlined />

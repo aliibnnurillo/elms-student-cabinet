@@ -8,6 +8,7 @@ import Pop from "./pop";
 import { Link } from "react-router-dom";
 import "./menu.css";
 import LoginList from "./login-list";
+import LanguageBox from "../LanguageBox";
 
 const MessageHeader = () => {
   return (
@@ -25,6 +26,7 @@ const MessageHeader = () => {
       </PageHeader>
 
       <div className="header-right">
+      <LanguageBox />
         <Badge count={4}>
           <Link to="/message" className="head-example">
             <MessageOutlined />

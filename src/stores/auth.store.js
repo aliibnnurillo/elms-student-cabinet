@@ -53,6 +53,29 @@ class AuthStore {
   };
 
   @action
+  changeLang = async (lang = "") => {
+    this.state = "pending";
+    this.reset();
+    try {
+      const res = await client.post("/profile/change-lang", {
+        default_language: lang,
+      });
+
+      const { status } = res;
+
+      if (status === 200) {
+        await this.reloadProfileInfo();
+        window.location.reload();
+      }
+      return res;
+    } catch (error) {
+      this.state = "error";
+
+      return error.response;
+    }
+  };
+
+  @action
   login = async (credentials) => {
     this.state = "pending";
     this.reset();
@@ -138,7 +161,7 @@ class AuthStore {
             username: data.result[0].username,
             email: data.result[0].email,
             avatar: data.result[0].file_url_photo,
-            language: data.result[0].language,
+            default_language: data.result[0].default_language,
             phone: data.result[0].phone,
           });
         }
@@ -327,7 +350,7 @@ class AuthStore {
       username: data.username,
       email: data.email,
       avatar: data.file_url_photo,
-      language: data.language,
+      default_language: data.default_language,
       phone: data.phone,
     };
   };
@@ -343,7 +366,7 @@ class AuthStore {
       username: userData.username,
       email: userData.email,
       avatar: userData.file_url_photo,
-      language: userData.language,
+      default_language: userData.default_language,
       phone: userData.phone,
     });
     this.authenticated = true;

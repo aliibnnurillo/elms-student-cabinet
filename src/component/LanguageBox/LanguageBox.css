@@ -1,0 +1,12 @@
+.lang-box-menu .ant-dropdown-menu-item {
+  padding: 13px;
+}
+.lang-box-menu .ant-dropdown-menu-item:first-child {
+  border-bottom: 1px solid #e8e8e8;
+}
+.lang-box-menu .ant-dropdown-menu-item img {
+  margin-right: 8px;
+}
+.lang-box-menu .ant-dropdown-menu-item span {
+  vertical-align: middle;
+}

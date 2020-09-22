@@ -25,7 +25,7 @@ const VerifyCode = ({ authStore: { verifyCode }, history }) => {
             <div className="icons">
               <LockOutlined />
             </div>
-            <p>Iltimos emialingizga yuborilgan kodni kiriting</p>
+            <p>{t("Iltimos emalingizga yuborilgan kodni kiriting")}</p>
             <Form
               onFinish={formFinish}
               name="normal_login"
@@ -38,14 +38,14 @@ const VerifyCode = ({ authStore: { verifyCode }, history }) => {
                     required: true,
                     min: 6,
                     message: t(
-                      "Password length must be more than 8 characters!"
+                      "Password length must be more than 6 characters!"
                     ),
                   },
                 ]}
               >
                 <Input
                   prefix={<LockOutlined className="site-form-item-icon" />}
-                  placeholder="Kodni kiriting"
+                  placeholder={t("Kodni kiriting")}
                 />
               </Form.Item>
               <Form.Item>

@@ -9,6 +9,7 @@ import "./menu.css";
 import { observer, inject } from "mobx-react";
 import LoginList from "./login-list";
 import { useTranslation } from "react-i18next";
+import LanguageBox from "../LanguageBox";
 
 const obj = [
   { link: "posts", title: "Yangiliklar" },
@@ -55,6 +56,7 @@ const NewsHeader = ({ posts: { setType, type } }) => {
         ) : null}
 
         <div className="header-right">
+          <LanguageBox />
           <Badge count={4}>
             <Link to="/messages" className="head-example">
               <MessageOutlined />

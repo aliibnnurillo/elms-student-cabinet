@@ -10,6 +10,7 @@ import { observer, inject } from "mobx-react";
 import CSelect from "../CSelect";
 import { useTranslation } from "react-i18next";
 import { getActiveSemester } from "../../common/utils/utils";
+import LanguageBox from "../LanguageBox";
 
 const SubjectsHeader = ({
   subjects: {
@@ -61,6 +62,7 @@ const SubjectsHeader = ({
       ) : null}
 
       <div className="header-right">
+        <LanguageBox />
         <Badge count={4}>
           <Link to=" " className="head-example">
             <MessageOutlined />
