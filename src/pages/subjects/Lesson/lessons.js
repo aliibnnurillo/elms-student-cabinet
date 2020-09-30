@@ -212,71 +212,7 @@ const Lesson = (props) => {
                       <LessonItem lessonId={id} />
                     </Col>
 
-                    {Array.isArray(resourceFiles) && resourceFiles.length ? (
-                      <Col xs={24} lg={{ span: 20 }} xxl={{ span: 18 }}>
-                        <h2>{t("Darsga doir resurslar")}</h2>
-                        <div
-                          style={{ display: "flex", flexDirection: "column" }}
-                        >
-                          {resourceFiles.map((resource) => {
-                            let IconType = "";
-                            const _item = resource.media[0];
-                            switch (_item.extension) {
-                              case "zip":
-                                IconType = FileZipOutlined;
-                                break;
-                              case "png":
-                              case "jpg":
-                              case "jpeg":
-                                IconType = PictureOutlined;
-                                break;
-                              case "pdf":
-                                IconType = FilePdfOutlined;
-                                break;
-                              case "doc":
-                              case "docx":
-                                IconType = FileWordOutlined;
-                                break;
-                              default:
-                                IconType = FileUnknownOutlined;
-                                break;
-                            }
-                            return (
-                              <div
-                                key={resource.id}
-                                style={{
-                                  backgroundColor: "#F3F4FF",
-                                  display: "flex",
-                                  borderRadius: 12,
-                                  alignItems: "center",
-                                  padding: 12,
-                                  margin: 6,
-                                }}
-                              >
-                                <span
-                                  className="icon-wrapper bg-white"
-                                  style={{ marginRight: 12 }}
-                                >
-                                  <IconType />
-                                </span>
-                                <Link
-                                  to={resource.file_url_resource}
-                                  target="_blank"
-                                  onClick={(event) => {
-                                    event.preventDefault();
-                                    window.open(resource.file_url_resource);
-                                  }}
-                                >
-                                  {resource.fileName
-                                    ? resource.fileName
-                                    : "Fayl"}
-                                </Link>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </Col>
-                    ) : null}
+                    
                     <Col xs={24} lg={{ span: 20 }} xxl={{ span: 18 }}>
                       <div
                         style={{

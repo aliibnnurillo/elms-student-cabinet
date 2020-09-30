@@ -8,6 +8,18 @@
   justify-content: center;
 }
 
+.d-flex {
+  display: flex;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
 .icon-wrapper {
   display: inline-flex;
   align-items: center;
@@ -35,4 +47,14 @@
 }
 .ant-tabs-tabpane p {
   color: #000;
+}
+
+.video-react-control-bar .ant-select-selector {
+  border: none !important;
+  color: #fff !important;
+  background-color: transparent !important;
+  outline: none;
+}
+.video-react-control-bar .ant-select-arrow {
+  color: #fff;
 }

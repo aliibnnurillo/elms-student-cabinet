@@ -42,7 +42,6 @@ const SubjectList = ({ subjects: { fetchOne, loading, single } }) => {
                     src={single.file_url_video}
                   />
                 </div>
-
                 <Button block type="default">
                   {t("Davom etish")}
                 </Button>
@@ -67,7 +66,6 @@ const SubjectList = ({ subjects: { fetchOne, loading, single } }) => {
                     </span>
                   </p>
                 </div>
-
                 {single.description ? (
                   <p
                     dangerouslySetInnerHTML={{ __html: single.description }}

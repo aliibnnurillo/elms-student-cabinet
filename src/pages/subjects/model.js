@@ -229,6 +229,13 @@ class SubjectsModel extends CommonStore {
     return result;
   }
 
+  @observable isTestStarted = false;
+
+  @action
+  setIsTestStarted = (val) => {
+    this.isTestStarted = val;
+  };
+
   @action
   fetchOneLessonItem = async ({
     semesterId,
@@ -238,7 +245,8 @@ class SubjectsModel extends CommonStore {
     type = "",
   } = {}) => {
     this.setState("pending");
-
+    this.isTestCompleted = false;
+    this.isTestStarted = false;
     try {
       const response = await client.get(
         `/syllabus/SubjectLessonItems/${semesterId}`,
@@ -328,9 +336,17 @@ class SubjectsModel extends CommonStore {
     }
   };
 
+  @observable isTestCompleted = true;
+
+  @action
+  setIsTestCompleted = (val) => {
+    this.isTestCompleted = val;
+  };
+
   @action
   completeTest = async (itemId = "") => {
     this.setState("pending");
+
     try {
       const response = await client.post(
         "/syllabus/CompleteTestStore/" + itemId
@@ -340,6 +356,8 @@ class SubjectsModel extends CommonStore {
       if (status === 200) {
         this.setState("done");
         this.getTestResult(itemId);
+        this.setIsTestCompleted(true);
+        this.setIsTestStarted(false);
       }
     } catch (error) {
       this.setState("error");

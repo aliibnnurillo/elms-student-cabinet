@@ -10,9 +10,12 @@ import {
   Carousel,
   Result,
   Table,
+  Divider,
+  Select,
 } from "antd";
 import { observer, inject } from "mobx-react";
-import { Player } from "video-react";
+import { Player, ControlBar } from "video-react";
+import ReactPlayer from "react-player";
 import "./lesson.css";
 import {
   FileTextFilled,
@@ -22,6 +25,9 @@ import {
   FileZipOutlined,
   PictureOutlined,
   LockOutlined,
+  FilePdfOutlined,
+  FileUnknownOutlined,
+  FileWordOutlined,
 } from "@ant-design/icons";
 import { UploadIcon, Checked, Canceled } from "../../../component/icons";
 import { API_URL } from "../../../constants";
@@ -93,6 +99,7 @@ const QuizItem = inject("subjects")(
         loading,
         single,
         semesterSubjects,
+        resourceFiles,
       },
       data,
       lessonId,
@@ -112,11 +119,6 @@ const QuizItem = inject("subjects")(
         saveQuestionFile(data.id, resource.id);
       };
 
-      console.log(
-        "old questjion  fjaskfjkdslfjdskfjksfjklsaj fsa- x",
-        oldQuestionFiles
-      );
-
       return single.choice_of_subject &&
         semesterSubjects.filter(
           (item) => item.choice_of_subject === single.choice_of_subject
@@ -131,14 +133,77 @@ const QuizItem = inject("subjects")(
         >
           <LockOutlined style={{ color: "red", fontSize: 150 }} />
           <p>
-            Bu tanlanadigan fan. Kontentni ko'rish uchun tanlovni amalga
-            oshirishingiz kerak!
+            {t(
+              "Bu tanlanadigan fan. Kontentni ko'rish uchun tanlovni amalga oshirishingiz kerak!"
+            )}
           </p>
         </div>
       ) : (
         <div>
           <div className="upload-file">
             <p dangerouslySetInnerHTML={{ __html: data.text }}></p>
+            {Array.isArray(resourceFiles) && resourceFiles.length ? (
+              <div>
+                <h2>{t("Darsga doir resurslar")}</h2>
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  {resourceFiles.map((resource) => {
+                    let IconType = "";
+                    const _item = resource.media[0];
+                    switch (_item.extension) {
+                      case "zip":
+                        IconType = FileZipOutlined;
+                        break;
+                      case "png":
+                      case "jpg":
+                      case "jpeg":
+                        IconType = PictureOutlined;
+                        break;
+                      case "pdf":
+                        IconType = FilePdfOutlined;
+                        break;
+                      case "doc":
+                      case "docx":
+                        IconType = FileWordOutlined;
+                        break;
+                      default:
+                        IconType = FileUnknownOutlined;
+                        break;
+                    }
+                    return (
+                      <div
+                        key={resource.id}
+                        style={{
+                          backgroundColor: "#F3F4FF",
+                          display: "flex",
+                          borderRadius: 12,
+                          alignItems: "center",
+                          padding: 12,
+                          margin: 6,
+                        }}
+                      >
+                        <span
+                          className="icon-wrapper bg-white"
+                          style={{ marginRight: 12 }}
+                        >
+                          <IconType />
+                        </span>
+                        <Link
+                          to={resource.file_url_resource}
+                          target="_blank"
+                          onClick={(event) => {
+                            event.preventDefault();
+                            window.open(resource.file_url_resource);
+                          }}
+                        >
+                          {resource.fileName ? resource.fileName : t("Fayl")}
+                        </Link>
+                      </div>
+                    );
+                  })}
+                </div>
+                <Divider />
+              </div>
+            ) : null}
             <div className="upload-block">
               <h3 className="upload-title">{t("Javob")}</h3>
               <UploadDragger
@@ -286,6 +351,11 @@ const TestItem = ({
   semesterSubjects,
   completeTest,
   testResult,
+  resourceFiles,
+  isTestCompleted,
+  isTestStarted,
+  setIsTestCompleted,
+  setIsTestStarted,
 }) => {
   const [current, setCurrent] = useState(0);
   const [valueone, setValueone] = useState("");
@@ -316,6 +386,7 @@ const TestItem = ({
           carousel.current.next();
         } else {
           completeTest(data.id);
+          setCurrent(0);
         }
       }
     });
@@ -329,14 +400,83 @@ const TestItem = ({
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        flexDirection: "column",
       }}
     >
-      locked
+      <LockOutlined style={{ color: "red", fontSize: 150 }} />
+      <p>
+        {t(
+          "Bu tanlanadigan fan. Kontentni ko'rish uchun tanlovni amalga oshirishingiz kerak!"
+        )}
+      </p>
     </div>
   ) : (
     <div>
+      {Array.isArray(resourceFiles) && resourceFiles.length ? (
+        <div>
+          <h2>{t("Darsga doir resurslar")}</h2>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            {resourceFiles.map((resource) => {
+              let IconType = "";
+              const _item = resource.media[0];
+              switch (_item.extension) {
+                case "zip":
+                  IconType = FileZipOutlined;
+                  break;
+                case "png":
+                case "jpg":
+                case "jpeg":
+                  IconType = PictureOutlined;
+                  break;
+                case "pdf":
+                  IconType = FilePdfOutlined;
+                  break;
+                case "doc":
+                case "docx":
+                  IconType = FileWordOutlined;
+                  break;
+                default:
+                  IconType = FileUnknownOutlined;
+                  break;
+              }
+              return (
+                <div
+                  key={resource.id}
+                  style={{
+                    backgroundColor: "#F3F4FF",
+                    display: "flex",
+                    borderRadius: 12,
+                    alignItems: "center",
+                    padding: 12,
+                    margin: 6,
+                  }}
+                >
+                  <span
+                    className="icon-wrapper bg-white"
+                    style={{ marginRight: 12 }}
+                  >
+                    <IconType />
+                  </span>
+                  <Link
+                    to={resource.file_url_resource}
+                    target="_blank"
+                    onClick={(event) => {
+                      event.preventDefault();
+                      window.open(resource.file_url_resource);
+                    }}
+                  >
+                    {resource.fileName ? resource.fileName : t("Fayl")}
+                  </Link>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      ) : null}
       <div className="question-test">
-        {!testResult.length ? (
+        {(isTestStarted || !isTestCompleted) &&
+        data.count_of_attempts &&
+        testResult.length < data.count_of_attempts ? (
           <>
             <h2>
               {t("Test savoli")}
@@ -372,16 +512,94 @@ const TestItem = ({
           </>
         ) : (
           <div style={{ padding: "0 24px" }}>
-            <h3>Test natijalari: </h3>
-            <Table
-              columns={columnsForTestResult}
-              dataSource={testResult}
-              pagination={false}
-              rowKey={"id"}
-            />
+            {testResult.length ? (
+              <div>
+                <div className="d-flex-c flex-column">
+                  <h3>
+                    Urinishlar soni: {testResult.length} /&nbsp;
+                    {data.count_of_attempts}
+                  </h3>
+                  {data.count_of_attempts > testResult.length ? (
+                    <Button
+                      type="primary"
+                      size="large"
+                      onClick={() => setIsTestCompleted(false)}
+                      style={{ marginBottom: 24 }}
+                    >
+                      Qayta urinish
+                    </Button>
+                  ) : null}
+                </div>
+                <Table
+                  title={() => "Test natijalari"}
+                  columns={columnsForTestResult}
+                  dataSource={testResult}
+                  pagination={false}
+                  rowKey={"id"}
+                />
+              </div>
+            ) : (
+              <div>
+                <div className="d-flex-c flex-column">
+                  {data.count_of_attempts ? (
+                    <h3>Urinishlar soni: {data.count_of_attempts}</h3>
+                  ) : null}
+                  <Button
+                    type="primary"
+                    size="large"
+                    onClick={() => setIsTestStarted(true)}
+                  >
+                    Testni boshlash
+                  </Button>
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>
+    </div>
+  );
+};
+
+const getVideoPath = (media, quality) => {
+  let path = `http://backend.elms.uz/storage/`;
+  let current = media.find((item) => item.filename.startsWith(`${quality}p-`));
+  if (media.length === 1 && !current) {
+    path += `${media[0].directory}/${media[0].filename}.${media[0].extension}`;
+    return path;
+  }
+  path += `${current.directory}/${current.filename}.${current.extension}`;
+  return path;
+};
+
+const VideoItem = (props) => {
+  const { data } = props;
+  const [path, setPath] = useState(getVideoPath(data.media, 144));
+  const [videoQuality, setVideoQuality] = useState(144);
+  const onSelect = (quality) => {
+    setVideoQuality(quality);
+    setPath(getVideoPath(data.media, quality));
+    if (ref && ref.current) {
+      console.log("video => ", ref);
+    }
+  };
+  const ref = useRef(null);
+  return (
+    <div className="videos">
+      <Player src={path} ref={ref} autoPlay>
+        <ControlBar>
+          <Select
+            style={{ width: 70 }}
+            value={videoQuality}
+            onSelect={onSelect}
+          >
+            <Select.Option value={720}>720p</Select.Option>
+            <Select.Option value={480}>480p</Select.Option>
+            <Select.Option value={360}>360p</Select.Option>
+            <Select.Option value={144}>144p</Select.Option>
+          </Select>
+        </ControlBar>
+      </Player>
     </div>
   );
 };
@@ -398,12 +616,18 @@ function LessonItem(props) {
       testResult,
       activeItemId,
       setActiveItemId,
+      isTestCompleted,
+      getTestResult,
+      setIsTestStarted,
+      isTestStarted,
+      resourceFiles,
+      setIsTestCompleted,
     },
     glo: { setSubjectModalVisible, isAvailableChoice },
     lessonId,
   } = props;
   const { semesterId, subjectId } = useParams();
-
+  const [t] = useTranslation();
   const { hash } = useParams();
   const history = useHistory();
 
@@ -424,6 +648,9 @@ function LessonItem(props) {
     const find = lessonItems.find((item) => +item.id === +id);
     setActiveItemId(key);
     history.push(history.location.pathname + "#" + id);
+    if (type === "test") {
+      getTestResult(id);
+    }
     if (type === "test" || type === "question-answer") {
       single.choice_of_subject &&
         isAvailableChoice &&
@@ -465,6 +692,67 @@ function LessonItem(props) {
               {item.text ? (
                 <p dangerouslySetInnerHTML={{ __html: item.text }}></p>
               ) : null}
+              {Array.isArray(resourceFiles) && resourceFiles.length ? (
+                <div>
+                  <h2>{t("Darsga doir resurslar")}</h2>
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    {resourceFiles.map((resource) => {
+                      let IconType = "";
+                      const _item = resource.media[0];
+                      switch (_item.extension) {
+                        case "zip":
+                          IconType = FileZipOutlined;
+                          break;
+                        case "png":
+                        case "jpg":
+                        case "jpeg":
+                          IconType = PictureOutlined;
+                          break;
+                        case "pdf":
+                          IconType = FilePdfOutlined;
+                          break;
+                        case "doc":
+                        case "docx":
+                          IconType = FileWordOutlined;
+                          break;
+                        default:
+                          IconType = FileUnknownOutlined;
+                          break;
+                      }
+                      return (
+                        <div
+                          key={resource.id}
+                          style={{
+                            backgroundColor: "#F3F4FF",
+                            display: "flex",
+                            borderRadius: 12,
+                            alignItems: "center",
+                            padding: 12,
+                            margin: 6,
+                          }}
+                        >
+                          <span
+                            className="icon-wrapper bg-white"
+                            style={{ marginRight: 12 }}
+                          >
+                            <IconType />
+                          </span>
+                          <Link
+                            to={resource.file_url_resource}
+                            target="_blank"
+                            onClick={(event) => {
+                              event.preventDefault();
+                              window.open(resource.file_url_resource);
+                            }}
+                          >
+                            {resource.fileName ? resource.fileName : t("Fayl")}
+                          </Link>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              ) : null}
             </TabPane>
           ) : item.type === "video" && item.file_url_video ? (
             <TabPane
@@ -479,13 +767,7 @@ function LessonItem(props) {
               }
               key={`${item.id}=>video`}
             >
-              <div className="videos">
-                <Player
-                  playsInline
-                  poster="/photo.png"
-                  src={item.file_url_video}
-                />
-              </div>
+              <VideoItem data={item} />
             </TabPane>
           ) : item.type === "question-answer" ? (
             <TabPane
@@ -523,6 +805,10 @@ function LessonItem(props) {
                   sendAnswerToTestQuestion={sendAnswerToTestQuestion}
                   completeTest={completeTest}
                   testResult={testResult}
+                  isTestCompleted={isTestCompleted}
+                  isTestStarted={isTestStarted}
+                  setIsTestStarted={setIsTestStarted}
+                  setIsTestCompleted={setIsTestCompleted}
                 />
               ) : null}
             </TabPane>
