@@ -564,6 +564,9 @@
   .ant-radio-inner::before {
   display: block;
 }
+.question-test .ant-radio-group.ant-radio-group-outline p {
+  margin: 0;
+}
 .question-test .next {
   text-align: center;
   margin: 4px 0 4px;
@@ -730,6 +733,11 @@
   overflow: unset !important;
   white-space: unset;
 }
+
+.tasks .ant-tabs img {
+  max-width: 100%;
+}
+
 @media screen and (max-width: 1367px) {
   .line {
     margin: 20px 0;

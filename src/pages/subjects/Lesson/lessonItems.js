@@ -8,14 +8,12 @@ import {
   Upload,
   Radio,
   Carousel,
-  Result,
   Table,
   Divider,
   Select,
 } from "antd";
 import { observer, inject } from "mobx-react";
 import { Player, ControlBar } from "video-react";
-import ReactPlayer from "react-player";
 import "./lesson.css";
 import {
   FileTextFilled,
@@ -33,7 +31,11 @@ import { UploadIcon, Checked, Canceled } from "../../../component/icons";
 import { API_URL } from "../../../constants";
 import { useTranslation } from "react-i18next";
 import { Link, useParams, useHistory } from "react-router-dom";
-import { computed } from "mobx";
+import { InlineMath, BlockMath } from "react-katex";
+import LessonFiles from "./lessonFiles";
+import { formatBytes } from "../../../common/services/common";
+
+import ModalImage, { Lightbox } from "react-modal-image";
 
 const { TabPane } = Tabs;
 
@@ -142,68 +144,7 @@ const QuizItem = inject("subjects")(
         <div>
           <div className="upload-file">
             <p dangerouslySetInnerHTML={{ __html: data.text }}></p>
-            {Array.isArray(resourceFiles) && resourceFiles.length ? (
-              <div>
-                <h2>{t("Darsga doir resurslar")}</h2>
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                  {resourceFiles.map((resource) => {
-                    let IconType = "";
-                    const _item = resource.media[0];
-                    switch (_item.extension) {
-                      case "zip":
-                        IconType = FileZipOutlined;
-                        break;
-                      case "png":
-                      case "jpg":
-                      case "jpeg":
-                        IconType = PictureOutlined;
-                        break;
-                      case "pdf":
-                        IconType = FilePdfOutlined;
-                        break;
-                      case "doc":
-                      case "docx":
-                        IconType = FileWordOutlined;
-                        break;
-                      default:
-                        IconType = FileUnknownOutlined;
-                        break;
-                    }
-                    return (
-                      <div
-                        key={resource.id}
-                        style={{
-                          backgroundColor: "#F3F4FF",
-                          display: "flex",
-                          borderRadius: 12,
-                          alignItems: "center",
-                          padding: 12,
-                          margin: 6,
-                        }}
-                      >
-                        <span
-                          className="icon-wrapper bg-white"
-                          style={{ marginRight: 12 }}
-                        >
-                          <IconType />
-                        </span>
-                        <Link
-                          to={resource.file_url_resource}
-                          target="_blank"
-                          onClick={(event) => {
-                            event.preventDefault();
-                            window.open(resource.file_url_resource);
-                          }}
-                        >
-                          {resource.fileName ? resource.fileName : t("Fayl")}
-                        </Link>
-                      </div>
-                    );
-                  })}
-                </div>
-                <Divider />
-              </div>
-            ) : null}
+            <LessonFiles resourceFiles={resourceFiles} />
             <div className="upload-block">
               <h3 className="upload-title">{t("Javob")}</h3>
               <UploadDragger
@@ -339,7 +280,7 @@ const columnsForTestResult = [
   {
     title: "Ball",
     dataIndex: "mark",
-    render: (cell) => <span>{cell ? cell : null}%</span>,
+    render: (cell) => (cell ? cell : null),
   },
   { title: "Sana", dataIndex: "test_date" },
 ];
@@ -412,67 +353,7 @@ const TestItem = ({
     </div>
   ) : (
     <div>
-      {Array.isArray(resourceFiles) && resourceFiles.length ? (
-        <div>
-          <h2>{t("Darsga doir resurslar")}</h2>
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            {resourceFiles.map((resource) => {
-              let IconType = "";
-              const _item = resource.media[0];
-              switch (_item.extension) {
-                case "zip":
-                  IconType = FileZipOutlined;
-                  break;
-                case "png":
-                case "jpg":
-                case "jpeg":
-                  IconType = PictureOutlined;
-                  break;
-                case "pdf":
-                  IconType = FilePdfOutlined;
-                  break;
-                case "doc":
-                case "docx":
-                  IconType = FileWordOutlined;
-                  break;
-                default:
-                  IconType = FileUnknownOutlined;
-                  break;
-              }
-              return (
-                <div
-                  key={resource.id}
-                  style={{
-                    backgroundColor: "#F3F4FF",
-                    display: "flex",
-                    borderRadius: 12,
-                    alignItems: "center",
-                    padding: 12,
-                    margin: 6,
-                  }}
-                >
-                  <span
-                    className="icon-wrapper bg-white"
-                    style={{ marginRight: 12 }}
-                  >
-                    <IconType />
-                  </span>
-                  <Link
-                    to={resource.file_url_resource}
-                    target="_blank"
-                    onClick={(event) => {
-                      event.preventDefault();
-                      window.open(resource.file_url_resource);
-                    }}
-                  >
-                    {resource.fileName ? resource.fileName : t("Fayl")}
-                  </Link>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      ) : null}
+      <LessonFiles resourceFiles={resourceFiles} />
       <div className="question-test">
         {(isTestStarted || !isTestCompleted) &&
         data.count_of_attempts &&
@@ -492,12 +373,26 @@ const TestItem = ({
                       className="question"
                       dangerouslySetInnerHTML={{ __html: test.question }}
                     ></p>
-
-                    <Radio.Group
-                      options={test.test_answers}
-                      onChange={onChangeAnswer}
-                      value={valueone}
-                    />
+                    <div>
+                      <p>{test.question.replace(/<.+?>/g, "")}</p>
+                      <div>{test.question}</div>
+                    </div>
+                    <Radio.Group onChange={onChangeAnswer} value={valueone}>
+                      {test.test_answers.map((item, idx) => {
+                        const regex = /<.+?>/g;
+                        return (
+                          <Radio value={item.value}>
+                            {regex.test(item.label) ? (
+                              <p
+                                dangerouslySetInnerHTML={{ __html: item.label }}
+                              ></p>
+                            ) : (
+                              item.label
+                            )}
+                          </Radio>
+                        );
+                      })}
+                    </Radio.Group>
                   </div>
                 );
               })}
@@ -563,7 +458,7 @@ const TestItem = ({
 
 const getVideoPath = (media, quality) => {
   let path = `http://backend.elms.uz/storage/`;
-  let current = media.find((item) => item.filename.startsWith(`${quality}p-`));
+  let current = media.find((item) => item.filename.startsWith(`${quality}-`));
   if (media.length === 1 && !current) {
     path += `${media[0].directory}/${media[0].filename}.${media[0].extension}`;
     return path;
@@ -572,10 +467,18 @@ const getVideoPath = (media, quality) => {
   return path;
 };
 
+const getQualityName = (one) => {
+  const name = one.pivot.tag.split("_");
+  if (name.length < 2) {
+    return null;
+  }
+  return name[1];
+};
+
 const VideoItem = (props) => {
   const { data } = props;
-  const [path, setPath] = useState(getVideoPath(data.media, 144));
-  const [videoQuality, setVideoQuality] = useState(144);
+  const [path, setPath] = useState(getVideoPath(data.media, "240p"));
+  const [videoQuality, setVideoQuality] = useState("240p");
   const onSelect = (quality) => {
     setVideoQuality(quality);
     setPath(getVideoPath(data.media, quality));
@@ -588,22 +491,38 @@ const VideoItem = (props) => {
     <div className="videos">
       <Player src={path} ref={ref} autoPlay>
         <ControlBar>
-          <Select
-            style={{ width: 70 }}
-            value={videoQuality}
-            onSelect={onSelect}
-          >
-            <Select.Option value={720}>720p</Select.Option>
-            <Select.Option value={480}>480p</Select.Option>
-            <Select.Option value={360}>360p</Select.Option>
-            <Select.Option value={144}>144p</Select.Option>
-          </Select>
+          {Array.isArray(data.media) && data.media.length > 1 ? (
+            <Select
+              style={{ width: 130 }}
+              value={videoQuality}
+              onSelect={onSelect}
+            >
+              {data.media.map((item, idx) => {
+                const name = getQualityName(item);
+                return name ? (
+                  <Select.Option key={idx} value={name}>
+                    {`${name} (${formatBytes(item.size, 0)})`}
+                  </Select.Option>
+                ) : null;
+              })}
+            </Select>
+          ) : null}
         </ControlBar>
       </Player>
     </div>
   );
 };
-
+const func1 = (showFunc, setUrlFunc) => {
+  const wrapperTabPane = document.querySelector("#lessonItemWrapper");
+  wrapperTabPane.addEventListener("click", (e) => {
+    if (e.target.nodeName === "IMG") {
+      showFunc(true);
+      setUrlFunc(e.target.src);
+      console.log(e.target.src, e.target);
+      // callback();
+    }
+  });
+};
 function LessonItem(props) {
   const {
     subjects: {
@@ -630,6 +549,8 @@ function LessonItem(props) {
   const [t] = useTranslation();
   const { hash } = useParams();
   const history = useHistory();
+  const [currentImg, setCurrentImg] = useState("");
+  const [modalImgOpen, setModalImgOpen] = useState(false);
 
   useEffect(() => {
     if (lessonItems.length) {
@@ -640,6 +561,8 @@ function LessonItem(props) {
         setActiveItemId(`${lessonItems[0].id}=>${lessonItems[0].type}`);
       }
     }
+
+    func1(setModalImgOpen, setCurrentImg);
   }, []);
 
   const callback = (key) => {
@@ -673,7 +596,16 @@ function LessonItem(props) {
   };
 
   return (
-    <div sytle={{ width: "100%" }}>
+    <div sytle={{ width: "100%" }} id="lessonItemWrapper">
+      {modalImgOpen && (
+        <Lightbox
+          hideDownload={true}
+          hideZoom={true}
+          small={currentImg}
+          large={currentImg}
+          onClose={() => setModalImgOpen(false)}
+        />
+      )}
       <Tabs onChange={callback} type="card" activeKey={activeItemId}>
         {lessonItems.map((item, idx) => {
           return item.type === "text" && item.text ? (
@@ -692,67 +624,7 @@ function LessonItem(props) {
               {item.text ? (
                 <p dangerouslySetInnerHTML={{ __html: item.text }}></p>
               ) : null}
-              {Array.isArray(resourceFiles) && resourceFiles.length ? (
-                <div>
-                  <h2>{t("Darsga doir resurslar")}</h2>
-                  <div style={{ display: "flex", flexDirection: "column" }}>
-                    {resourceFiles.map((resource) => {
-                      let IconType = "";
-                      const _item = resource.media[0];
-                      switch (_item.extension) {
-                        case "zip":
-                          IconType = FileZipOutlined;
-                          break;
-                        case "png":
-                        case "jpg":
-                        case "jpeg":
-                          IconType = PictureOutlined;
-                          break;
-                        case "pdf":
-                          IconType = FilePdfOutlined;
-                          break;
-                        case "doc":
-                        case "docx":
-                          IconType = FileWordOutlined;
-                          break;
-                        default:
-                          IconType = FileUnknownOutlined;
-                          break;
-                      }
-                      return (
-                        <div
-                          key={resource.id}
-                          style={{
-                            backgroundColor: "#F3F4FF",
-                            display: "flex",
-                            borderRadius: 12,
-                            alignItems: "center",
-                            padding: 12,
-                            margin: 6,
-                          }}
-                        >
-                          <span
-                            className="icon-wrapper bg-white"
-                            style={{ marginRight: 12 }}
-                          >
-                            <IconType />
-                          </span>
-                          <Link
-                            to={resource.file_url_resource}
-                            target="_blank"
-                            onClick={(event) => {
-                              event.preventDefault();
-                              window.open(resource.file_url_resource);
-                            }}
-                          >
-                            {resource.fileName ? resource.fileName : t("Fayl")}
-                          </Link>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              ) : null}
+              <LessonFiles resourceFiles={resourceFiles} />
             </TabPane>
           ) : item.type === "video" && item.file_url_video ? (
             <TabPane

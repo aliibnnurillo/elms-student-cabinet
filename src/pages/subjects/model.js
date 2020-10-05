@@ -154,7 +154,8 @@ class SubjectsModel extends CommonStore {
     this.setState("pending");
     this.lessonItems = [];
     this.setTestResult([]);
-
+    this.isTestCompleted = true;
+    this.isTestStarted = false;
     try {
       const response = await client.get(
         `/syllabus/SubjectLessonItems/${semesterId}`,
@@ -168,7 +169,6 @@ class SubjectsModel extends CommonStore {
         }
       );
       const { status, data } = response;
-      console.log("fetch lesson items => ", response);
       if (status === 200) {
         const _ans = Array.isArray(data.result.data)
           ? data.result.data.map((item) => {
@@ -245,8 +245,7 @@ class SubjectsModel extends CommonStore {
     type = "",
   } = {}) => {
     this.setState("pending");
-    this.isTestCompleted = false;
-    this.isTestStarted = false;
+
     try {
       const response = await client.get(
         `/syllabus/SubjectLessonItems/${semesterId}`,

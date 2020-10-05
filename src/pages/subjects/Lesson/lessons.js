@@ -212,7 +212,6 @@ const Lesson = (props) => {
                       <LessonItem lessonId={id} />
                     </Col>
 
-                    
                     <Col xs={24} lg={{ span: 20 }} xxl={{ span: 18 }}>
                       <div
                         style={{
