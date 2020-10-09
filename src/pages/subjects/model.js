@@ -145,6 +145,18 @@ class SubjectsModel extends CommonStore {
   @observable allowCommentToLesson = false;
 
   @action
+  autoSetCurrentLesson = (id) => {
+    const filtered = Array.isArray(this.single.module)
+      ? this.single.module.filter((item) =>
+          item.lessons.some((item) => item.id === +id)
+        )
+      : null;
+    if (filtered) {
+      this.currentLesson = filtered[0];
+    }
+  };
+
+  @action
   fetchLessonItems = async ({
     semesterId,
     subjectId,
@@ -156,6 +168,7 @@ class SubjectsModel extends CommonStore {
     this.setTestResult([]);
     this.isTestCompleted = true;
     this.isTestStarted = false;
+    this.autoSetCurrentLesson(lessonId);
     try {
       const response = await client.get(
         `/syllabus/SubjectLessonItems/${semesterId}`,
@@ -316,7 +329,7 @@ class SubjectsModel extends CommonStore {
   sendAnswerToTestQuestion = async (
     itemId = "",
     test_question_id = "",
-    test_answer_id = ""
+    test_answer_id = []
   ) => {
     this.setState("pending");
     try {

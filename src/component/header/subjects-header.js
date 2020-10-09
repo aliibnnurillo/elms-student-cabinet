@@ -43,7 +43,11 @@ const SubjectsHeader = ({
                 return (
                   <Breadcrumb.Item
                     key={idx}
-                    href={`/${getActiveSemester()}/subjects/${item.id}`}
+                    href={
+                      idx + 1 !== breadcrumb.length
+                        ? `/${getActiveSemester()}/subjects/${item.id}`
+                        : undefined
+                    }
                   >
                     {item.name}
                   </Breadcrumb.Item>

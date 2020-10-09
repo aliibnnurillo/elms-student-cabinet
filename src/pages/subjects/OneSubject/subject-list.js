@@ -127,7 +127,19 @@ const SubjectList = ({ subjects: { fetchOne, loading, single } }) => {
                                   to={`/${semesterId}/subjects/${id}/${lesson.id}`}
                                 >
                                   <span>
-                                    {lesson.name ? lesson.name : null}
+                                    {lesson.name ? lesson.name : null}{" "}
+                                    &nbsp;&nbsp;
+                                    {lesson.type === "Nazariy" ? (
+                                      lesson.theory_mark ? (
+                                        <Tag color="#2db7f5">
+                                          {lesson.theory_mark.mark} ball
+                                        </Tag>
+                                      ) : null
+                                    ) : lesson.practical_mark ? (
+                                      <Tag color="#87d068">
+                                        {lesson.practical_mark.mark} ball
+                                      </Tag>
+                                    ) : null}
                                   </span>
                                   <span className="list-icons">
                                     <span>

@@ -316,11 +316,9 @@ const TestItem = ({
       message.error(t("Siz javob tanlamadingiz!"));
       return;
     }
-    sendAnswerToTestQuestion(
-      data.id,
-      data.test_question[current].id,
-      valueone
-    ).then((res) => {
+    sendAnswerToTestQuestion(data.id, data.test_question[current].id, [
+      valueone,
+    ]).then((res) => {
       if (res.status === 200) {
         if (current + 1 !== data.test_question.length) {
           setValueone("");
@@ -373,10 +371,6 @@ const TestItem = ({
                       className="question"
                       dangerouslySetInnerHTML={{ __html: test.question }}
                     ></p>
-                    <div>
-                      <p>{test.question.replace(/<.+?>/g, "")}</p>
-                      <div>{test.question}</div>
-                    </div>
                     <Radio.Group onChange={onChangeAnswer} value={valueone}>
                       {test.test_answers.map((item, idx) => {
                         const regex = /<.+?>/g;

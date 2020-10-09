@@ -185,6 +185,12 @@ const Lesson = (props) => {
                                       isActive={(loc, moc) => {
                                         return moc.pathname.includes(lesson.id);
                                       }}
+                                      onClick={() => {
+                                        window.scrollTo({
+                                          top: 0,
+                                          behavior: "smooth",
+                                        });
+                                      }}
                                       to={`/${semesterId}/subjects/${subjectId}/${lesson.id}`}
                                       title={`${idx + 1}.${index + 1} ${
                                         lesson.name

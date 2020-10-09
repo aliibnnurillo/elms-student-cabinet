@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Row, Col, Card, Avatar, Tag, Spin, Button, Alert } from "antd";
+import { Row, Col, Card, Avatar, Tag, Spin, Button, Alert, Space } from "antd";
 import { ArrowRightOutlined } from "@ant-design/icons";
 import { Link, useParams } from "react-router-dom";
 import { SubjectsHeader } from "../../component/header";
@@ -82,7 +82,7 @@ const Subjects = ({
                           <h2>
                             {semSub.subject_name ? semSub.subject_name : null}
                           </h2>
-                          <p>
+                          <div>
                             <span>
                               {t("Modullar soni")}
                               <Tag className="count_teg">
@@ -93,7 +93,7 @@ const Subjects = ({
                                 </span>
                               </Tag>
                             </span>
-                            <span>
+                            <span className="ml-3">
                               {t("Darslar soni")}
                               <Tag className="count_teg">
                                 <span>
@@ -103,7 +103,19 @@ const Subjects = ({
                                 </span>
                               </Tag>
                             </span>
-                          </p>
+                            {semSub.lesson_mark ? (
+                              <div>
+                                {t("Ball")}&nbsp;
+                                <Tag className="count_teg">
+                                  <span>
+                                    {semSub.current_practical_mark +
+                                      semSub.current_theory_mark}{" "}
+                                    / {semSub.lesson_mark}
+                                  </span>
+                                </Tag>
+                              </div>
+                            ) : null}
+                          </div>
                         </div>
                         <Avatar size={55} src={semSub.file_url_photo} />
                       </div>
