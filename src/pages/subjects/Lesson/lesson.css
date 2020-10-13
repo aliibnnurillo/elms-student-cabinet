@@ -161,12 +161,15 @@
 .all-theme-button {
   padding: 20px;
   height: 35px;
-  background-color: #5767f6;
+  background-color: #aab1f1;
   margin-bottom: 10px;
   color: #fff;
   border: none;
   border-radius: 7px !important;
   display: none;
+}
+.all-theme-button.active {
+  background-color: #5767f6;
 }
 .icon-arrow {
   margin-left: 20px;

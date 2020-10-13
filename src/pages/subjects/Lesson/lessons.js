@@ -195,7 +195,10 @@ const Lesson = (props) => {
             <Row gutter={[48, 20]}>
               <Col xs={24} md={8} lg={5}>
                 <div className="task-list">
-                  <button className="all-theme-button" onClick={allTheme}>
+                  <button
+                    className={`all-theme-button${all ? " active" : ""}`}
+                    onClick={allTheme}
+                  >
                     <span>
                       <UnorderedListOutlined />
                     </span>

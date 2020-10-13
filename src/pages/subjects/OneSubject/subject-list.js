@@ -65,6 +65,32 @@ const SubjectList = ({ subjects: { fetchOne, loading, single } }) => {
                       </Tag>
                     </span>
                   </p>
+                  {single.file_url_info ? (
+                    <div
+                      style={{
+                        backgroundColor: "rgb(243, 244, 255)",
+                        borderRadius: 6,
+                        padding: "12px 16px",
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      {t("Fan ma'lumotlari")}:
+                      <Link
+                        to={single.file_url_info}
+                        target="_blank"
+                        onClick={(event) => {
+                          event.preventDefault();
+                          window.open(single.file_url_info);
+                        }}
+                      >
+                        {single.file_url_info.slice(
+                          single.file_url_info.lastIndexOf("/") + 1
+                        )}
+                      </Link>
+                    </div>
+                  ) : null}
                 </div>
                 {single.description ? (
                   <p
