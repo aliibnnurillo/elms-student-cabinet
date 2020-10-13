@@ -17,6 +17,7 @@ import {
   FileZipOutlined,
   FilePdfOutlined,
   FileWordOutlined,
+  UnorderedListOutlined,
   FileUnknownOutlined,
 } from "@ant-design/icons";
 import { SubjectsHeader } from "../../../component/header";
@@ -123,6 +124,18 @@ const Lesson = (props) => {
 
   const { semesterId, subjectId, id } = useParams();
   const { hash, pathname } = useLocation();
+  const styleOne = {
+    display: "none",
+    height: "0px",
+    overflow: "hidden",
+    transition: "0.5s",
+  };
+  const styleTwo = {
+    display: "block",
+    height: "auto",
+    overflow: "none",
+    transition: "0.5s",
+  };
 
   useEffect(() => {
     fetchSemesterSubjects();
@@ -140,6 +153,7 @@ const Lesson = (props) => {
     });
     checkIsAvailableChoice();
   }, []);
+  const [all, setAll] = useState(false);
 
   const [t] = useTranslation();
 
@@ -151,6 +165,19 @@ const Lesson = (props) => {
       lessonId: id,
     });
   }, [id, semesterId, subjectId, fetchLessonItems, fetchLessonResources]);
+
+  const allTheme = () => {
+    setAll(!all);
+  };
+  const setstyle = () => {
+    return window.innerWidth < 768 && !all ? styleOne : styleTwo;
+  };
+
+  const closeAllTheme = () => {
+    if (window.innerWidth < 768) {
+      setAll(false);
+    }
+  };
 
   const history = useHistory();
   const onNextLesson = () => {
@@ -168,7 +195,12 @@ const Lesson = (props) => {
             <Row gutter={[48, 20]}>
               <Col xs={24} md={8} lg={5}>
                 <div className="task-list">
-                  <ul className="task-menu ">
+                  <button className="all-theme-button" onClick={allTheme}>
+                    <span>
+                      <UnorderedListOutlined />
+                    </span>
+                  </button>
+                  <ul className="task-menu " style={setstyle()}>
                     {Array.isArray(single.module)
                       ? single.module.map((module, idx, modules) => {
                           return (
@@ -185,12 +217,15 @@ const Lesson = (props) => {
                                       isActive={(loc, moc) => {
                                         return moc.pathname.includes(lesson.id);
                                       }}
-                                      onClick={() => {
-                                        window.scrollTo({
-                                          top: 0,
-                                          behavior: "smooth",
-                                        });
-                                      }}
+                                      onClick={
+                                        (() => {
+                                          window.scrollTo({
+                                            top: 0,
+                                            behavior: "smooth",
+                                          });
+                                        },
+                                        closeAllTheme)
+                                      }
                                       to={`/${semesterId}/subjects/${subjectId}/${lesson.id}`}
                                       title={`${idx + 1}.${index + 1} ${
                                         lesson.name
