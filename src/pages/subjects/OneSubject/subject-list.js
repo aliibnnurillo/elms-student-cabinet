@@ -96,7 +96,7 @@ const SubjectList = ({ subjects: { fetchOne, loading, single } }) => {
                 {single.description ? (
                   <ReactQuill
                     readOnly
-                    defaultValue={test.question}
+                    defaultValue={single.description}
                     modules={{ toolbar: false }}
                   />
                 ) : null}
