@@ -5,6 +5,7 @@ import "./news.css";
 import { NewsHeader } from "../../component/header";
 import { inject, observer } from "mobx-react";
 import { useParams } from "react-router-dom";
+import ReactQuill from "react-quill";
 
 const OneNews = (props) => {
   const { id } = useParams();
@@ -38,10 +39,13 @@ const OneNews = (props) => {
                 ) : null}
               </p>
               {single.description ? (
-                <p
-                  className="description"
-                  dangerouslySetInnerHTML={{ __html: single.description }}
-                ></p>
+                <div className="description">
+                  <ReactQuill
+                    readOnly
+                    defaultValue={single.description}
+                    modules={{ toolbar: false }}
+                  />
+                </div>
               ) : null}
             </Col>
           </Row>

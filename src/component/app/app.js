@@ -6,6 +6,7 @@ import {
   Route,
   useHistory,
 } from "react-router-dom";
+import "react-quill/dist/quill.snow.css";
 import "./app.css";
 import APINotification from "../APINotification";
 import { privateRoutes, publicRoutes, errorRoutes } from "../../routes";

@@ -12,6 +12,7 @@ import { SubjectsHeader } from "../../../component/header";
 import "../subject.css";
 import { inject, observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
+import ReactQuill from "react-quill";
 
 const SubjectList = ({ subjects: { fetchOne, loading, single } }) => {
   const { semesterId, id } = useParams();
@@ -93,9 +94,11 @@ const SubjectList = ({ subjects: { fetchOne, loading, single } }) => {
                   ) : null}
                 </div>
                 {single.description ? (
-                  <p
-                    dangerouslySetInnerHTML={{ __html: single.description }}
-                  ></p>
+                  <ReactQuill
+                    readOnly
+                    defaultValue={test.question}
+                    modules={{ toolbar: false }}
+                  />
                 ) : null}
 
                 <div>

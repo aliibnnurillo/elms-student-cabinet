@@ -66,3 +66,11 @@
 .ml-3 {
   margin-left: 0.75rem;
 }
+
+.ql-container.ql-snow {
+  border: none !important;
+}
+
+.ql-editor {
+  padding: 0 !important;
+}

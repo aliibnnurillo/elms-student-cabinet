@@ -36,6 +36,7 @@ import LessonFiles from "./lessonFiles";
 import { formatBytes } from "../../../common/services/common";
 
 import ModalImage, { Lightbox } from "react-modal-image";
+import ReactQuill from "react-quill";
 
 const { TabPane } = Tabs;
 
@@ -143,7 +144,11 @@ const QuizItem = inject("subjects")(
       ) : (
         <div>
           <div className="upload-file">
-            <p dangerouslySetInnerHTML={{ __html: data.text }}></p>
+            <ReactQuill
+              readOnly
+              defaultValue={data.text}
+              modules={{ toolbar: false }}
+            />
             <LessonFiles resourceFiles={resourceFiles} />
             <div className="upload-block">
               <h3 className="upload-title">{t("Javob")}</h3>
@@ -367,10 +372,12 @@ const TestItem = ({
               {data.test_question.map((test) => {
                 return (
                   <div key={test.id}>
-                    <p
+                    <ReactQuill
                       className="question"
-                      dangerouslySetInnerHTML={{ __html: test.question }}
-                    ></p>
+                      readOnly
+                      defaultValue={test.question}
+                      modules={{ toolbar: false }}
+                    />
                     <Radio.Group onChange={onChangeAnswer} value={valueone}>
                       {test.test_answers.map((item, idx) => {
                         const regex = /<.+?>/g;
@@ -606,7 +613,7 @@ function LessonItem(props) {
             <TabPane
               tab={
                 <span
-                  className={`tabIconWrapper ${
+                  className={`tabIconWrapper ql-editor ${
                     item.read_total_lesson_item ? "read" : ""
                   }`}
                 >
@@ -616,7 +623,11 @@ function LessonItem(props) {
               key={`${item.id}=>text`}
             >
               {item.text ? (
-                <p dangerouslySetInnerHTML={{ __html: item.text }}></p>
+                <ReactQuill
+                  readOnly
+                  defaultValue={item.text}
+                  modules={{ toolbar: false }}
+                />
               ) : null}
               <LessonFiles resourceFiles={resourceFiles} />
             </TabPane>
