@@ -1,26 +1,27 @@
 import React, { useEffect } from "react";
-import { LeftMenu } from "../header";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  useHistory,
-} from "react-router-dom";
-import "react-quill/dist/quill.snow.css";
-import "./app.css";
-import APINotification from "../APINotification";
-import { privateRoutes, publicRoutes, errorRoutes } from "../../routes";
-import PrivateRoute from "../PrivateRoute";
-import { Button, Radio, Col, Spin, Modal, message, Form } from "antd";
+import { Button, Radio, Modal, Form } from "antd";
 import { observer, inject } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import {
-  isExistUser,
-  getActiveSemester,
-  validToken,
-} from "../../common/utils/utils";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+
+import { privateRoutes, publicRoutes, errorRoutes } from "routes";
+
+import "react-quill/dist/quill.snow.css";
+import "./app.css";
+
+import { LeftMenu } from "component/header";
+import APINotification from "component/APINotification";
+import PrivateRoute from "component/PrivateRoute";
+
+import { getActiveSemester } from "common/utils/utils";
 
 const App = () => {
+  React.useEffect(() => {
+    const el = document.getElementById("loading-screen");
+    el && el.classList.add("loaded");
+    setTimeout(() => el && el.remove(), 1000);
+  }, []);
+
   return (
     <div>
       <Router>
