@@ -3,7 +3,7 @@ import { number } from "prop-types";
 
 import * as Icon from "component/Icon";
 
-import classes from "./Spinner.module.less";
+import "./Spinner.css";
 
 const Spinner = ({ size = 32 }) => {
   useEffect(() => {
@@ -14,8 +14,8 @@ const Spinner = ({ size = 32 }) => {
   }, []);
 
   return (
-    <div className={classes.wrapper} style={{ "--spinner-size": `${size}px` }}>
-      <div className={classes.spinner}>
+    <div className={"spinnerWrapper"} style={{ "--spinner-size": `${size}px` }}>
+      <div className={"spinner"}>
         <Icon.System.Loading />
       </div>
     </div>

@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import * as Icon from "component/Icon";
 import Spinner from "component/Spinner";
 
-import classes from "./Splash.module.less";
+import "./Splash.css";
 
 const Splash = () => {
   useEffect(() => {
@@ -13,12 +13,12 @@ const Splash = () => {
   }, []);
 
   return (
-    <div className={classes.wrapper}>
-      <div className={classes.logo}>
+    <div className={"splashWrapper"}>
+      <div className={"splashLogo"}>
         <Icon.Logo.Hozirontal />
       </div>
-      <div className={classes.loading}>
-        <div className={classes.loadingSpinner}>
+      <div className={"splashLoading"}>
+        <div className={"splashLoadingSpinner"}>
           <Spinner size={32} />
         </div>
       </div>
