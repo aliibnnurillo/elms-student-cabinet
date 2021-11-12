@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Row, Col, Tag, List, Button, Spin } from "antd";
+import { Row, Col, Tag, List, Button, Spin, Space } from "antd";
 import {
   CalendarOutlined,
   PieChartOutlined,
@@ -66,7 +66,7 @@ const SubjectList = ({ subjects: { fetchOne, loading, single } }) => {
                       </Tag>
                     </span>
                   </p>
-                  {single.file_url_info ? (
+                  {!!single.file_url_info && (
                     <div
                       style={{
                         backgroundColor: "rgb(243, 244, 255)",
@@ -91,15 +91,25 @@ const SubjectList = ({ subjects: { fetchOne, loading, single } }) => {
                         )}
                       </Link>
                     </div>
-                  ) : null}
+                  )}
                 </div>
-                {single.description ? (
+
+                <div className={"m-24 d-flex justify-between"}>
+                  <Link to={`/${semesterId}/subjects/${id}/exam-schedules/2`}>
+                    Oraliq nazorat
+                  </Link>
+                  <Link to={`/${semesterId}/subjects/${id}/exam-schedules/3`}>
+                    Yakuniy nazorat
+                  </Link>
+                </div>
+
+                {!!single.description && (
                   <ReactQuill
                     readOnly
                     defaultValue={single.description}
                     modules={{ toolbar: false }}
                   />
-                ) : null}
+                )}
 
                 <div>
                   <h2>{t("Talablar")}</h2>

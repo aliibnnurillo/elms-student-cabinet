@@ -189,6 +189,17 @@ const Lesson = (props) => {
   return (
     <>
       <SubjectsHeader />
+      <div
+        style={{ marginLeft: 100, padding: "0 25px" }}
+        className={"m-24 d-flex justify-between w-100"}
+      >
+        <Link to={`/${semesterId}/subjects/${id}/exam-schedules/2`}>
+          Oraliq nazorat
+        </Link>
+        <Link to={`/${semesterId}/subjects/${id}/exam-schedules/3`}>
+          Yakuniy nazorat
+        </Link>
+      </div>
       <div className="content">
         <div className="tasks">
           <Spin spinning={loading}>

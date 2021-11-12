@@ -5,6 +5,7 @@ import { CURRENT_LANG } from "../../constants";
 import flash from "../../stores/Flash";
 import moment from "moment";
 import authStore from "../../stores/auth.store";
+import _ from "lodash";
 
 class SubjectsModel extends CommonStore {
   @observable activeSemester = {};
@@ -127,6 +128,37 @@ class SubjectsModel extends CommonStore {
         this.setSingle(_result);
         this.setCurrentSubject(_result);
         this.setState("done");
+      }
+    } catch (error) {
+      this.setState("error");
+      flash.setFlash("error", "Error occurred!");
+    }
+  };
+
+  @observable examList = [];
+
+  @action
+  fetchExamListByType = async ({ control_type_id, subject_id }) => {
+    this.setState("pending");
+    this.examList = [];
+
+    try {
+      const response = await client.get(
+        `/FirstExam/GetSchedule/${authStore.activeSemesterId}`,
+        {
+          params: {
+            control_type_id,
+            syllabus_id: subject_id,
+          },
+        }
+      );
+      const { status, data } = response;
+      if (status === 200) {
+        const _result = _.get(data, "result") || [];
+        this.setState("done");
+        runInAction(() => {
+          this.examList = _result;
+        });
       }
     } catch (error) {
       this.setState("error");
@@ -287,6 +319,128 @@ class SubjectsModel extends CommonStore {
     } catch (error) {
       this.setState("error");
       flash.setFlash("error", "Error occurred!");
+    }
+  };
+
+  // midterm exam start
+
+  @observable currentExam = {};
+  @observable midtermExamQuestionList = [];
+
+  @computed
+  get totalMidtermExamCount() {
+    return (this.midtermExamQuestionList || []).length;
+  }
+
+  @action
+  setCurrentExam = (value) => {
+    this.currentExam = value;
+  };
+
+  @action
+  fetchMidtermExamQuestionList = async ({ exam_id, control_type_id }) => {
+    this.setState("pending");
+
+    try {
+      const _currentExam =
+        (this.examList || []).find(
+          (item) => Number(item.id) === Number(exam_id)
+        ) || {};
+      this.setCurrentExam(_currentExam);
+      const response = await client.get(`/FirstExam/startExam/${exam_id}`, {
+        params: {
+          control_type_id,
+        },
+      });
+      const { status, data } = response;
+      console.log("fetch midter exam questions response => ", response);
+      if (status === 200) {
+        const _finalResult = _.get(data, "result");
+        runInAction(() => {
+          this.midtermExamQuestionList = _finalResult;
+        });
+        this.setState("done");
+      }
+    } catch (error) {
+      this.setState("error");
+      flash.setFlash("error", "Error occurred!");
+    }
+  };
+
+  @action
+  sendAnswerToMEQuestion = async ({
+    exam_schedule_id = "",
+    control_type_id = 2,
+    test_question_id = "",
+    test_answer_id = [],
+  }) => {
+    this.setState("pending");
+    try {
+      const response = await client.post(
+        "/FirstExam/InCompleteTestStore/" + exam_schedule_id,
+        { test_question_id, test_answer_id },
+        {
+          params: {
+            control_type_id,
+          },
+        }
+      );
+      const { status } = response;
+      if (status === 200) {
+        this.setState("done");
+      }
+      return response;
+    } catch (error) {
+      this.setState("error");
+      return error.response;
+    }
+  };
+
+  @action
+  completeMidtermExam = async ({ exam_schedule_id, control_type_id = 2 }) => {
+    this.setState("pending");
+
+    try {
+      const response = await client.post(
+        "/FirstExam/CompleteTestStore/" + exam_schedule_id,
+        {},
+        { params: { control_type_id } }
+      );
+      const { status } = response;
+      console.log("complte midterm exam response => ", response);
+      if (status === 200) {
+        this.setState("done");
+        this.getMEResult({ control_type_id, exam_schedule_id });
+        this.setIsTestCompleted(true);
+        this.setIsTestStarted(false);
+      }
+    } catch (error) {
+      this.setState("error");
+    }
+  };
+
+  @action
+  getMEResult = async ({ exam_schedule_id, control_type_id }) => {
+    this.setState("pending");
+    this.testResult = [];
+    try {
+      const response = await client.get("/syllabus/CompleteTest", {
+        params: {
+          language: CURRENT_LANG,
+          exam_schedule_id,
+          control_type_id,
+        },
+      });
+      const { status, data } = response;
+      if (status === 200) {
+        const _res = _.get(data, "result.data") || [];
+        runInAction(() => {
+          this.testResult = _res;
+        });
+        this.setState("done");
+      }
+    } catch (error) {
+      this.setState("error");
     }
   };
 

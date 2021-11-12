@@ -19,6 +19,8 @@ import ServerErrorPage from "./pages/500";
 import VerifyCode from "./pages/auth/VerifyCode";
 import MessagePage from "./pages/message";
 import ProfilePage from "./pages/profile";
+import ExamSchedule from "./pages/subjects/ExamSchedule";
+import TakeMidtermExam from "./pages/subjects/TakeMidtermExam";
 
 export const publicRoutes = [
   {
@@ -45,6 +47,14 @@ export const privateRoutes = [
   {
     path: "/:semesterId/subjects/:subjectId/:id",
     component: Lesson,
+  },
+  {
+    path: "/:semesterId/subjects/:id/exam-schedules/:type",
+    component: ExamSchedule,
+  },
+  {
+    path: "/:semesterId/subjects/:id/exam-schedules/:type/:examId",
+    component: TakeMidtermExam,
   },
   {
     path: "/:semesterId/subjects/:id",
