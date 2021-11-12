@@ -34,7 +34,9 @@ const ExamSchedule = ({
       render: (current, record) => {
         return (
           <>
-            <Link to={`${pathname}/${record.id}`}>Boshlash</Link>
+            {record.type === "test" && (
+              <Link to={`${pathname}/${record.id}`}>Boshlash</Link>
+            )}
           </>
         );
       },
