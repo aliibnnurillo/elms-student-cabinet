@@ -4,7 +4,7 @@ import { client } from "../../common/utils/request";
 import { CURRENT_LANG } from "../../constants";
 import flash from "../../stores/Flash";
 import moment from "moment";
-import authStore from "../../stores/auth.store";
+import authStore from "modules/auth/stores";
 import _ from "lodash";
 
 class SubjectsModel extends CommonStore {

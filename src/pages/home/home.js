@@ -36,7 +36,7 @@ const HomePage = ({
       <HomeHeader />
 
       <div className="content home-page">
-        {showChoiceAlert ? (
+        {showChoiceAlert && (
           <Alert
             style={{ marginBottom: 24 }}
             message={
@@ -62,7 +62,7 @@ const HomePage = ({
             }
             type="error"
           />
-        ) : null}
+        )}
         <Spin spinning={loading}>
           <div className="for-calendar">
             <div className="site-calendar-card">

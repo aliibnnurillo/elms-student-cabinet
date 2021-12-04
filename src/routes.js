@@ -24,7 +24,7 @@ import TakeMidtermExam from "./pages/subjects/TakeMidtermExam";
 
 export const publicRoutes = [
   {
-    path: "/user/login",
+    path: "/",
     component: Login,
   },
   { path: "/user/forgot-password", component: ForgotPassword },

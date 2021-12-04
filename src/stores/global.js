@@ -47,7 +47,7 @@ class GlobalStore {
     }
   };
 
-  @observable isAvailableChoice = true;
+  @observable isAvailableChoice = false;
   @observable isChoiced = false;
 
   @computed

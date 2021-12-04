@@ -1,11 +1,11 @@
-import { observable, action } from 'mobx';
+import { observable, action } from "mobx";
 
 class Flash {
   @observable flash = null;
 
   @action
-  setFlash = (type, message) => {
-    this.flash = { type, message };
+  setFlash = (type, message, duration = 1) => {
+    this.flash = { type, message, duration };
   };
 
   @action

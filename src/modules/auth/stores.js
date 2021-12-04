@@ -1,4 +1,4 @@
-import { action, computed, observable, runInAction } from "mobx";
+import { action, autorun, computed, observable, runInAction } from "mobx";
 import {
   rmToken,
   setToken,
@@ -8,20 +8,47 @@ import {
   isExistUser,
   getUser,
   getToken,
-} from "../common/utils/utils";
-import { client } from "../common/utils/request";
+} from "common/utils/utils";
+import { client } from "common/utils/request";
+import { storage, http } from "services";
 
-import { API_URL, CURRENT_LANG, API_BASE_URL } from "../constants";
-import flash from "./Flash";
+import { API_URL, CURRENT_LANG, API_BASE_URL } from "../../constants";
+import flash from "stores/Flash";
 import Axios from "axios";
+import config from "config";
+import * as Api from "./api";
+import _ from "lodash";
+
+const accessToken = storage.local.get(config.api.access_token_key) || "";
+
+const refreshToken = storage.local.get(config.api.refresh_token_key) || "";
+
+const initialProfile = {
+  activeStudy: { academic_year_id: 0, season_semester: "autumn_semester" },
+  academic_year_id: 0,
+  season_semester: "autumn_semester",
+  department_name: "",
+  email: "",
+  file_url_photo: "",
+  fio: "",
+  id: 0,
+  language: "oz",
+  university_name: "",
+  university_id: 0,
+  username: "",
+};
 
 class AuthStore {
-  @observable authenticated = getToken();
+  @observable authenticated = !!accessToken;
+  @observable isFetched = !accessToken;
+
   @observable user = isExistUser() ? getUser() : {};
-  @observable accessToken = "";
+  @observable accessToken = accessToken;
+  @observable refreshToken = refreshToken;
   @observable state = "";
   @observable error = null;
   @observable activeSemesterId = getActiveSemester() || "semester";
+  @observable profile = initialProfile;
 
   @computed
   get auth() {
@@ -85,11 +112,13 @@ class AuthStore {
       const { status, data = {} } = res;
 
       if (status === 200) {
-        console.log("login response data => ", data);
-        if (!data.result.first_time_login) {
+        if (!_.get(data, "result.first_time_login")) {
           return this.getRequiredData(data.result);
         } else {
-          sessionStorage.setItem("temp_access_token", data.result.access_token);
+          storage.local.set(
+            config.api.temp_access_token_key,
+            _.get(data, "result.access_token")
+          );
         }
       }
       return res;
@@ -98,16 +127,51 @@ class AuthStore {
 
       if (error.response) {
         if (error.response.status === 401) {
-          const _res = error.response.data.message
-            ? error.response.data.message
-            : "";
+          const _res = _.get(error, "response.data.message") || "";
           runInAction(() => {
             this.error = _res;
           });
         }
-      } else flash.setFlash("error", "Error occured!");
+      } else flash.setFlash("error", "Error occurred!");
 
       return error.response;
+    }
+  };
+
+  @observable activeSemSeason = "";
+  @observable activeAcademicYear = 0;
+
+  @action
+  Profile = async () => {
+    this.isFetched = false;
+    try {
+      const { data } = await Api.Profile({ language: CURRENT_LANG });
+
+      const result = _.get(data, "result.0");
+      runInAction(() => {
+        this.isFetched = true;
+        this.profile = result;
+        this.activeSemSeason =
+          _.get(result, "activeStudy.season_semester") || "";
+        this.activeAcademicYear =
+          Number(_.get(result, "activeStudy.academic_year_id")) || 0;
+      });
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 401) {
+          storage.local.remove(config.api.access_token_key);
+          storage.local.remove(config.api.refresh_token_key);
+          runInAction(() => {
+            this.authenticated = false;
+            this.isFetched = false;
+            this.profile = initialProfile;
+            this.accessToken = "";
+            this.refreshToken = "";
+            this.error = null;
+            this.state = "";
+          });
+        }
+      }
     }
   };
 
@@ -186,7 +250,7 @@ class AuthStore {
       const res = await Axios.put(API_BASE_URL + `/email`, credentials, {
         headers: {
           Authorization:
-            "Bearer " + sessionStorage.getItem("temp_access_token"),
+            "Bearer " + storage.local.get(config.api.temp_access_token_key),
         },
       });
 
@@ -236,13 +300,13 @@ class AuthStore {
       const res = await Axios.put(API_BASE_URL + `/password`, credentials, {
         headers: {
           Authorization:
-            "Bearer " + sessionStorage.getItem("temp_access_token"),
+            "Bearer " + storage.local.get(config.api.temp_access_token_key),
         },
       });
 
       const { status, data } = res;
-      const token = sessionStorage.getItem("temp_access_token");
-      sessionStorage.removeItem("temp_access_token");
+      const token = storage.local.get(config.api.temp_access_token_key);
+      storage.local.remove(config.api.temp_access_token_key);
 
       if (status === 200) {
         console.log("new password response data -> ", data);
@@ -416,4 +480,11 @@ class AuthStore {
   };
 }
 
-export default new AuthStore();
+const auth = new AuthStore();
+
+autorun(() => {
+  console.log("auth store = ", auth);
+  auth.accessToken && http.subscribe({ accessToken: auth.accessToken });
+});
+
+export default auth;

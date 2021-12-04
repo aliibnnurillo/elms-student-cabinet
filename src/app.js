@@ -2,7 +2,12 @@ import React, { useEffect } from "react";
 import { Button, Radio, Modal, Form } from "antd";
 import { observer, inject } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 
 import { privateRoutes, publicRoutes, errorRoutes } from "routes";
 
@@ -12,6 +17,8 @@ import "./app.css";
 import { LeftMenu } from "component/header";
 import APINotification from "component/APINotification";
 import PrivateRoute from "component/PrivateRoute";
+import * as AuthModule from "modules/auth";
+import Splash from "./component/Splash";
 
 import { getActiveSemester } from "common/utils/utils";
 
@@ -25,18 +32,31 @@ const App = () => {
   return (
     <div>
       <Router>
-        <LeftMenu />
-        <Switch>
-          {publicRoutes.map((route, idx) => (
-            <Route {...route} key={idx} />
-          ))}
-          {privateRoutes.map((route, idx) => (
-            <PrivateRoute key={idx} {...route} exact />
-          ))}
-          {errorRoutes.map((route, idx) => (
-            <Route {...route} key={idx} />
-          ))}
-        </Switch>
+        <AuthModule.Containers.Wrapper>
+          {({ isFetched, authenticated }) =>
+            authenticated ? (
+              isFetched ? (
+                <>
+                  <LeftMenu />
+                  <Switch>
+                    {privateRoutes.map((route, idx) => (
+                      <PrivateRoute key={idx} {...route} exact />
+                    ))}
+                  </Switch>
+                </>
+              ) : (
+                <Splash />
+              )
+            ) : (
+              <Switch>
+                {publicRoutes.map((route, idx) => (
+                  <Route {...route} exact={true} key={idx} />
+                ))}
+                <Redirect from={"/*"} to={"/"} />
+              </Switch>
+            )
+          }
+        </AuthModule.Containers.Wrapper>
       </Router>
       <APINotification />
       <SubjectSelectModal />

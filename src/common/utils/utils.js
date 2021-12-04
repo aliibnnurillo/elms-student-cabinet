@@ -1,5 +1,7 @@
 import { ACCESS_TOKEN, LANGUAGES } from "../../constants";
 import { message } from "antd";
+import { storage } from "../../services";
+import config from "../../config";
 
 export const saveUser = (user) => {
   localStorage.setItem("current_user", JSON.stringify(user));
@@ -106,15 +108,15 @@ export function beforeUpload(file) {
 }
 
 export function setToken(token) {
-  window.localStorage.setItem(ACCESS_TOKEN, token);
+  storage.local.set(config.api.access_token_key, token);
 }
 
 export function getToken() {
-  return window.localStorage.getItem(ACCESS_TOKEN);
+  return storage.local.get(config.api.access_token_key);
 }
 
 export function rmToken() {
-  window.localStorage.removeItem(ACCESS_TOKEN);
+  storage.local.remove(config.api.access_token_key);
 }
 
 export const validToken = () => {
