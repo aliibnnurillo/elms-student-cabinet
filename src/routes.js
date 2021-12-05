@@ -22,6 +22,7 @@ import ProfilePage from "./pages/profile";
 import ExamSchedule from "./pages/subjects/ExamSchedule";
 import TakeMidtermExam from "./pages/subjects/TakeMidtermExam";
 
+import Controls from './pages/controls';
 export const publicRoutes = [
   {
     path: "/",
@@ -91,6 +92,10 @@ export const privateRoutes = [
   {
     path: "/message",
     component: Messages,
+  },
+  {
+    path: "/controls",
+    component: Controls,
   },
 ];
 

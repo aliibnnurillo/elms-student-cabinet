@@ -7,6 +7,7 @@ import RantingHeader from "./rating-header";
 import CuriculHeader from "./curicul-header";
 import MessageHeader from "./message-header";
 import ProfileHeader from "./profile-header";
+import ControlsHeader from "./controls-header";
 export {
   SubjectsHeader,
   LeftMenu,
@@ -17,4 +18,5 @@ export {
   CuriculHeader,
   MessageHeader,
   ProfileHeader,
+  ControlsHeader
 };

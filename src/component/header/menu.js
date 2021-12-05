@@ -3,9 +3,8 @@ import { Menu, Avatar, Button } from "antd";
 import {
   HomeOutlined,
   BankOutlined,
-  ScheduleOutlined,
+  FormOutlined,
   ProfileOutlined,
-  BookOutlined,
   ReadOutlined,
   MenuOutlined,
 } from "@ant-design/icons";
@@ -14,7 +13,7 @@ import { NavLink, Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { observer, inject } from "mobx-react";
 
-const keys = ["home", "subjects", "curriculum", "posts", "rating", "exam"];
+const keys = ["home", "subjects", "curriculum", "posts", "rating", "exam",'controls'];
 
 const LeftMenu = ({ authStore: { activeSemesterId } }) => {
   const [selectedKey, setSelectedKey] = useState(["home"]);
@@ -79,22 +78,16 @@ const LeftMenu = ({ authStore: { activeSemesterId } }) => {
             <span>{t("Fanlar")}</span>
           </NavLink>
         </Menu.Item>
-        {/* <Menu.Item key="exam">
-          <NavLink to="/exam" onClick={handleClick}>
-            <ScheduleOutlined />
-            <span>{t("Imtixonlar jadvali")}</span>
-          </NavLink>
-        </Menu.Item>
-        <Menu.Item key="rating" onClick={handleClick}>
-          <NavLink to="/rating">
-            <BookOutlined />
-            <span>{t("Reyting daftarchsi")}</span>
-          </NavLink>
-        </Menu.Item> */}
         <Menu.Item key="posts">
           <NavLink to="/posts" onClick={handleClick}>
             <ProfileOutlined />
             <span>{t("Yangiliklar va e'lonlar")}</span>
+          </NavLink>
+        </Menu.Item>
+        <Menu.Item key="controls" onClick={handleClick}>
+          <NavLink to="/controls">
+            <FormOutlined />
+            <span>{t("Nazoratlar")}</span>
           </NavLink>
         </Menu.Item>
       </Menu>
