@@ -13,6 +13,7 @@ class MessageModel extends CommonStore {
   @observable inbox = [];
   @observable trash = [];
   @observable isLoading = true;
+  @observable isSubmitting = false;
 
   @action
   fetchAll = async ({ type = "inbox", params = {} } = {}) => {
@@ -49,6 +50,7 @@ class MessageModel extends CommonStore {
   @action
   create = async ({ url = this.url, credentials } = {}) => {
     this.state = "pending";
+    this.isSubmitting = true;
     try {
       const response = await client({
         method: "post",
@@ -62,6 +64,11 @@ class MessageModel extends CommonStore {
     } catch (error) {
       this.setState("error");
       flash.setFlash("error", "Error occurred!");
+    } finally {
+      runInAction(() => {
+        this.isSubmitting = false;
+      })
+
     }
   };
 
@@ -106,6 +113,7 @@ class MessageModel extends CommonStore {
   @action
   remove = async ({ type = "inbox", id = "" } = {}) => {
     this.state = "pending";
+    this.isSubmitting = true;
     try {
       const response = await client({
         method: "delete",
@@ -132,6 +140,11 @@ class MessageModel extends CommonStore {
 
       flash.setFlash("error", "Server error occurred!");
       flash.setFlash("error", "Error occurred!");
+    }
+    finally {
+      runInAction(() => {
+        this.isSubmitting = false
+      })
     }
   };
 }

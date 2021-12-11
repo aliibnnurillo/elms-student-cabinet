@@ -1,38 +1,64 @@
-import React, { useEffect } from 'react';
-import { inject, observer } from 'mobx-react';
-import MessageTable from './MessageTable';
-import { SendOutlined, DeleteOutlined } from '@ant-design/icons';
-import { remove } from 'mobx';
-import { Divider } from 'antd';
-import { useTranslation } from 'react-i18next';
-import { isExistUser, getUser } from '../../common/utils/utils';
+import React, { useEffect } from "react";
+import { inject, observer } from "mobx-react";
+import MessageTable from "./MessageTable";
+import {
+  SendOutlined,
+  DeleteOutlined,
+  ExclamationCircleOutlined,
+} from "@ant-design/icons";
+import { remove } from "mobx";
+import { Divider, Modal, Spin } from "antd";
+import { useTranslation } from "react-i18next";
+import { isExistUser, getUser } from "../../common/utils/utils";
 
-const Draft = inject('message')(
-  observer(({ message: { fetchAll, draft, sendMessage } }) => {
-    useEffect(() => {
-      fetchAll({ type: 'draft', params: { status: false, sender_id: isExistUser() && getUser().id } });
-    }, []);
+const Draft = inject("message")(
+  observer(
+    ({ message: { fetchAll, draft, remove, sendMessage, isSubmitting } }) => {
+      useEffect(() => {
+        fetchAll({
+          type: "draft",
+          params: { status: false, sender_id: isExistUser() && getUser().id },
+        });
+      }, []);
+      const [t] = useTranslation();
 
-    const newCol = {
-      className: 'action-col',
-      render: (cell, record, index) => (
-        <>
-          <SendOutlined onClick={() => sendMessage(record.id)} />
-          <Divider type="vertical" />
-          <DeleteOutlined
-            onClick={() => remove({ type: 'draft', id: record.id })}
-          />
-        </>
-      ),
-    };
-    const [t] = useTranslation();
-    return (
-      <div className="all-message">
-        <h2>{t('Draft Messages')}</h2>
-        <MessageTable data={draft} newCol={newCol} />
-      </div>
-    );
-  })
+      function confirm(args) {
+        Modal.confirm({
+          title: "This is a warning message",
+          icon: <ExclamationCircleOutlined />,
+          content: "Are you sure to delete this message ?",
+          okText: "Ok",
+          cancelText: "Cancel",
+          okType: "danger",
+          onOk: () => {
+            remove(args);
+          },
+        });
+      }
+
+      const newCol = {
+        className: "action-col",
+        render: (cell, record, index) => (
+          <>
+            <SendOutlined onClick={() => sendMessage(record.id)} />
+            <Divider type="vertical" />
+            <DeleteOutlined
+              disabled={isSubmitting}
+              onClick={() => confirm({ type: "draft", id: record.id })}
+            />
+          </>
+        ),
+      };
+      return (
+        <div className="all-message">
+          <h2>{t("Draft Messages")}</h2>
+          <Spin spinning={isSubmitting}>
+            <MessageTable data={draft} newCol={newCol} />
+          </Spin>
+        </div>
+      );
+    }
+  )
 );
 
 export default Draft;

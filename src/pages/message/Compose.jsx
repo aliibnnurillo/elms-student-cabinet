@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { inject, observer } from "mobx-react";
-import { Form, Input, Modal, Button, Table, Space } from "antd";
+import {Form, Input, Modal, Button, Table, Space, Spin} from "antd";
 import FetchSelect2 from "component/FetchSelect/FetchSelect2";
 import { useTranslation, withTranslation } from "react-i18next";
 import get from "lodash/get";
@@ -8,7 +8,7 @@ import { CURRENT_LANG } from "../../constants";
 import './message.scss';
 
 const Compose = inject("message")(
-  observer(({ message: { create }, formValues }) => {
+  observer(({ message: { create, isSubmitting }, formValues }) => {
     const [form] = Form.useForm();
     const [t] = useTranslation();
     const [group, setGroup] = useState("student");
@@ -79,6 +79,7 @@ const Compose = inject("message")(
     // };
 
     return (
+        <Spin spinning={isSubmitting}>
       <div className="compose-message">
         <h2 style={{ textAlign: "center", margin: "12px 0" }}>
           {t("Compose a message")}
@@ -143,18 +144,18 @@ const Compose = inject("message")(
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <div>
               <Space size="middle">
-                <Button onClick={sendToTemplate}>
+                <Button onClick={sendToTemplate} disabled={isSubmitting}>
                   {t("Save As Template")}
                 </Button>
-                <Button onClick={sendToDraft}>{t("Send To Draft")}</Button>
+                <Button onClick={sendToDraft} disabled={isSubmitting}>{t("Send To Draft")}</Button>
               </Space>
             </div>
             <div>
               <Space size="middle">
-                <Button danger onClick={onReset}>
+                <Button danger onClick={onReset} disabled={isSubmitting}>
                   {t("Reset")}
                 </Button>
-                <Button type="primary" htmlType="submit">
+                <Button type="primary" htmlType="submit" disabled={isSubmitting}>
                   {t("Submit")}
                 </Button>
               </Space>
@@ -169,6 +170,7 @@ const Compose = inject("message")(
           form={form}
         />
       </div>
+        </Spin>
     );
   })
 );

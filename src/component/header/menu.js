@@ -7,14 +7,14 @@ import {
   ProfileOutlined,
   ReadOutlined,
   MenuOutlined,
-  MessageOutlined
+  // MessageOutlined
 } from "@ant-design/icons";
 import "./menu.css";
 import { NavLink, Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { observer, inject } from "mobx-react";
 
-const keys = ["home", "subjects", "curriculum", "posts", "rating", "exam",'controls','messages'];
+const keys = ["home", "subjects", "curriculum", "posts", "rating", "exam",'controls'];
 
 const LeftMenu = ({ authStore: { activeSemesterId } }) => {
   const [selectedKey, setSelectedKey] = useState(["home"]);
@@ -79,12 +79,12 @@ const LeftMenu = ({ authStore: { activeSemesterId } }) => {
             <span>{t("Fanlar")}</span>
           </NavLink>
         </Menu.Item>
-        <Menu.Item key="messages">
-          <NavLink to="/messages" onClick={handleClick}>
-            <MessageOutlined />
-            <span>{t("Xabarlar")}</span>
-          </NavLink>
-        </Menu.Item>
+        {/*<Menu.Item key="messages">*/}
+        {/*  <NavLink to="/messages" onClick={handleClick}>*/}
+        {/*    <MessageOutlined />*/}
+        {/*    <span>{t("Xabarlar")}</span>*/}
+        {/*  </NavLink>*/}
+        {/*</Menu.Item>*/}
         <Menu.Item key="posts">
           <NavLink to="/posts" onClick={handleClick}>
             <ProfileOutlined />

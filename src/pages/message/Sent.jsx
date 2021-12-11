@@ -3,9 +3,9 @@ import { inject, observer } from "mobx-react";
 import MessageTable from "./MessageTable";
 import { useTranslation } from "react-i18next";
 import { isExistUser, getUser } from "../../common/utils/utils";
-
+import { Spin } from "antd";
 const Sent = inject("message")(
-  observer(({ message: { fetchAll, sent, remove } }) => {
+  observer(({ message: { fetchAll, sent, remove, isSubmitting } }) => {
     useEffect(() => {
       fetchAll({
         type: "sent",
@@ -16,8 +16,9 @@ const Sent = inject("message")(
     return (
       <div className="all-message">
         <h2>{t("Sent Messages")}</h2>
-
-        <MessageTable data={sent} type="sent" remove={remove} />
+        <Spin spinning={isSubmitting}>
+          <MessageTable data={sent} type="sent" remove={remove} />
+        </Spin>
       </div>
     );
   })
