@@ -40,62 +40,72 @@ export const privateRoutes = [
   {
     path: "/:semesterId/subjects",
     component: Subjects,
+    exact: true
   },
   {
     path: "/exam",
     component: Examination,
+    exact: true
   },
   {
     path: "/:semesterId/subjects/:subjectId/:id",
     component: Lesson,
+    exact: true
   },
   {
     path: "/:semesterId/subjects/:id/exam-schedules/:type",
     component: ExamSchedule,
+    exact: true
   },
   {
     path: "/:semesterId/subjects/:id/exam-schedules/:type/:examId",
     component: TakeMidtermExam,
+    exact: true
   },
   {
     path: "/:semesterId/subjects/:id",
     component: SubjectList,
+    exact: true
   },
   {
     path: "/rating",
     component: Ranting,
+    exact: true
   },
   {
     path: "/curriculum",
     component: Curriculum,
+    exact: true
   },
   {
     path: "/posts",
     component: NewsPage,
+    exact: true
   },
   {
     path: "/posts/:id",
     component: OneNews,
+    exact: true
   },
   {
     path: "/messages",
     component: MessagePage,
+
   },
   {
     path: "/profile",
     component: ProfilePage,
+    exact: true
   },
   {
     path: "/",
     component: HomePage,
-  },
-  {
-    path: "/message",
-    component: Messages,
+    exact: true
   },
   {
     path: "/controls",
     component: Controls,
+    exact: true
   },
 ];
 

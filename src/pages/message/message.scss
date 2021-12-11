@@ -1,0 +1,126 @@
+//@import 'vars.less';
+.message-layout-wrapper {
+  .message-sider {
+    //background: @white;
+    //padding: @padding-sm;
+    border-right: 1px solid #d9d9d9;
+    .ant-menu-inline,
+    .ant-menu-vertical {
+      border-right: none;
+      //background-color: @white;
+      .ant-menu-item {
+        padding-left: 0;
+        padding-right: 12px;
+      }
+      .ant-menu-item:hover,
+      .ant-menu-item-active,
+      .ant-menu-item-selected {
+        background: none;
+      }
+    }
+  }
+  .ant-layout-header {
+    //border-bottom: 1px solid @border-color-base;
+    height: 60px;
+    line-height: 60px;
+    .message-header {
+      font-size: 24px;
+    }
+  }
+  .ant-layout-content {
+    background-color: white;
+  }
+  .ant-list-lg .ant-list-item {
+    padding-top: 24px;
+    padding-bottom: 4px;
+  }
+}
+
+.message-col.ant-table-cell {
+  padding-top: 28px;
+  padding-bottom: 10px;
+  .message-wrapper {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    .message-titles {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+}
+
+.star-col.ant-table-cell {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+.avatar-col.ant-table-cell {
+  padding-right: 0px;
+}
+
+.template-message-form-item {
+  label,
+  button {
+    float: right;
+  }
+}
+
+.ant-modal-footer {
+  text-align: center;
+  .ant-btn {
+    &:first-child {
+      margin-right: 16px;
+      padding-left: 30px;
+      padding-right: 30px;
+    }
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
+
+.all-message {
+  h2 {
+    font-size: 18px;
+    //padding-top: @padding-lg;
+    margin: 12px 0;;
+    text-align: center;
+  }
+}
+
+.compose-message {
+  padding: 12px 24px 12px 24px;
+  background-color: white;
+}
+
+.receivers {
+  display: flex;
+  align-items: center;
+  //margin-left: @margin-md;
+  .ant-btn {
+    margin-top: 0;
+  }
+}
+
+.receivers-modal {
+  .ant-modal-body {
+    padding-bottom: 8px;
+  }
+  .ant-modal-footer {
+    border-top: none;
+    padding-top: 8px;
+    padding-bottom: 20px;
+  }
+}
+
+.ant-btn-primary{
+  background-color: #5767f6 !important;
+  border-color: #5767f6 !important;
+  &:hover{
+    background-color: rgba(#5767f6, 0.9);
+    border-color: rgba(#5767f6, 0.9);
+  }
+}
+
+.ant-layout-sider{
+  background-color: white;
+}

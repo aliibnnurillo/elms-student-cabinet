@@ -40,7 +40,7 @@ const App = () => {
                   <LeftMenu />
                   <Switch>
                     {privateRoutes.map((route, idx) => (
-                      <PrivateRoute key={idx} {...route} exact />
+                      <PrivateRoute key={idx} {...route} />
                     ))}
                   </Switch>
                 </>
