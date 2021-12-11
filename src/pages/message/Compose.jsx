@@ -89,33 +89,33 @@ const Compose = inject("message")(
           layout="vertical"
           name="form_in_modal"
         >
-          {/*<Form.Item*/}
-          {/*  name="receiver_id"*/}
-          {/*  label={t("Receivers")}*/}
-          {/*  rules={[*/}
-          {/*    {*/}
-          {/*      required: true,*/}
-          {/*      message: t("Please select receivers!"),*/}
-          {/*    },*/}
-          {/*  ]}*/}
-          {/*>*/}
-          {/*  <div*/}
-          {/*    style={{*/}
-          {/*      marginBottom: 12,*/}
-          {/*    }}*/}
-          {/*  >*/}
-          {/*    <Space size="middle">*/}
-          {/*      <Button*/}
-          {/*        onClick={() => {*/}
-          {/*          setVisible(true);*/}
-          {/*          setGroup("student");*/}
-          {/*        }}*/}
-          {/*      >*/}
-          {/*        {t("Select student")}*/}
-          {/*      </Button>*/}
-          {/*    </Space>*/}
-          {/*  </div>*/}
-          {/*</Form.Item>*/}
+          <Form.Item
+            name="receiver_id"
+            label={t("Receivers")}
+            rules={[
+              {
+                required: true,
+                message: t("Please select receivers!"),
+              },
+            ]}
+          >
+            <div
+              style={{
+                marginBottom: 12,
+              }}
+            >
+              <Space size="middle">
+                <Button
+                  onClick={() => {
+                    setVisible(true);
+                    setGroup("student");
+                  }}
+                >
+                  {t("Select student")}
+                </Button>
+              </Space>
+            </div>
+          </Form.Item>
           <Form.Item
             name="title"
             label={t("Title")}
@@ -161,13 +161,13 @@ const Compose = inject("message")(
             </div>
           </div>
         </Form>
-        {/*<CollectionCreateForm*/}
-        {/*  group={group}*/}
-        {/*  visible={visible}*/}
-        {/*  onCancel={() => setVisible(false)}*/}
-        {/*  setGroup={setGroup}*/}
-        {/*  form={form}*/}
-        {/*/>*/}
+        <CollectionCreateForm
+          group={group}
+          visible={visible}
+          onCancel={() => setVisible(false)}
+          setGroup={setGroup}
+          form={form}
+        />
       </div>
     );
   })

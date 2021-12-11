@@ -133,3 +133,11 @@ export const groupBy = (xs, key) => {
 export function extractFirstCharacter(string = "") {
   return typeof string === "string" && string.length ? string[0] : "";
 }
+
+export function isExistUni() {
+  return localStorage.getItem("current-uni") !== null;
+}
+
+export function getUni() {
+  return JSON.parse(localStorage.getItem("current-uni"));
+}

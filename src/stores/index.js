@@ -6,6 +6,7 @@ import subjects from "../pages/subjects/model";
 import curriculum from "../pages/curriculum/model";
 import profile from "../pages/profile/model";
 import message from '../pages/message/model';
+import student from './student';
 export default {
   glo,
   flash,
@@ -14,5 +15,6 @@ export default {
   subjects,
   curriculum,
   profile,
-  message
+  message,
+  student
 };
