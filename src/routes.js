@@ -15,6 +15,7 @@ import {
 } from "./pages/auth";
 import NoFoundPage from "./pages/404";
 import Unauthorized from "./pages/403";
+import NotPermitted from "./pages/402";
 import ServerErrorPage from "./pages/500";
 import VerifyCode from "./pages/auth/VerifyCode";
 import MessagePage from "./pages/message";
@@ -22,7 +23,7 @@ import ProfilePage from "./pages/profile";
 import ExamSchedule from "./pages/subjects/ExamSchedule";
 import TakeMidtermExam from "./pages/subjects/TakeMidtermExam";
 
-import Controls from './pages/controls';
+import Controls from "./pages/controls";
 export const publicRoutes = [
   {
     path: "/",
@@ -40,76 +41,77 @@ export const privateRoutes = [
   {
     path: "/:semesterId/subjects",
     component: Subjects,
-    exact: true
+    exact: true,
   },
   {
     path: "/exam",
     component: Examination,
-    exact: true
+    exact: true,
   },
   {
     path: "/:semesterId/subjects/:subjectId/:id",
     component: Lesson,
-    exact: true
+    exact: true,
   },
   {
     path: "/:semesterId/subjects/:id/exam-schedules/:type",
     component: ExamSchedule,
-    exact: true
+    exact: true,
   },
   {
     path: "/:semesterId/subjects/:id/exam-schedules/:type/:examId",
     component: TakeMidtermExam,
-    exact: true
+    exact: true,
   },
   {
     path: "/:semesterId/subjects/:id",
     component: SubjectList,
-    exact: true
+    exact: true,
   },
   {
     path: "/rating",
     component: Ranting,
-    exact: true
+    exact: true,
   },
   {
     path: "/curriculum",
     component: Curriculum,
-    exact: true
+    exact: true,
   },
   {
     path: "/posts",
     component: NewsPage,
-    exact: true
+    exact: true,
   },
   {
     path: "/posts/:id",
     component: OneNews,
-    exact: true
+    exact: true,
   },
   {
     path: "/messages",
     component: MessagePage,
-
   },
   {
     path: "/profile",
     component: ProfilePage,
-    exact: true
+    exact: true,
   },
   {
     path: "/",
     component: HomePage,
-    exact: true
+    exact: true,
   },
   {
     path: "/controls",
     component: Controls,
-    exact: true
+    exact: true,
   },
 ];
 
 export const errorRoutes = [
+  { path: "/402", component: NotPermitted },
+
   {
     path: "/403",
     component: Unauthorized,

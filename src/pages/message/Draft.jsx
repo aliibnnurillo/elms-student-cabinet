@@ -9,15 +9,24 @@ import {
 import { remove } from "mobx";
 import { Divider, Modal, Spin } from "antd";
 import { useTranslation } from "react-i18next";
+import get from "lodash/get";
 import { isExistUser, getUser } from "../../common/utils/utils";
+import { CURRENT_LANG } from "../../constants";
 
 const Draft = inject("message")(
   observer(
-    ({ message: { fetchAll, draft, remove, sendMessage, isSubmitting } }) => {
+    ({
+      message: { fetchAll, draft, remove, sendMessage, isSubmitting },
+      authStore,
+    }) => {
       useEffect(() => {
         fetchAll({
           type: "draft",
-          params: { status: false, sender_id: isExistUser() && getUser().id },
+          params: {
+            language: CURRENT_LANG,
+            status: false,
+            sender_id: isExistUser() && getUser().id,
+          },
         });
       }, []);
       const [t] = useTranslation();

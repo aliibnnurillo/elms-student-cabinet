@@ -8,6 +8,7 @@ import {
 } from "@ant-design/icons";
 import { Divider, Modal } from "antd";
 import { Spin } from "antd";
+import { CURRENT_LANG } from "../../constants";
 
 const Template = inject("message")(
   observer(
@@ -16,7 +17,10 @@ const Template = inject("message")(
       onSend,
     } = {}) => {
       useEffect(() => {
-        fetchAll({ type: "template", params: { template_message: 1 } });
+        fetchAll({
+          type: "template",
+          params: { language: CURRENT_LANG, template_message: 1 },
+        });
       }, []);
 
       function confirm(args) {

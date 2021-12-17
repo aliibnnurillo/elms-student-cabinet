@@ -51,7 +51,7 @@ class MessageTable extends React.Component {
       {
         className: "avatar-col",
         key: "avatar",
-        dataIndex: "receiver_username",
+        dataIndex: "sender_username",
         width: 60,
         render: (cell) => {
           const nameFirstSign = cell.slice(0, 1).toUpperCase();
@@ -67,7 +67,7 @@ class MessageTable extends React.Component {
               <div className="message-titles">
                 <div>
                   <strong style={{ fontSize: 16 }}>
-                    {get(cell, "receiver_username") || null}
+                    {get(cell, "sender_username") || null}
                   </strong>
                   <Divider style={{ height: 16 }} type="vertical" />
                   <span style={{ fontSize: 16 }}>

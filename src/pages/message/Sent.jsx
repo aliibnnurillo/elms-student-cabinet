@@ -4,12 +4,17 @@ import MessageTable from "./MessageTable";
 import { useTranslation } from "react-i18next";
 import { isExistUser, getUser } from "../../common/utils/utils";
 import { Spin } from "antd";
+import { CURRENT_LANG } from "../../constants";
 const Sent = inject("message")(
   observer(({ message: { fetchAll, sent, remove, isSubmitting } }) => {
     useEffect(() => {
       fetchAll({
         type: "sent",
-        params: { status: 1, sender_id: isExistUser() && getUser().id },
+        params: {
+          language: CURRENT_LANG,
+          status: 1,
+          sender_id: isExistUser() && getUser().id,
+        },
       });
     }, []);
     const [t] = useTranslation();
