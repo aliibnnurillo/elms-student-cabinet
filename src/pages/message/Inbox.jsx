@@ -3,13 +3,19 @@ import { inject, observer } from "mobx-react";
 import MessageTable from "./MessageTable";
 import { useTranslation } from "react-i18next";
 import { getUser, isExistUser } from "../../common/utils/utils";
+import { Spin } from "antd";
+import { CURRENT_LANG } from "../../constants";
 
 const Inbox = inject("message")(
-  observer(({ message: { fetchAll, inbox, remove } }) => {
+  observer(({ message: { fetchAll, inbox, remove, isSubmitting } }) => {
     useEffect(() => {
       fetchAll({
         type: "inbox",
-        params: { status: 1, receiver_id: isExistUser() && getUser().id },
+        params: {
+          language: CURRENT_LANG,
+          status: 1,
+          receiver_id: isExistUser() && getUser().id,
+        },
       });
     }, []);
 
@@ -18,7 +24,9 @@ const Inbox = inject("message")(
     return (
       <div className="all-message">
         <h2>{t("Inbox Messages")}</h2>
-        <MessageTable data={inbox} remove={remove} type="inbox" />
+        <Spin spinning={isSubmitting}>
+          <MessageTable data={inbox} remove={remove} type="inbox" />
+        </Spin>
       </div>
     );
   })

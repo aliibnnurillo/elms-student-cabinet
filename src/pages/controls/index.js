@@ -9,7 +9,7 @@ import { useLocation } from "react-router-dom";
 import qs from "query-string";
 import moment from "moment";
 
-import './Controls.less';
+import './Controls.scss';
 
 const Controls = () => {
   const [data, setData] = useState([]);

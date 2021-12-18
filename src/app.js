@@ -57,6 +57,9 @@ const App = () => {
             )
           }
         </AuthModule.Containers.Wrapper>
+        {errorRoutes.map((route, i) => (
+          <Route key={i} {...route} />
+        ))}
       </Router>
       <APINotification />
       <SubjectSelectModal />

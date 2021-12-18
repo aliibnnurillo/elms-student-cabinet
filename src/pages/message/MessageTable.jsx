@@ -1,11 +1,13 @@
 import React from "react";
-import { Table, Divider, Avatar } from "antd";
+import { Table, Divider, Avatar, Modal } from "antd";
 import {
   CalendarOutlined,
   StarOutlined,
   DeleteOutlined,
+  ExclamationCircleOutlined,
 } from "@ant-design/icons";
 import get from "lodash/get";
+
 class MessageTable extends React.Component {
   state = {
     selectedRowKeys: [],
@@ -24,7 +26,21 @@ class MessageTable extends React.Component {
       type = "",
       specColumns,
     } = this.props;
-    console.log("data", data);
+
+    function confirm(args) {
+      Modal.confirm({
+        title: "This is a warning message",
+        icon: <ExclamationCircleOutlined />,
+        content: "Are you sure to delete this message ?",
+        okText: "Ok",
+        cancelText: "Cancel",
+        okType: "danger",
+        onOk: () => {
+          remove(args);
+        },
+      });
+    }
+
     const columns = [
       {
         className: "star-col",
@@ -35,7 +51,7 @@ class MessageTable extends React.Component {
       {
         className: "avatar-col",
         key: "avatar",
-        dataIndex: "receiver_username",
+        dataIndex: "sender_username",
         width: 60,
         render: (cell) => {
           const nameFirstSign = cell.slice(0, 1).toUpperCase();
@@ -51,7 +67,7 @@ class MessageTable extends React.Component {
               <div className="message-titles">
                 <div>
                   <strong style={{ fontSize: 16 }}>
-                    {get(cell, "receiver_username") || null}
+                    {get(cell, "sender_username") || null}
                   </strong>
                   <Divider style={{ height: 16 }} type="vertical" />
                   <span style={{ fontSize: 16 }}>
@@ -73,7 +89,7 @@ class MessageTable extends React.Component {
         className: "action-col",
         render: (cell, record) => {
           return (
-            <DeleteOutlined onClick={() => remove({ type, id: record.id })} />
+            <DeleteOutlined onClick={() => confirm({ type, id: record.id })} />
           );
         },
       },
@@ -123,6 +139,7 @@ class MessageTable extends React.Component {
         },
       ],
     };
+
     return (
       <Table
         rowKey="id"
