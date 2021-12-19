@@ -2,6 +2,7 @@ import axios from "axios";
 import { API_BASE_URL, API_URL } from "../../constants";
 import flash from "../../stores/Flash";
 import { getToken, rmToken, setToken } from "./utils";
+import { history } from "services";
 
 const client = axios.create({
   baseURL: API_BASE_URL,
@@ -53,12 +54,9 @@ function networkError(err) {
 }
 
 function responseStatusCheck(status) {
-  // if (status === 403) {
-  //   window.location.pathname = '/403';
-  // }
-  // if (status >= 500) {
-  //   window.location.pathname = '/500';
-  // }
+  if (status === 402) {
+    history.push("/402");
+  }
 }
 
 export { client };

@@ -10,7 +10,7 @@ import {
   getToken,
 } from "common/utils/utils";
 import { client } from "common/utils/request";
-import { storage, http } from "services";
+import { storage, http, history } from "services";
 
 import { API_URL, CURRENT_LANG, API_BASE_URL } from "../../constants";
 import flash from "stores/Flash";
@@ -127,7 +127,7 @@ class AuthStore {
 
       if (error.response) {
         if (error.response.status === 401) {
-          const _res = _.get(error, "response.data.message") || "";
+          const _res = _.get(error, "response.data");
           runInAction(() => {
             this.error = _res;
           });
@@ -157,6 +157,9 @@ class AuthStore {
           Number(_.get(result, "activeStudy.academic_year_id")) || 0;
       });
     } catch (error) {
+      runInAction(() => {
+        this.isFetched = true;
+      });
       if (error.response) {
         if (error.response.status === 401) {
           storage.local.remove(config.api.access_token_key);
@@ -198,11 +201,14 @@ class AuthStore {
       return { ...loginData, ...res };
     } catch (error) {
       runInAction(() => {
+        this.isFetched = true;
         this.state = "error";
-        this.error = {
-          message: "Произошла ошибка сети или внутренняя ошибка сервера!",
-        };
+        this.error = null;
       });
+      if (_.get(error, "response.status") === 402) {
+        history.push("/402");
+      }
+
       return error.response;
     }
   };

@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { inject, observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import Avatar from "antd/lib/avatar/avatar";
+import get from "lodash/get";
 
 const Login = ({ authStore: { login, loading, error }, history }) => {
   const onFinish = (values) => {
@@ -62,15 +63,15 @@ const Login = ({ authStore: { login, loading, error }, history }) => {
                   placeholder={t("Parol")}
                 />
               </Form.Item>
-              {error ? (
+              {!!get(error, "message") && (
                 <Alert
                   message={t("Error")}
-                  description={error}
+                  description={get(error, "message") || ""}
                   type="error"
                   showIcon
                   style={{ marginBottom: 24, borderRadius: 6 }}
                 />
-              ) : null}
+              )}
 
               <Form.Item>
                 <Button

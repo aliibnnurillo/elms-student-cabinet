@@ -35,6 +35,12 @@ export const publicRoutes = [
   { path: "/user/new-password", component: EnterNewPassword },
   { path: "/user/new-avatar", component: UploadAvatar },
   { path: "/user/verify-code", component: VerifyCode },
+  { path: "/402", component: NotPermitted },
+  {
+    path: "/403",
+    component: Unauthorized,
+  },
+  { path: "/500", component: ServerErrorPage },
 ];
 
 export const privateRoutes = [
@@ -107,15 +113,10 @@ export const privateRoutes = [
     component: Controls,
     exact: true,
   },
-];
-
-export const errorRoutes = [
   { path: "/402", component: NotPermitted },
-
   {
     path: "/403",
     component: Unauthorized,
   },
   { path: "/500", component: ServerErrorPage },
-  { path: "/*", component: NoFoundPage },
 ];

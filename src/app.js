@@ -2,12 +2,7 @@ import React, { useEffect } from "react";
 import { Button, Radio, Modal, Form } from "antd";
 import { observer, inject } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
+import { Router, Switch, Route, Redirect } from "react-router-dom";
 
 import { privateRoutes, publicRoutes, errorRoutes } from "routes";
 
@@ -22,6 +17,8 @@ import Splash from "./component/Splash";
 
 import { getActiveSemester } from "common/utils/utils";
 
+import { history } from "services";
+
 const App = () => {
   React.useEffect(() => {
     const el = document.getElementById("loading-screen");
@@ -31,7 +28,7 @@ const App = () => {
 
   return (
     <div>
-      <Router>
+      <Router {...{ history }}>
         <AuthModule.Containers.Wrapper>
           {({ isFetched, authenticated }) =>
             authenticated ? (
@@ -42,6 +39,7 @@ const App = () => {
                     {privateRoutes.map((route, idx) => (
                       <PrivateRoute key={idx} {...route} />
                     ))}
+                    <Redirect from={"/*"} to={"/"} />
                   </Switch>
                 </>
               ) : (
@@ -57,9 +55,6 @@ const App = () => {
             )
           }
         </AuthModule.Containers.Wrapper>
-        {errorRoutes.map((route, i) => (
-          <Route key={i} {...route} />
-        ))}
       </Router>
       <APINotification />
       <SubjectSelectModal />
