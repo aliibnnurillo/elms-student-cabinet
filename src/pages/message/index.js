@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { inject, observer } from "mobx-react";
-import { Layout, Menu, Button, Spin } from "antd";
+import { Menu, Button, Spin, Row, Col } from "antd";
 import {
   InboxOutlined,
   SendOutlined,
@@ -18,12 +18,11 @@ import Template from "./Template";
 import Compose from "./Compose";
 import { MessageHeader } from "component/header";
 
-import "./message.scss";
+// import "./message.scss";
 
 const Messages = ({ match, message: { isLoading }, history }) => {
   const { path } = match;
   const { pathname } = useLocation();
-  const { Sider, Content } = Layout;
   const [formValues, setFormValues] = useState(null);
 
   const getActiveUrl = () => {
@@ -34,52 +33,77 @@ const Messages = ({ match, message: { isLoading }, history }) => {
   return (
     <Fragment>
       <MessageHeader />
-      <div className="content">
-        <div className="messages-page">
-          <Layout className="message-layout-wrapper" style={{ height: "100%" }}>
-            <Sider className="message-sider" width={260}>
-              <Menu
-                defaultSelectedKeys={getActiveUrl()}
-                defaultOpenKeys={[
-                  "all",
-                  "compose",
-                  "sent",
-                  "draft",
-                  "template",
-                  "trash",
-                ]}
+      <div className="content letter-content">
+        <Row gutter={[16, 16]}>
+          <Col lg={{ span: 7 }} md={{ span: 12 }}>
+            <Menu
+              defaultSelectedKeys={getActiveUrl()}
+              defaultOpenKeys={[
+                "all",
+                "compose",
+                "sent",
+                "draft",
+                "template",
+                "trash",
+              ]}
+              style={{ height: "100%", borderRadius: "12px" }}
+            >
+              <Menu.Item
+                key={"compose"}
+                className={"compose-btn"}
+                style={{ marginTop: 20 }}
               >
-                <Menu.Item style={{ height: 56 }} key={"compose"}>
-                  <Link to="/messages/compose">
-                    <Button
-                      icon={<EditOutlined />}
-                      style={{ marginBottom: 12 }}
-                      block
-                      type="primary"
-                    >
-                      Compose
-                    </Button>
-                  </Link>
-                </Menu.Item>
-                <Menu.Item icon={<InboxOutlined />} key={"all"}>
-                  <Link to="/messages/all">Inbox</Link>
-                </Menu.Item>
+                <Link to="/messages/compose">
+                  <Button icon={<EditOutlined />} block type="primary">
+                    Compose
+                  </Button>
+                </Link>
+              </Menu.Item>
+              <Menu.Item
+                icon={<InboxOutlined />}
+                key={"all"}
+                className={"message-menu-item"}
+              >
+                <Link to="/messages/all">Inbox</Link>
+              </Menu.Item>
 
-                <Menu.Item icon={<SendOutlined rotate={-45} />} key={"sent"}>
-                  <Link to="/messages/sent">Sent</Link>
-                </Menu.Item>
-                <Menu.Item icon={<FormOutlined />} key={"draft"}>
-                  <Link to="/messages/draft">Draft</Link>
-                </Menu.Item>
-                <Menu.Item icon={<SnippetsOutlined />} key={"template"}>
-                  <Link to="/messages/template">Template</Link>
-                </Menu.Item>
-                <Menu.Item icon={<DeleteOutlined />} key={"trash"}>
-                  <Link to="/messages/trash">Trash</Link>
-                </Menu.Item>
-              </Menu>
-            </Sider>
-            <Content>
+              <Menu.Item
+                icon={<SendOutlined rotate={-45} />}
+                key={"sent"}
+                className={"message-menu-item"}
+              >
+                <Link to="/messages/sent">Sent</Link>
+              </Menu.Item>
+              <Menu.Item
+                icon={<FormOutlined />}
+                key={"draft"}
+                className={"message-menu-item"}
+              >
+                <Link to="/messages/draft">Draft</Link>
+              </Menu.Item>
+              <Menu.Item
+                icon={<SnippetsOutlined />}
+                key={"template"}
+                className={"message-menu-item"}
+              >
+                <Link to="/messages/template">Template</Link>
+              </Menu.Item>
+              <Menu.Item
+                icon={<DeleteOutlined />}
+                key={"trash"}
+                className={"message-menu-item"}
+              >
+                <Link to="/messages/trash">Trash</Link>
+              </Menu.Item>
+            </Menu>
+          </Col>
+          <Col
+            lg={{ span: 17 }}
+            md={{ span: 12 }}
+            sm={{ span: 24 }}
+            xsm={{ span: 24 }}
+          >
+            <div className={"message-content"}>
               <Spin spinning={getActiveUrl() === "compose" ? false : isLoading}>
                 <Route
                   path={`${path}/compose`}
@@ -105,9 +129,9 @@ const Messages = ({ match, message: { isLoading }, history }) => {
                 <Route path={`${path}/trash`} component={Trash} />
                 <Route path={`${path}`} exact={true} component={Inbox} />
               </Spin>
-            </Content>
-          </Layout>
-        </div>
+            </div>
+          </Col>
+        </Row>
       </div>
     </Fragment>
   );
