@@ -40,12 +40,6 @@ const LoginList = ({ authStore: { logout, user }, history }) => {
               <span>{t("Profile")}</span>
             </Link>
           </List.Item>
-          <List.Item>
-            <Link to="">
-              <SettingOutlined />
-              <span>{t("Settings")}</span>
-            </Link>
-          </List.Item>
         </List>
       }
       trigger="click"
