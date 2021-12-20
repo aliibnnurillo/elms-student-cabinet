@@ -2,8 +2,6 @@ import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "mobx-react";
 
-import "antd/dist/antd.css";
-
 import stores from "stores";
 import "./i18n";
 

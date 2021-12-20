@@ -12,7 +12,7 @@ import { SubjectsHeader } from "../../../component/header";
 import "../subject.css";
 import { inject, observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import ReactQuill from "react-quill";
+import HtmlParser from "react-html-parser";
 
 const SubjectList = ({ subjects: { fetchOne, loading, single } }) => {
   const { semesterId, id } = useParams();
@@ -104,11 +104,9 @@ const SubjectList = ({ subjects: { fetchOne, loading, single } }) => {
                 </div>
 
                 {!!single.description && (
-                  <ReactQuill
-                    readOnly
-                    defaultValue={single.description}
-                    modules={{ toolbar: false }}
-                  />
+                  <div className="sun-editor-editable">
+                    {HtmlParser(single.description)}
+                  </div>
                 )}
 
                 <div>

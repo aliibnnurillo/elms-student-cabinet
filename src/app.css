@@ -2,6 +2,10 @@
   height: 100vh;
 }
 
+.sun-editor-editable {
+  padding: 0;
+}
+
 .d-flex-c {
   display: flex;
   align-items: center;

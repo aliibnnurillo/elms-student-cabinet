@@ -4,9 +4,11 @@ import { observer, inject } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { Router, Switch, Route, Redirect } from "react-router-dom";
 
-import { privateRoutes, publicRoutes, errorRoutes } from "routes";
+import { privateRoutes, publicRoutes } from "routes";
 
+import "antd/dist/antd.css";
 import "react-quill/dist/quill.snow.css";
+import "suneditor/dist/css/suneditor.min.css"; // Import Sun Editor's CSS File
 import "./app.css";
 
 import { LeftMenu } from "component/header";

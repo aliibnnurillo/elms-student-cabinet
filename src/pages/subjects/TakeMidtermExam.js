@@ -4,11 +4,9 @@ import { useParams, Link } from "react-router-dom";
 import { SubjectsHeader } from "component/header";
 import { inject, observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
+import HtmlParser from "react-html-parser";
 
 import "./subject.css";
-import { LockOutlined } from "@ant-design/icons";
-import LessonFiles from "./Lesson/lessonFiles";
-import ReactQuill from "react-quill";
 
 const columnsForTestResult = [
   { title: "Urinish", align: "center", dataIndex: "count_of_attempts" },
@@ -93,12 +91,10 @@ const TestItem = ({
               {midtermExamQuestionList.map((test) => {
                 return (
                   <div key={test.id}>
-                    <ReactQuill
-                      className="question"
-                      readOnly
-                      defaultValue={test.question}
-                      modules={{ toolbar: false }}
-                    />
+                    <div className="question sun-editor-editable">
+                      {HtmlParser(test.question)}
+                    </div>
+
                     <Radio.Group onChange={onChangeAnswer} value={valueone}>
                       {test.test_answers.map((item, idx) => {
                         const regex = /<.+?>/g;

@@ -14,6 +14,7 @@ import {
 } from "antd";
 import { observer, inject } from "mobx-react";
 import { Player, ControlBar } from "video-react";
+import HtmlParser from "react-html-parser";
 import "./lesson.css";
 import {
   FileTextFilled,
@@ -23,20 +24,15 @@ import {
   FileZipOutlined,
   PictureOutlined,
   LockOutlined,
-  FilePdfOutlined,
-  FileUnknownOutlined,
-  FileWordOutlined,
 } from "@ant-design/icons";
-import { UploadIcon, Checked, Canceled } from "../../../component/icons";
+import { UploadIcon, Checked, Canceled } from "component/icons";
 import { API_URL } from "../../../constants";
 import { useTranslation } from "react-i18next";
 import { Link, useParams, useHistory } from "react-router-dom";
-import { InlineMath, BlockMath } from "react-katex";
 import LessonFiles from "./lessonFiles";
-import { formatBytes } from "../../../common/services/common";
+import { formatBytes } from "common/services/common";
 
 import ModalImage, { Lightbox } from "react-modal-image";
-import ReactQuill from "react-quill";
 
 const { TabPane } = Tabs;
 
@@ -144,11 +140,7 @@ const QuizItem = inject("subjects")(
       ) : (
         <div>
           <div className="upload-file">
-            <ReactQuill
-              readOnly
-              defaultValue={data.text}
-              modules={{ toolbar: false }}
-            />
+            <div className="sun-editor-editable">{HtmlParser(data.text)}</div>
             <LessonFiles resourceFiles={resourceFiles} />
             <div className="upload-block">
               <h3 className="upload-title">{t("Javob")}</h3>
@@ -372,21 +364,18 @@ const TestItem = ({
               {data.test_question.map((test) => {
                 return (
                   <div key={test.id}>
-                    <ReactQuill
-                      className="question"
-                      readOnly
-                      defaultValue={test.question}
-                      modules={{ toolbar: false }}
-                    />
+                    <div className="sun-editor-editable question">
+                      {HtmlParser(test.question)}
+                    </div>
                     <Radio.Group onChange={onChangeAnswer} value={valueone}>
                       {test.test_answers.map((item, idx) => {
                         const regex = /<.+?>/g;
                         return (
                           <Radio value={item.value}>
                             {regex.test(item.label) ? (
-                              <p
-                                dangerouslySetInnerHTML={{ __html: item.label }}
-                              ></p>
+                              <div className="sun-editor-editable">
+                                {HtmlParser(item.label)}
+                              </div>
                             ) : (
                               item.label
                             )}
@@ -622,13 +611,11 @@ function LessonItem(props) {
               }
               key={`${item.id}=>text`}
             >
-              {item.text ? (
-                <ReactQuill
-                  readOnly
-                  defaultValue={item.text}
-                  modules={{ toolbar: false }}
-                />
-              ) : null}
+              {!!item.text && (
+                <div className="sun-editor-editable">
+                  {HtmlParser(item.text)}
+                </div>
+              )}
               <LessonFiles resourceFiles={resourceFiles} />
             </TabPane>
           ) : item.type === "video" && item.file_url_video ? (
