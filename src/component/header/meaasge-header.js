@@ -26,9 +26,9 @@ const MessageHeader = () => {
       </PageHeader>
 
       <div className="header-right">
-      <LanguageBox />
+        <LanguageBox />
         <Badge count={4}>
-          <Link to="/message" className="head-example">
+          <Link to="/messages" className="head-example">
             <MessageOutlined />
           </Link>
         </Badge>

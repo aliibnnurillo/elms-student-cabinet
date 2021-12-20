@@ -25,7 +25,7 @@ const MessageHeader = () => {
 
       <div className="header-right">
         <Badge count={4}>
-          <Link to=" " className="head-example">
+          <Link to="/messages" className="head-example">
             <MessageOutlined />
           </Link>
         </Badge>

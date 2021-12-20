@@ -28,7 +28,7 @@ const ExamHeader = () => {
       <div className="header-right">
         <LanguageBox />
         <Badge count={4}>
-          <Link to=" " className="head-example">
+          <Link to="/messages" className="head-example">
             <MessageOutlined />
           </Link>
         </Badge>
