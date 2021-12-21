@@ -47,7 +47,7 @@ class AuthStore {
   @observable refreshToken = refreshToken;
   @observable state = "";
   @observable error = null;
-  @observable activeSemesterId = getActiveSemester() || "semester";
+  @observable activeSemesterId = 0;
   @observable profile = initialProfile;
 
   @computed
@@ -57,27 +57,6 @@ class AuthStore {
     }
     return validToken();
   }
-
-  @action
-  getRequiredData = (loginData) => {
-    this.fetchActiveSemester(loginData)
-      .then((res) => {
-        if (res.status === 200) {
-          const activeSemesterId =
-            Array.isArray(res.data.result.data) && res.data.result.data.length
-              ? res.data.result.data[0].id
-              : null;
-          localStorage.setItem("active_sem", activeSemesterId);
-          runInAction(() => {
-            this.activeSemesterId = activeSemesterId;
-          });
-        }
-      })
-      .catch((err) => {
-        console.log("fetch active  semester error => ", err);
-      });
-    return this.getProfileInfo(loginData);
-  };
 
   @action
   changeLang = async (lang = "") => {
@@ -109,19 +88,27 @@ class AuthStore {
     try {
       const res = await Axios.post(API_URL + "/auth/login", credentials);
 
-      const { status, data = {} } = res;
+      const { data = {} } = res;
 
-      if (status === 200) {
-        if (!_.get(data, "result.first_time_login")) {
-          return this.getRequiredData(data.result);
-        } else {
-          storage.local.set(
-            config.api.temp_access_token_key,
-            _.get(data, "result.access_token")
-          );
-        }
+      const isFirstTimeLogin = !!_.get(data, "result.first_time_login");
+
+      if (!isFirstTimeLogin) {
+        const accessToken = _.get(data, "result.access_token") || "";
+        runInAction(() => {
+          this.accessToken = accessToken;
+          this.authenticated = true;
+          this.state = "done";
+          this.error = null;
+          this.isFetched = true;
+        });
+        setToken(accessToken);
+      } else {
+        storage.local.set(
+          config.api.temp_access_token_key,
+          _.get(data, "result.access_token")
+        );
       }
-      return res;
+      return { isFirstTimeLogin };
     } catch (error) {
       this.state = "error";
 
@@ -148,25 +135,23 @@ class AuthStore {
       const { data } = await Api.Profile({ language: CURRENT_LANG });
 
       const result = _.get(data, "result.0");
+      this.setUserData(result);
       runInAction(() => {
-        this.isFetched = true;
         this.profile = result;
         this.activeSemSeason =
           _.get(result, "activeStudy.season_semester") || "";
         this.activeAcademicYear =
           Number(_.get(result, "activeStudy.academic_year_id")) || 0;
+        this.activeSemesterId =
+          Number(_.get(result, "activeStudy.semester_id")) || 0;
       });
     } catch (error) {
-      runInAction(() => {
-        this.isFetched = true;
-      });
       if (error.response) {
         if (error.response.status === 401) {
           storage.local.remove(config.api.access_token_key);
           storage.local.remove(config.api.refresh_token_key);
           runInAction(() => {
             this.authenticated = false;
-            this.isFetched = false;
             this.profile = initialProfile;
             this.accessToken = "";
             this.refreshToken = "";
@@ -175,41 +160,10 @@ class AuthStore {
           });
         }
       }
-    }
-  };
-
-  @action
-  getProfileInfo = async (loginData) => {
-    this.state = "pending";
-    this.user = {};
-    try {
-      const res = await Axios.get(API_BASE_URL + "/profile/show", {
-        params: { language: CURRENT_LANG },
-        headers: {
-          Authorization: "Bearer " + loginData.access_token,
-        },
-      });
-
-      const { status, data } = res;
-      console.log(res);
-
-      if (status === 200) {
-        Array.isArray(data.result) &&
-          data.result.length &&
-          this.setUserData(loginData, data.result[0]);
-      }
-      return { ...loginData, ...res };
-    } catch (error) {
+    } finally {
       runInAction(() => {
         this.isFetched = true;
-        this.state = "error";
-        this.error = null;
       });
-      if (_.get(error, "response.status") === 402) {
-        history.push("/402");
-      }
-
-      return error.response;
     }
   };
 
@@ -241,11 +195,6 @@ class AuthStore {
         this.state = "error";
       });
     }
-  };
-
-  @action
-  setUser = (val) => {
-    this.user = val;
   };
 
   @action
@@ -426,11 +375,9 @@ class AuthStore {
   };
 
   @action
-  setUserData = (loginData, userData) => {
-    if (!loginData || !userData) return;
-    const { access_token } = loginData;
-    setToken(access_token);
-    this.setUser(loginData);
+  setUserData = (userData) => {
+    if (!userData || !userData.id) return;
+    this.setUser(userData);
     saveUser({
       id: userData.id,
       username: userData.username,
@@ -439,10 +386,6 @@ class AuthStore {
       default_language: userData.default_language,
       phone: userData.phone,
     });
-    this.authenticated = true;
-    this.accessToken = access_token;
-    this.state = "done";
-    this.error = null;
   };
 
   @computed
@@ -456,7 +399,7 @@ class AuthStore {
     this.user = {};
     this.accessToken = "";
     this.error = null;
-    this.activeSemesterId = "";
+    this.activeSemesterId = 0;
     this.state = "";
   };
 

@@ -30,7 +30,7 @@ i18n
     ns: ["cabinet"],
     defaultNS: "cabinet",
     fallbackLng: lng,
-    debug: true,
+    debug: false,
     keySeparator: false,
     backend: {
       loadPath: `${API_URL}/crm/i18n/list?language={{lng}}&category={{ns}}`,
