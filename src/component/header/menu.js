@@ -13,10 +13,19 @@ import "./menu.css";
 import { NavLink, Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { observer, inject } from "mobx-react";
+import get from "lodash/get";
 
-const keys = ["home", "subjects", "curriculum", "posts", "rating", "exam",'controls'];
+const keys = [
+  "home",
+  "subjects",
+  "curriculum",
+  "posts",
+  "rating",
+  "exam",
+  "controls",
+];
 
-const LeftMenu = ({ authStore: { activeSemesterId } }) => {
+const LeftMenu = ({ authStore }) => {
   const [selectedKey, setSelectedKey] = useState(["home"]);
   const [visiable, setVisiable] = useState(false);
   const { pathname } = useLocation();
@@ -74,7 +83,10 @@ const LeftMenu = ({ authStore: { activeSemesterId } }) => {
           </NavLink>
         </Menu.Item>
         <Menu.Item key="subjects">
-          <NavLink to={`/${activeSemesterId}/subjects`} onClick={handleClick}>
+          <NavLink
+            to={`/${get(authStore, "activeSemesterId")}/subjects`}
+            onClick={handleClick}
+          >
             <ReadOutlined />
             <span>{t("Fanlar")}</span>
           </NavLink>

@@ -4,7 +4,6 @@ import {
   setToken,
   validToken,
   saveUser,
-  getActiveSemester,
   isExistUser,
   getUser,
   getToken,
@@ -136,14 +135,14 @@ class AuthStore {
 
       const result = _.get(data, "result.0");
       this.setUserData(result);
+
+      const activeStudy = _.get(result, "activeStudy") || {};
       runInAction(() => {
         this.profile = result;
-        this.activeSemSeason =
-          _.get(result, "activeStudy.season_semester") || "";
+        this.activeSemSeason = _.get(activeStudy, "season_semester") || "";
         this.activeAcademicYear =
-          Number(_.get(result, "activeStudy.academic_year_id")) || 0;
-        this.activeSemesterId =
-          Number(_.get(result, "activeStudy.semester_id")) || 0;
+          Number(_.get(activeStudy, "academic_year_id")) || 0;
+        this.activeSemesterId = Number(_.get(activeStudy, "semester_id")) || 0;
       });
     } catch (error) {
       if (error.response) {
@@ -236,16 +235,6 @@ class AuthStore {
 
       return error.response;
     }
-  };
-
-  @action
-  fetchActiveSemester = async (loginData) => {
-    return Axios.get(API_BASE_URL + "/syllabus/semesters", {
-      params: { active_semester: 1 },
-      headers: {
-        Authorization: "Bearer " + loginData.access_token,
-      },
-    });
   };
 
   @action

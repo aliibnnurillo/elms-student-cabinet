@@ -17,8 +17,6 @@ import PrivateRoute from "component/PrivateRoute";
 import * as AuthModule from "modules/auth";
 import Splash from "./component/Splash";
 
-import { getActiveSemester } from "common/utils/utils";
-
 import { history } from "services";
 
 const App = () => {
@@ -81,11 +79,18 @@ export const SubjectSelectModal = inject(
         isAvailableChoice,
         choice_of_subject,
       },
-      authStore: { authenticated },
+      authStore: { authenticated, activeSemesterId },
     }) => {
       useEffect(() => {
-        authenticated && fetchChoiceOfSubject(choice_of_subject);
-      }, [authenticated, choice_of_subject, fetchChoiceOfSubject]);
+        authenticated &&
+          activeSemesterId &&
+          fetchChoiceOfSubject(choice_of_subject, activeSemesterId);
+      }, [
+        authenticated,
+        choice_of_subject,
+        fetchChoiceOfSubject,
+        activeSemesterId,
+      ]);
 
       const [t] = useTranslation();
 
@@ -95,9 +100,8 @@ export const SubjectSelectModal = inject(
 
       const handleFinish = (values) => {
         console.log(Object.values(values));
-        fanTanlash(Object.values(values));
-        if (choice_of_subject)
-          window.location.href = `/${getActiveSemester()}/subjects`;
+        fanTanlash(Object.values(values), activeSemesterId);
+        if (choice_of_subject) history.push(`/${activeSemesterId}/subjects`);
       };
 
       return (

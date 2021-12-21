@@ -20,13 +20,6 @@ class SubjectsModel extends CommonStore {
   };
 
   @action
-  fetchActiveSemester = async () => {
-    return client.get(this.url + "/semesters", {
-      params: { active_semester: 1 },
-    });
-  };
-
-  @action
   fetchSemesters = async () => {
     this.setState("pending");
     this.semesters = [];
@@ -48,12 +41,12 @@ class SubjectsModel extends CommonStore {
   };
 
   @action
-  fetchSemesterSubjects = async () => {
+  fetchSemesterSubjects = async ({ activeSemesterId }) => {
     this.setState("pending");
     this.semesterSubjects = [];
 
     client({
-      url: this.url + "/semesterSubject/" + localStorage.getItem("active_sem"),
+      url: this.url + "/semesterSubject/" + activeSemesterId,
     })
       .then((res) => {
         const { data, status } = res;
@@ -76,14 +69,14 @@ class SubjectsModel extends CommonStore {
   };
 
   @action
-  fetchOne = async (subject_id = "") => {
+  fetchOne = async (subject_id = "", activeSemesterId = 0) => {
     this.setState("pending");
     this.setSingle({});
     this.setCurrentSubject(null);
 
     try {
       const response = await client.get(
-        `${this.url}/semesterSubjectPlan/${authStore.activeSemesterId}`,
+        `${this.url}/semesterSubjectPlan/${activeSemesterId}`,
         {
           params: {
             language: CURRENT_LANG,
@@ -138,13 +131,17 @@ class SubjectsModel extends CommonStore {
   @observable examList = [];
 
   @action
-  fetchExamListByType = async ({ control_type_id, subject_id }) => {
+  fetchExamListByType = async ({
+    control_type_id,
+    subject_id,
+    activeSemesterId = 0,
+  }) => {
     this.setState("pending");
     this.examList = [];
 
     try {
       const response = await client.get(
-        `/FirstExam/GetSchedule/${authStore.activeSemesterId}`,
+        `/FirstExam/GetSchedule/${activeSemesterId}`,
         {
           params: {
             control_type_id,

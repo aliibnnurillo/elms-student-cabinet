@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 import { PercentsIcon } from "../../component/icons";
 import { observer, inject } from "mobx-react";
 import moment from "moment";
-import { getActiveSemester } from "../../common/utils/utils";
 import { useTranslation } from "react-i18next";
 
 function onPanelChange(value, mode) {
@@ -22,12 +21,13 @@ const loc = {
 
 const HomePage = ({
   subjects: { fetchSemesterSubjects, semesterSubjects, loading },
+  authStore: { activeSemesterId },
   glo: { checkIsAvailableChoice, showChoiceAlert, setSubjectModalVisible },
 }) => {
   useEffect(() => {
-    fetchSemesterSubjects();
+    fetchSemesterSubjects({ activeSemesterId });
     checkIsAvailableChoice();
-  }, []);
+  }, [activeSemesterId]);
 
   const [t] = useTranslation();
 
@@ -169,9 +169,7 @@ const HomePage = ({
                   md={{ span: 12 }}
                   sm={{ span: 24 }}
                 >
-                  <Link
-                    to={`/${getActiveSemester()}/subjects/${item.subject_id}`}
-                  >
+                  <Link to={`/${activeSemesterId}/subjects/${item.subject_id}`}>
                     <Card
                       className="for-card-subjects"
                       style={
@@ -211,4 +209,4 @@ const HomePage = ({
   );
 };
 
-export default inject("subjects", "glo")(observer(HomePage));
+export default inject("subjects", "glo", "authStore")(observer(HomePage));
