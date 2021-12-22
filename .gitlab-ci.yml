@@ -1,0 +1,27 @@
+image: node:14-alpine
+
+cache:
+  paths:
+    - node_modules/
+
+stages:
+  - deploy
+  - notify
+
+build project:
+  stage: deploy
+  script:
+    - yarn install
+    - yarn build
+    - apk add --no-cache rsync sshpass openssh curl
+    - mkdir -p ~/.ssh && chmod 777 ~/.ssh
+    - sshpass -p $SSH_PASS rsync -riz --links -e "ssh -o StrictHostKeyChecking=no" $SSH_DIRECTORY_LOCAL $SSH_USER@$SSH_HOST:$SSH_DIRECTORY_REMOTE
+    - sh .ci-notify.sh ✅
+  only:
+    - master
+
+notify_error:
+  stage: notify
+  script:
+    - sh .ci-error-notify.sh ❌
+  when: on_failure #deploy fail
