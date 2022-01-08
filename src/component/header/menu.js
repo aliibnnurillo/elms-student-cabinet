@@ -14,7 +14,15 @@ import { NavLink, Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { observer, inject } from "mobx-react";
 
-const keys = ["home", "subjects", "curriculum", "posts", "rating", "exam",'controls'];
+const keys = [
+  "home",
+  "subjects",
+  "curriculum",
+  "posts",
+  "rating",
+  "exam",
+  "controls",
+];
 
 const LeftMenu = ({ authStore: { activeSemesterId } }) => {
   const [selectedKey, setSelectedKey] = useState(["home"]);
@@ -92,7 +100,7 @@ const LeftMenu = ({ authStore: { activeSemesterId } }) => {
           </NavLink>
         </Menu.Item>
         <Menu.Item key="controls" onClick={handleClick}>
-          <NavLink to="/controls">
+          <NavLink to="/controls?a_year=2&s_type=autumn_semester">
             <FormOutlined />
             <span>{t("Nazoratlar")}</span>
           </NavLink>

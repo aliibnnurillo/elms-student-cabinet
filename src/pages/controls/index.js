@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Calendar, Badge } from "antd";
+import { Calendar, Badge, Popover } from "antd";
 import { ControlsHeader } from "component/header";
 import { http } from "../../services";
 import config from "../../config";
@@ -8,8 +8,9 @@ import { CURRENT_LANG } from "../../constants";
 import { useLocation } from "react-router-dom";
 import qs from "query-string";
 import moment from "moment";
+import cx from "classnames";
 
-import './Controls.scss';
+import "./Controls.scss";
 
 const Controls = () => {
   const [data, setData] = useState([]);
@@ -20,13 +21,13 @@ const Controls = () => {
 
   useEffect(() => {
     http.request
-      .get("/api/teacher/rating/get-exam-schedule", {
+      .get("/api/student/FirstExam/GetSchedule", {
         baseURL: config.api.root_url,
         params: {
           language: CURRENT_LANG,
           academic_year_id: a_year,
           season_semester: s_type,
-          curriculum_id,
+          curriculum_id: curriculum_id,
         },
       })
       .then(({ data }) => {
@@ -51,29 +52,60 @@ const Controls = () => {
       moment(formatted).isSame(item.start_date.format("YYYY-MM-DD"))
     );
 
+    const getTooltipData = (items) => {
+      return (
+        <div className="tooltip">
+          <div className="tooltip__top">
+            {moment(get(value, "_d")).format("llll")}
+          </div>
+          <div className="tooltip__content">
+            {items.map((item, key) => (
+              <div className={cx("tooltip__item", get(item, "type"))} key={key}>
+                <div className="tooltip__date">
+                  {!!get(item, "start_date") && (
+                    <div className="tooltip__deadline">
+                      {moment(get(item, "start_date")).format("HH:mm")}
+                    </div>
+                  )}
+                  {!!get(item, "end_date") && (
+                    <div className="tooltip__deadline">
+                      {moment(get(item, "end_date")).format("HH:mm")}
+                    </div>
+                  )}
+                </div>
+                <div className={cx("tooltip__subject", get(item, "type"))}>
+                  <div className="tooltip__subject--name">
+                    {get(item, "subject_name")}
+                  </div>
+                  <div className="tooltip__subject--type">
+                    {get(item, "control_type_name")}
+                  </div>
+                  {!!get(item, "content") && (
+                    <div className="tooltip__subject--description">
+                      {get(item, "content")}
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    };
+
     return (
-      <ul className="events">
-        {listData.map((item) => (
-          <li key={item.id}>
-            <div className="controls__subject">{get(item, "subject_name")}</div>
-            <Badge status={item.type} text={get(item, "control_type_name")} />
-            <div className="deadline-time">
-              <span className={"deadline-time__start"}>
-                {get(item, "start_date").format("HH:mm")}
-              </span>
-              {get(item, "end_date") && (
-                <>
-                  <span>-</span>
-                  <span className={"deadline-time__start"}>
-                    {get(item, "end_date").format("HH:mm")}
-                  </span>
-                </>
-              )}
-            </div>
-            <div className={"deadline-time__desc"}>{get(item, "content")}</div>
-          </li>
-        ))}
-      </ul>
+      <Popover content={getTooltipData(listData)} placement="rightTop">
+        <ul className="events">
+          {listData.map((item) => (
+            <li key={item.id} className={"events__item"}>
+              <div className="controls__subject">
+                {get(item, "subject_name")}
+              </div>
+              <Badge status={item.type} text={get(item, "control_type_name")} />
+            </li>
+          ))}
+        </ul>
+      </Popover>
     );
   }
 
