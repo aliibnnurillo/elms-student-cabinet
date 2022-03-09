@@ -18,7 +18,6 @@ function clientResponseInterceptor() {
   const interceptor = request.interceptors.response.use(
     (response) => response,
     (error) => {
-      networkError(error);
       if (error.response) {
         responseStatusCheck(error.response.status);
       }
@@ -28,12 +27,6 @@ function clientResponseInterceptor() {
 }
 
 clientResponseInterceptor();
-
-function networkError(err) {
-  if (err.message === "Network Error" && !err.response) {
-    flash.setFlash("error", "Internal server occurred!");
-  }
-}
 
 function responseStatusCheck(status) {
   if (status === 402) {

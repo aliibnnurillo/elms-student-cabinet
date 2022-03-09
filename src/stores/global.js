@@ -1,6 +1,5 @@
 import { action, computed, observable, runInAction } from "mobx";
 import { client } from "../common/utils/request";
-import { getActiveSemester } from "../common/utils/utils";
 import moment from "moment";
 class GlobalStore {
   @observable data = [];
@@ -19,11 +18,11 @@ class GlobalStore {
   };
 
   @action
-  fetchChoiceOfSubject = async (choice_of_subject) => {
+  fetchChoiceOfSubject = async (choice_of_subject, activeSemesterId) => {
     this.data = [];
     try {
       const res = await client.get(
-        "/syllabus/semesterChoiceSubject/" + getActiveSemester(),
+        "/syllabus/semesterChoiceSubject/" + activeSemesterId,
         {
           params: choice_of_subject ? { choice_of_subject } : {},
         }
@@ -84,11 +83,11 @@ class GlobalStore {
   };
 
   @action
-  fanTanlash = async (credentials = {}) => {
+  fanTanlash = async (credentials = {}, activeSemesterId) => {
     this.list = [];
     try {
       const res = await client.post(
-        `/syllabus/semesterChoiceSubjectStore/${getActiveSemester()}`,
+        `/syllabus/semesterChoiceSubjectStore/${activeSemesterId}`,
         { subject_id: credentials }
       );
 

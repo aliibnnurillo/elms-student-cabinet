@@ -12,12 +12,10 @@ const Login = ({ authStore: { login, loading, error }, history }) => {
   const onFinish = (values) => {
     login(values).then((res) => {
       console.log(res);
-      if (res.status === 200) {
-        if (res.data.result.first_time_login) {
-          history.push("/user/new-email");
-        } else {
-          history.push("/");
-        }
+      if (!!get(res, "isFirstTimeLogin")) {
+        history.push("/user/new-email");
+      } else {
+        history.push("/");
       }
     });
   };

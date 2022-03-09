@@ -1,6 +1,6 @@
 {
   "name": "elms-student-cabinet",
-  "version": "0.4.1",
+  "version": "0.4.5",
   "private": true,
   "author": "Mamajonov Salimjon <@csexplorer> (https://github.com/csexplorer)",
   "dependencies": {
@@ -41,7 +41,7 @@
   },
   "scripts": {
     "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
+    "build": "CI=false react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject"
   },

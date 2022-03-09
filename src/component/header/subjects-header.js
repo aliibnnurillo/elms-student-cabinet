@@ -9,7 +9,6 @@ import LoginList from "./login-list";
 import { observer, inject } from "mobx-react";
 import CSelect from "../CSelect";
 import { useTranslation } from "react-i18next";
-import { getActiveSemester } from "../../common/utils/utils";
 import LanguageBox from "../LanguageBox";
 
 const SubjectsHeader = ({
@@ -20,6 +19,7 @@ const SubjectsHeader = ({
     breadcrumb,
     currentSubject,
   },
+  authStore: { activeSemesterId },
 }) => {
   const { pathname } = useLocation();
 
@@ -35,7 +35,7 @@ const SubjectsHeader = ({
           <Breadcrumb.Item href="/">
             <HomeOutlined />
           </Breadcrumb.Item>
-          <Breadcrumb.Item href={`/${getActiveSemester()}/subjects`}>
+          <Breadcrumb.Item href={`/${activeSemesterId}/subjects`}>
             <span>{t("Fanlar")}</span>
           </Breadcrumb.Item>
           {breadcrumb.length && currentSubject
@@ -45,7 +45,7 @@ const SubjectsHeader = ({
                     key={idx}
                     href={
                       idx + 1 !== breadcrumb.length
-                        ? `/${getActiveSemester()}/subjects/${item.id}`
+                        ? `/${activeSemesterId}/subjects/${item.id}`
                         : undefined
                     }
                   >
@@ -82,4 +82,4 @@ const SubjectsHeader = ({
   );
 };
 
-export default inject("subjects")(observer(SubjectsHeader));
+export default inject("subjects", "authStore")(observer(SubjectsHeader));

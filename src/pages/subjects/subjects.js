@@ -14,15 +14,16 @@ const Subjects = ({
     semesterSubjects,
     setCurrentSubject,
   },
+  authStore: { activeSemesterId },
   glo: { showChoiceAlert, checkIsAvailableChoice, setSubjectModalVisible },
 }) => {
   const { semesterId } = useParams();
   useEffect(() => {
-    fetchSemesterSubjects();
+    fetchSemesterSubjects({ activeSemesterId });
     checkIsAvailableChoice();
     setCurrentSubject(null);
     return () => {};
-  }, []);
+  }, [activeSemesterId]);
 
   const [t] = useTranslation();
   return (
@@ -139,4 +140,4 @@ const Subjects = ({
   );
 };
 
-export default inject("subjects", "glo")(observer(Subjects));
+export default inject("subjects", "glo", "authStore")(observer(Subjects));

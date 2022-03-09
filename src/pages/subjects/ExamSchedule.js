@@ -4,16 +4,22 @@ import { useParams, Link, useLocation } from "react-router-dom";
 import { SubjectsHeader } from "component/header";
 import { inject, observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
+import get from "lodash/get";
 
 import "./subject.css";
 
 const ExamSchedule = ({
   subjects: { fetchExamListByType, loading, examList },
+  authStore,
 }) => {
   const { id, type } = useParams();
   const { pathname } = useLocation();
   useEffect(() => {
-    fetchExamListByType({ subject_id: id, control_type_id: type });
+    fetchExamListByType({
+      subject_id: id,
+      control_type_id: type,
+      activeSemesterId: get(authStore, "activeSemesterId") || 0,
+    });
     return () => {};
   }, [id, fetchExamListByType]);
   const [t] = useTranslation();

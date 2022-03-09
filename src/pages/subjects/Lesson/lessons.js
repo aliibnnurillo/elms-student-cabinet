@@ -116,10 +116,10 @@ const Lesson = (props) => {
       resourceFiles,
       fetchLessonResources,
       fetchSemesterSubjects,
-      semesterSubjects,
       allowCommentToLesson,
     },
-    glo: { checkIsAvailableChoice, fetchChoiceOfSubject, setChoiceOfSubject },
+    authStore: { activeSemesterId },
+    glo: { checkIsAvailableChoice, setChoiceOfSubject },
   } = props;
 
   const { semesterId, subjectId, id } = useParams();
@@ -138,8 +138,8 @@ const Lesson = (props) => {
   };
 
   useEffect(() => {
-    fetchSemesterSubjects();
-    fetchOne(subjectId).then((res) => {
+    fetchSemesterSubjects({ activeSemesterId });
+    fetchOne(subjectId, activeSemesterId).then((res) => {
       fetchLessonItems({ semesterId, subjectId, lessonId: id });
       fetchLessonResources({
         semesterId,
@@ -152,7 +152,7 @@ const Lesson = (props) => {
       fetchComments(id);
     });
     checkIsAvailableChoice();
-  }, []);
+  }, [activeSemesterId]);
   const [all, setAll] = useState(false);
 
   const [t] = useTranslation();
@@ -332,4 +332,4 @@ const Lesson = (props) => {
   );
 };
 
-export default inject("subjects", "glo")(observer(Lesson));
+export default inject("subjects", "glo", "authStore")(observer(Lesson));

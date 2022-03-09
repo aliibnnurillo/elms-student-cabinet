@@ -14,10 +14,13 @@ import { inject, observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import HtmlParser from "react-html-parser";
 
-const SubjectList = ({ subjects: { fetchOne, loading, single } }) => {
+const SubjectList = ({
+  subjects: { fetchOne, loading, single },
+  authStore: { activeSemesterId },
+}) => {
   const { semesterId, id } = useParams();
   useEffect(() => {
-    fetchOne(id);
+    fetchOne(id, activeSemesterId);
     return () => {};
   }, [id, fetchOne]);
   const [t] = useTranslation();
@@ -212,4 +215,4 @@ const SubjectList = ({ subjects: { fetchOne, loading, single } }) => {
   );
 };
 
-export default inject("subjects")(observer(SubjectList));
+export default inject("subjects", "authStore")(observer(SubjectList));
