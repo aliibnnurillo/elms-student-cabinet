@@ -5,8 +5,10 @@ import posts from "../pages/news/model";
 import subjects from "../pages/subjects/model";
 import curriculum from "../pages/curriculum/model";
 import profile from "../pages/profile/model";
-import message from '../pages/message/model';
-import student from './student';
+import message from "../pages/message/model";
+import student from "./student";
+import ratingNotes from "pages/ranting/model";
+
 export default {
   glo,
   flash,
@@ -16,5 +18,6 @@ export default {
   curriculum,
   profile,
   message,
-  student
+  student,
+  ratingNotes,
 };
