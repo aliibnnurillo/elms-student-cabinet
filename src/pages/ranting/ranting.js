@@ -23,6 +23,13 @@ const ClassName = (prop) => {
   }
 };
 
+const courseNumbers = {
+  ["1"]: "1",
+  ["3"]: "2",
+  ["5"]: "3",
+  ["7"]: "4",
+};
+
 const Ranting = ({ ratingNotes }) => {
   const [t] = useTranslation();
   const { fetchAll, result, state } = ratingNotes;
@@ -37,16 +44,15 @@ const Ranting = ({ ratingNotes }) => {
 
       <div className="content exam-page ranting-page">
         <h3>{get(result, "[0].facultyName")}</h3>
-
         <h1>{get(result, "[0].specialityName")}</h1>
 
         <div className="all-exam">
           {state === "done" &&
             (result || []).map((item) => (
               <div key={`${item.id}-${item.facultyName}`}>
-                {item.semestrNumber % 2 !== 0 ? (
+                {courseNumbers[item.semestrNumber] ? (
                   <h2 className="for-course-number">
-                    {item.semestrNumber + "-" + t("kurs")}
+                    {courseNumbers[item.semestrNumber] + "-" + t("kurs")}
                   </h2>
                 ) : (
                   <div style={{ minHeight: "32px" }} />
@@ -70,7 +76,9 @@ const Ranting = ({ ratingNotes }) => {
                     renderItem={(subjects) => (
                       <List.Item>
                         <span>
-                          <h5>{subjects.language}</h5>
+                          {!!subjects.teacherName && (
+                            <h5>{subjects.teacherName}</h5>
+                          )}
                           <Link className="for-subject-name">
                             {subjects.name}
                           </Link>

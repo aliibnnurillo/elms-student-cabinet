@@ -32,6 +32,7 @@ class RatingModel extends CommonStore {
             semesterId: get(item, "semester_id"),
             creditHours: get(item, "credit_hour"),
             choiceOfSubject: !!get(item, "choice_of_subject"),
+            teacherName: get(item, "teacher.teacher_translations[0].fio"),
             name: get(item, "subject_choice_name.name"),
             language: get(item, "subject_choice_name.language"),
             subjectId: get(item, "subject_choice_name.subject_id"),
