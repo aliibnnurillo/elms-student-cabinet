@@ -1,0 +1,4 @@
+.for-exam-list .ant-list-items {
+  max-height: 600px !important;
+  overflow-y: scroll ;
+}
