@@ -4,7 +4,6 @@ import { useParams, Link } from "react-router-dom";
 import { SubjectsHeader } from "component/header";
 import { inject, observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import HtmlParser from "react-html-parser";
 
 import "./subject.css";
 
@@ -92,7 +91,9 @@ const TestItem = ({
                 return (
                   <div key={test.id}>
                     <div className="question sun-editor-editable">
-                      {HtmlParser(test.question)}
+                      <div
+                        dangerouslySetInnerHTML={{ __html: test.question }}
+                      />
                     </div>
 
                     <Radio.Group onChange={onChangeAnswer} value={valueone}>

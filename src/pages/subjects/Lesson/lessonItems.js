@@ -14,7 +14,6 @@ import {
 } from "antd";
 import { observer, inject } from "mobx-react";
 import { Player, ControlBar } from "video-react";
-import HtmlParser from "react-html-parser";
 import "./lesson.css";
 import {
   FileTextFilled,
@@ -140,7 +139,9 @@ const QuizItem = inject("subjects")(
       ) : (
         <div>
           <div className="upload-file">
-            <div className="sun-editor-editable">{HtmlParser(data.text)}</div>
+            <div className="sun-editor-editable">
+              <div dangerouslySetInnerHTML={{ __html: data.text() }} />
+            </div>
             <LessonFiles resourceFiles={resourceFiles} />
             <div className="upload-block">
               <h3 className="upload-title">{t("Javob")}</h3>
@@ -365,7 +366,9 @@ const TestItem = ({
                 return (
                   <div key={test.id}>
                     <div className="sun-editor-editable question">
-                      {HtmlParser(test.question)}
+                      <div
+                        dangerouslySetInnerHTML={{ __html: test.question }}
+                      />
                     </div>
                     <Radio.Group onChange={onChangeAnswer} value={valueone}>
                       {test.test_answers.map((item, idx) => {
@@ -374,7 +377,11 @@ const TestItem = ({
                           <Radio value={item.value}>
                             {regex.test(item.label) ? (
                               <div className="sun-editor-editable">
-                                {HtmlParser(item.label)}
+                                <div
+                                  dangerouslySetInnerHTML={{
+                                    __html: item.label,
+                                  }}
+                                />
                               </div>
                             ) : (
                               item.label
@@ -613,7 +620,7 @@ function LessonItem(props) {
             >
               {!!item.text && (
                 <div className="sun-editor-editable">
-                  {HtmlParser(item.text)}
+                  <div dangerouslySetInnerHTML={{ __html: item.text }} />
                 </div>
               )}
               <LessonFiles resourceFiles={resourceFiles} />

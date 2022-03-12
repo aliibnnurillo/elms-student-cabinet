@@ -5,7 +5,6 @@ import "./news.css";
 import { NewsHeader } from "../../component/header";
 import { inject, observer } from "mobx-react";
 import { useParams } from "react-router-dom";
-import HtmlParser from "react-html-parser";
 
 const OneNews = (props) => {
   const { id } = useParams();
@@ -38,7 +37,9 @@ const OneNews = (props) => {
               </p>
               {!!single.description && (
                 <div className="description sun-editor-editable">
-                  {HtmlParser(single.description)}
+                  <div
+                    dangerouslySetInnerHTML={{ __html: single.description }}
+                  />
                 </div>
               )}
             </Col>

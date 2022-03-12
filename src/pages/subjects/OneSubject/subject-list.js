@@ -12,7 +12,6 @@ import { SubjectsHeader } from "../../../component/header";
 import "../subject.css";
 import { inject, observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import HtmlParser from "react-html-parser";
 
 const SubjectList = ({
   subjects: { fetchOne, loading, single },
@@ -108,7 +107,9 @@ const SubjectList = ({
 
                 {!!single.description && (
                   <div className="sun-editor-editable">
-                    {HtmlParser(single.description)}
+                    <div
+                      dangerouslySetInnerHTML={{ __html: single.description }}
+                    />
                   </div>
                 )}
 
