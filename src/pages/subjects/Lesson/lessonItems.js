@@ -140,7 +140,7 @@ const QuizItem = inject("subjects")(
         <div>
           <div className="upload-file">
             <div className="sun-editor-editable">
-              <div dangerouslySetInnerHTML={{ __html: data.text() }} />
+              <div dangerouslySetInnerHTML={{ __html: data.text }} />
             </div>
             <LessonFiles resourceFiles={resourceFiles} />
             <div className="upload-block">
