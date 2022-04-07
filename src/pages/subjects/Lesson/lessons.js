@@ -85,7 +85,7 @@ const Editor = ({ onSubmit, submitting, lessonId }) => {
           cols={24}
           onChange={(e) => setValue(e.target.value)}
           value={value}
-          placeholder="Sharh qoldirish"
+          placeholder={t("Sharh qoldirish")}
         />
         <Button
           type="link"
