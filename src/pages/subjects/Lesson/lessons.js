@@ -76,6 +76,8 @@ const Editor = ({ onSubmit, submitting, lessonId }) => {
     });
   };
 
+  const [t] = useTranslation();
+
   return (
     <>
       <Form.Item className="write-comment">
@@ -286,7 +288,7 @@ const Lesson = (props) => {
                           height: 3,
                           margin: "40px 0",
                         }}
-                      ></div>
+                      />
                     </Col>
                     {allowCommentToLesson ? (
                       <Col

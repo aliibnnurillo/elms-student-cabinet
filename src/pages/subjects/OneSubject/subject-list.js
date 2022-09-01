@@ -171,22 +171,6 @@ const SubjectList = ({
                                     {lesson.name ? lesson.name : null}{" "}
                                   </span>
                                   <span className="list-icons">
-                                    {lesson.type === "Nazariy" ? (
-                                      <Tag color="#2db7f5">
-                                        {lesson.theory_mark
-                                          ? lesson.theory_mark.mark
-                                          : 0}{" "}
-                                        ball / {lesson.mark} ball
-                                      </Tag>
-                                    ) : (
-                                      <Tag color="#87d068">
-                                        {lesson.practical_mark
-                                          ? lesson.practical_mark.mark
-                                          : 0}{" "}
-                                        ball / {lesson.mark} ball
-                                      </Tag>
-                                    )}
-                                    &nbsp;&nbsp;
                                     <span>
                                       <PieChartOutlined />
                                       {lesson.total_lesson_item

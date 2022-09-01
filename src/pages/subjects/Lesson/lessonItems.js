@@ -454,7 +454,7 @@ const TestItem = ({
 };
 
 const getVideoPath = (media, quality) => {
-  let path = `http://backend.elms.uz/storage/`;
+  let path = `https://api-elms.tuit.uz/storage/`;
   let current = media.find((item) => item.filename.startsWith(`${quality}-`));
   if (media.length === 1 && !current) {
     path += `${media[0].directory}/${media[0].filename}.${media[0].extension}`;
