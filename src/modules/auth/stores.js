@@ -1,11 +1,5 @@
 import { action, autorun, computed, observable, runInAction } from "mobx";
-import {
-  validToken,
-  saveUser,
-  isExistUser,
-  getUser,
-  getToken,
-} from "common/utils/utils";
+import { validToken, saveUser, isExistUser, getUser } from "common/utils/utils";
 import { client } from "common/utils/request";
 import { storage, http, history } from "services";
 
@@ -113,13 +107,11 @@ class AuthStore {
 
     // start: removing temp access token
     const tempAccessToken = storage.local.get(config.api.temp_access_token_key);
-
     if (tempAccessToken) storage.local.remove(config.api.temp_access_token_key);
     // end: removing temp access token
-    try {
-      const res = await Axios.post(API_URL + "/auth/login", credentials);
 
-      const { data = {} } = res;
+    try {
+      const { data } = await Axios.post(API_URL + "/auth/login", credentials);
 
       const isFirstTimeLogin = !!_.get(data, "result.first_time_login");
 
@@ -144,7 +136,6 @@ class AuthStore {
         this.authenticated = true;
         this.state = "done";
         this.error = null;
-        this.isFetched = true;
       });
 
       return { isFirstTimeLogin: false };
@@ -188,71 +179,12 @@ class AuthStore {
         };
       });
     } catch (error) {
-      if (error.response) {
-        if (error.response.status === 401) {
-          runInAction(() => {
-            this.authenticated = false;
-            this.profile = initialProfile;
-            this.accessToken = "";
-            this.refreshToken = "";
-            this.error = null;
-            this.state = "";
-          });
-        }
-      }
     } finally {
       runInAction(() => {
         this.isFetched = true;
       });
     }
   };
-
-  // @action
-  // getMe = async ({accessToken}) => {
-  //   this.isFetched = false;
-  //   try {
-  //     const { data } = await client.get('/profile/show', {
-  //       headers: {
-  //         Authorization: `Bearer ${accessToken}`;
-  //       }
-  //     });
-  //
-  //     const result = _.get(data, "result.0");
-  //     this.setUserData(result);
-  //
-  //     const activeStudy = _.get(result, "activeStudy") || initialActiveStudy;
-  //     runInAction(() => {
-  //       this.profile = result;
-  //
-  //       this.activeSemSeason = _.get(activeStudy, "season_semester");
-  //       this.activeAcdYearId = Number(_.get(activeStudy, "academic_year_id"));
-  //       this.activeSemId = Number(_.get(activeStudy, "semester_id"));
-  //       this.activeCurrId = Number(_.get(activeStudy, "curriculum_id"));
-  //
-  //       this.univer = {
-  //         id: _.get(result, "university_id") || initialUniver.id,
-  //         name: _.get(result, "university_name") || initialUniver.name,
-  //       };
-  //     });
-  //   } catch (error) {
-  //     if (error.response) {
-  //       if (error.response.status === 401) {
-  //         runInAction(() => {
-  //           this.authenticated = false;
-  //           this.profile = initialProfile;
-  //           this.accessToken = "";
-  //           this.refreshToken = "";
-  //           this.error = null;
-  //           this.state = "";
-  //         });
-  //       }
-  //     }
-  //   } finally {
-  //     runInAction(() => {
-  //       this.isFetched = true;
-  //     });
-  //   }
-  // };
 
   @action
   reloadProfileInfo = async () => {
@@ -478,10 +410,15 @@ class AuthStore {
   @action
   reset = () => {
     this.authenticated = false;
+    this.isFetched = false;
     this.user = {};
     this.accessToken = "";
+    this.refreshToken = "";
     this.error = null;
-    this.activeSemId = 0;
+    this.activeSemId = initialActiveStudy.semester_id;
+    this.activeSemSeason = initialActiveStudy.season_semester;
+    this.activeCurrId = initialActiveStudy.curriculum_id;
+    this.activeAcdYearId = initialActiveStudy.academic_year_id;
     this.state = "";
   };
 
