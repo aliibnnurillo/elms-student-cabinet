@@ -171,16 +171,14 @@ const QuizItem = inject("subjects")(
                   return (
                     <Panel
                       header={
-                        <div
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                          }}
-                        >
-                          {item.status ? <Checked /> : <Canceled />}
-                          <span style={{ marginLeft: 12 }}>
-                            {item.created_at}
-                          </span>
+                        <div className="flex-between">
+                          <div className="d-flex align-items-center">
+                            {item.status ? <Checked /> : <Canceled />}
+                            <span style={{ marginLeft: 12 }}>
+                              {item.created_at}
+                            </span>
+                          </div>
+                          {!!item.mark && <div>{item.mark} ball</div>}
                         </div>
                       }
                       key={item.id}
