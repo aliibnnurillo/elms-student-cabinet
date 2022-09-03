@@ -79,18 +79,13 @@ export const SubjectSelectModal = inject(
         isAvailableChoice,
         choice_of_subject,
       },
-      authStore: { authenticated, activeSemesterId },
+      authStore: { authenticated, activeSemId },
     }) => {
       useEffect(() => {
         authenticated &&
-          activeSemesterId &&
-          fetchChoiceOfSubject(choice_of_subject, activeSemesterId);
-      }, [
-        authenticated,
-        choice_of_subject,
-        fetchChoiceOfSubject,
-        activeSemesterId,
-      ]);
+          activeSemId &&
+          fetchChoiceOfSubject(choice_of_subject, activeSemId);
+      }, [authenticated, choice_of_subject, fetchChoiceOfSubject, activeSemId]);
 
       const [t] = useTranslation();
 
@@ -100,8 +95,8 @@ export const SubjectSelectModal = inject(
 
       const handleFinish = (values) => {
         console.log(Object.values(values));
-        fanTanlash(Object.values(values), activeSemesterId);
-        if (choice_of_subject) history.push(`/${activeSemesterId}/subjects`);
+        fanTanlash(Object.values(values), activeSemId);
+        if (choice_of_subject) history.push(`/${activeSemId}/subjects`);
       };
 
       return (

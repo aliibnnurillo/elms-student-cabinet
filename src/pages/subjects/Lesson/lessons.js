@@ -120,7 +120,7 @@ const Lesson = (props) => {
       fetchSemesterSubjects,
       allowCommentToLesson,
     },
-    authStore: { activeSemesterId },
+    authStore: { activeSemId },
     glo: { checkIsAvailableChoice, setChoiceOfSubject },
   } = props;
 
@@ -140,8 +140,8 @@ const Lesson = (props) => {
   };
 
   useEffect(() => {
-    fetchSemesterSubjects({ activeSemesterId });
-    fetchOne(subjectId, activeSemesterId).then((res) => {
+    fetchSemesterSubjects({ activeSemId });
+    fetchOne(subjectId, activeSemId).then((res) => {
       fetchLessonItems({ semesterId, subjectId, lessonId: id });
       fetchLessonResources({
         semesterId,
@@ -154,7 +154,7 @@ const Lesson = (props) => {
       fetchComments(id);
     });
     checkIsAvailableChoice();
-  }, [activeSemesterId]);
+  }, [activeSemId]);
   const [all, setAll] = useState(false);
 
   const [t] = useTranslation();

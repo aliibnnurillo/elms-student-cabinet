@@ -14,16 +14,16 @@ const Subjects = ({
     semesterSubjects,
     setCurrentSubject,
   },
-  authStore: { activeSemesterId },
+  authStore: { activeSemId },
   glo: { showChoiceAlert, checkIsAvailableChoice, setSubjectModalVisible },
 }) => {
   const { semesterId } = useParams();
   useEffect(() => {
-    fetchSemesterSubjects({ activeSemesterId });
+    fetchSemesterSubjects({ activeSemId });
     checkIsAvailableChoice();
     setCurrentSubject(null);
     return () => {};
-  }, [activeSemesterId]);
+  }, [activeSemId]);
 
   const [t] = useTranslation();
   return (

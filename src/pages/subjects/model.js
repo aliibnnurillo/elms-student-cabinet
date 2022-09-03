@@ -41,12 +41,12 @@ class SubjectsModel extends CommonStore {
   };
 
   @action
-  fetchSemesterSubjects = async ({ activeSemesterId }) => {
+  fetchSemesterSubjects = async ({ activeSemId }) => {
     this.setState("pending");
     this.semesterSubjects = [];
 
     client({
-      url: this.url + "/semesterSubject/" + activeSemesterId,
+      url: this.url + "/semesterSubject/" + activeSemId,
     })
       .then((res) => {
         const { data, status } = res;
@@ -69,14 +69,14 @@ class SubjectsModel extends CommonStore {
   };
 
   @action
-  fetchOne = async (subject_id = "", activeSemesterId = 0) => {
+  fetchOne = async (subject_id = "", activeSemId = 0) => {
     this.setState("pending");
     this.setSingle({});
     this.setCurrentSubject(null);
 
     try {
       const response = await client.get(
-        `${this.url}/semesterSubjectPlan/${activeSemesterId}`,
+        `${this.url}/semesterSubjectPlan/${activeSemId}`,
         {
           params: {
             language: CURRENT_LANG,
@@ -134,14 +134,14 @@ class SubjectsModel extends CommonStore {
   fetchExamListByType = async ({
     control_type_id,
     subject_id,
-    activeSemesterId = 0,
+    activeSemId = 0,
   }) => {
     this.setState("pending");
     this.examList = [];
 
     try {
       const response = await client.get(
-        `/FirstExam/GetSchedule/${activeSemesterId}`,
+        `/FirstExam/GetSchedule/${activeSemId}`,
         {
           params: {
             control_type_id,

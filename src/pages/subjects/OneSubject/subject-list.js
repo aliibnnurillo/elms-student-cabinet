@@ -15,11 +15,11 @@ import { useTranslation } from "react-i18next";
 
 const SubjectList = ({
   subjects: { fetchOne, loading, single },
-  authStore: { activeSemesterId },
+  authStore: { activeSemId },
 }) => {
   const { semesterId, id } = useParams();
   useEffect(() => {
-    fetchOne(id, activeSemesterId);
+    fetchOne(id, activeSemId);
     return () => {};
   }, [id, fetchOne]);
   const [t] = useTranslation();

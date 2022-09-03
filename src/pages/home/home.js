@@ -21,13 +21,13 @@ const loc = {
 
 const HomePage = ({
   subjects: { fetchSemesterSubjects, semesterSubjects, loading },
-  authStore: { activeSemesterId },
+  authStore: { activeSemId },
   glo: { checkIsAvailableChoice, showChoiceAlert, setSubjectModalVisible },
 }) => {
   useEffect(() => {
-    fetchSemesterSubjects({ activeSemesterId });
+    fetchSemesterSubjects({ activeSemId });
     checkIsAvailableChoice();
-  }, [activeSemesterId]);
+  }, [activeSemId]);
 
   const [t] = useTranslation();
 
@@ -169,7 +169,7 @@ const HomePage = ({
                   md={{ span: 12 }}
                   sm={{ span: 24 }}
                 >
-                  <Link to={`/${activeSemesterId}/subjects/${item.subject_id}`}>
+                  <Link to={`/${activeSemId}/subjects/${item.subject_id}`}>
                     <Card
                       className="for-card-subjects"
                       style={

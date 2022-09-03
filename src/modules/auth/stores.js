@@ -22,19 +22,41 @@ const accessToken = storage.local.get(config.api.access_token_key) || "";
 
 const refreshToken = storage.local.get(config.api.refresh_token_key) || "";
 
-const initialProfile = {
-  activeStudy: { academic_year_id: 0, season_semester: "autumn_semester" },
+const initialActiveStudy = {
   academic_year_id: 0,
   season_semester: "autumn_semester",
-  department_name: "",
-  email: "",
-  file_url_photo: "",
+  semester_id: 0,
+};
+
+const initialUniver = {
+  id: 0,
+  name: "",
+};
+
+const initialProfile = {
   fio: "",
   id: 0,
+  gender: "",
+  phone: "",
+  email: "",
+  group_name: "",
+  file_url_photo: "",
+  birth_date: "",
+  default_language: "oz",
   language: "oz",
-  university_name: "",
-  university_id: 0,
   username: "",
+  first_name: "",
+  second_name: "",
+  third_name: "",
+  city_name: "",
+  nation_name: "",
+  citizenship_name: "",
+  passport: "",
+  passport_pin: "",
+  profile_img: null,
+  province_name: "",
+  social_category_name: "",
+  street: "",
 };
 
 class AuthStore {
@@ -46,8 +68,13 @@ class AuthStore {
   @observable refreshToken = refreshToken;
   @observable state = "";
   @observable error = null;
-  @observable activeSemesterId = 0;
   @observable profile = initialProfile;
+
+  @observable activeSemSeason = "";
+  @observable activeAcdYearId = 0;
+  @observable activeSemId = 0;
+
+  @observable univer = { id: 0, name: "" };
 
   @computed
   get auth() {
@@ -124,9 +151,6 @@ class AuthStore {
     }
   };
 
-  @observable activeSemSeason = "";
-  @observable activeAcademicYear = 0;
-
   @action
   Profile = async () => {
     this.isFetched = false;
@@ -136,13 +160,18 @@ class AuthStore {
       const result = _.get(data, "result.0");
       this.setUserData(result);
 
-      const activeStudy = _.get(result, "activeStudy") || {};
+      const activeStudy = _.get(result, "activeStudy") || initialActiveStudy;
       runInAction(() => {
         this.profile = result;
-        this.activeSemSeason = _.get(activeStudy, "season_semester") || "";
-        this.activeAcademicYear =
-          Number(_.get(activeStudy, "academic_year_id")) || 0;
-        this.activeSemesterId = Number(_.get(activeStudy, "semester_id")) || 0;
+
+        this.activeSemSeason = _.get(activeStudy, "season_semester");
+        this.activeAcdYearId = Number(_.get(activeStudy, "academic_year_id"));
+        this.activeSemId = Number(_.get(activeStudy, "semester_id"));
+
+        this.univer = {
+          id: _.get(result, "university_id") || initialUniver.id,
+          name: _.get(result, "university_name") || initialUniver.name,
+        };
       });
     } catch (error) {
       if (error.response) {
@@ -388,7 +417,7 @@ class AuthStore {
     this.user = {};
     this.accessToken = "";
     this.error = null;
-    this.activeSemesterId = 0;
+    this.activeSemId = 0;
     this.state = "";
   };
 

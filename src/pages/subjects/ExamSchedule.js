@@ -18,7 +18,7 @@ const ExamSchedule = ({
     fetchExamListByType({
       subject_id: id,
       control_type_id: type,
-      activeSemesterId: get(authStore, "activeSemesterId") || 0,
+      activeSemId: get(authStore, "activeSemId") || 0,
     });
     return () => {};
   }, [id, fetchExamListByType]);

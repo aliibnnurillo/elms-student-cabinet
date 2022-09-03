@@ -21,9 +21,13 @@ const ControlsHeader = (props) => {
   const location = useLocation();
   // const {semSeason} = useParams();
 
-  const { activeAcademicYear } = props.authStore;
+  const { activeAcdYearId, activeSemSeason } = props.authStore;
 
-  const { a_year, s_type, curriculum_id } = qs.parse(location.search, {
+  const {
+    a_year = activeAcdYearId,
+    s_type = activeSemSeason,
+    curriculum_id,
+  } = qs.parse(location.search, {
     ignoreQueryPrefix: true,
   });
 
@@ -57,7 +61,7 @@ const ControlsHeader = (props) => {
         <Space size={"middle"}>
           <AcademicYearSelect
             onChange={(option) => handleChange(option)}
-            defaultValue={Number(a_year) || activeAcademicYear}
+            defaultValue={Number(a_year) || activeAcdYearId}
           />
           <CSelect
             dropdownClassName="semesterSeason"
