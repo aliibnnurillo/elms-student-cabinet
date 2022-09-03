@@ -540,7 +540,7 @@ function LessonItem(props) {
     glo: { setSubjectModalVisible, isAvailableChoice },
     lessonId,
   } = props;
-  const { semesterId, subjectId } = useParams();
+  const { semId, subjectId } = useParams();
   const [t] = useTranslation();
   const { hash } = useLocation();
   const history = useHistory();
@@ -590,7 +590,7 @@ function LessonItem(props) {
       return;
     }
     fetchOneLessonItem({
-      semesterId,
+      semId,
       subjectId,
       lessonId,
       id,

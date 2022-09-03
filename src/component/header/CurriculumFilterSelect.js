@@ -29,7 +29,7 @@ const CurriculumFilterSelect = (props) => {
       })
       .then(({ data }) => {
         const options = (get(data, "result") || []).map((item) => ({
-          value: +item.id || 0,
+          value: Number(item.id) || 0,
           name: `${get(item, "name")}`,
         }));
         setOptions(options);

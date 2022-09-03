@@ -17,7 +17,7 @@ const SubjectList = ({
   subjects: { fetchOne, loading, single },
   authStore: { activeSemId },
 }) => {
-  const { semesterId, id } = useParams();
+  const { semId, id } = useParams();
   useEffect(() => {
     fetchOne(id, activeSemId);
     return () => {};
@@ -97,10 +97,10 @@ const SubjectList = ({
                 </div>
 
                 <div className={"m-24 d-flex justify-between"}>
-                  <Link to={`/${semesterId}/subjects/${id}/exam-schedules/2`}>
+                  <Link to={`/${semId}/subjects/${id}/exam-schedules/2`}>
                     Oraliq nazorat
                   </Link>
-                  <Link to={`/${semesterId}/subjects/${id}/exam-schedules/3`}>
+                  <Link to={`/${semId}/subjects/${id}/exam-schedules/3`}>
                     Yakuniy nazorat
                   </Link>
                 </div>
@@ -165,7 +165,7 @@ const SubjectList = ({
                             renderItem={(lesson) => (
                               <List.Item>
                                 <Link
-                                  to={`/${semesterId}/subjects/${id}/${lesson.id}`}
+                                  to={`/${semId}/subjects/${id}/${lesson.id}`}
                                 >
                                   <span>
                                     {lesson.name ? lesson.name : null}{" "}

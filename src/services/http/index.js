@@ -2,7 +2,6 @@ import axios from "axios";
 
 import globalConfig from "config";
 import history from "../history";
-import flash from "../../stores/Flash";
 
 const request = axios.create({
   baseURL: globalConfig.api.base_url,

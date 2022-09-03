@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Button, Radio, Modal, Form } from "antd";
 import { observer, inject } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import { Router, Switch, Route, Redirect } from "react-router-dom";
+import { Router, Switch, Route, Redirect } from "react-router";
 
 import { privateRoutes, publicRoutes } from "routes";
 

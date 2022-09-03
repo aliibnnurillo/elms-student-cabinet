@@ -1,6 +1,6 @@
-import { http } from "services";
+import { client } from "common/utils/request";
 
 export const Profile = (params) =>
-  http.request.get("/profile/show", {
+  client.get("/profile/show", {
     params,
   });

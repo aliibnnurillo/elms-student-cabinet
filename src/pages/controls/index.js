@@ -15,7 +15,7 @@ import "./Controls.scss";
 
 const Controls = (props) => {
   const {
-    authStore: { activeAcdYearId, activeSemSeason },
+    authStore: { activeAcdYearId, activeSemSeason, activeCurrId },
   } = props;
 
   const [data, setData] = useState([]);
@@ -23,7 +23,7 @@ const Controls = (props) => {
   const {
     a_year = activeAcdYearId,
     s_type = activeSemSeason,
-    curriculum_id,
+    curriculum_id = activeCurrId,
   } = qs.parse(location.search, {
     ignoreQueryPrefix: true,
   });

@@ -17,7 +17,7 @@ const Subjects = ({
   authStore: { activeSemId },
   glo: { showChoiceAlert, checkIsAvailableChoice, setSubjectModalVisible },
 }) => {
-  const { semesterId } = useParams();
+  const { semId } = useParams();
   useEffect(() => {
     fetchSemesterSubjects({ activeSemId });
     checkIsAvailableChoice();
@@ -65,8 +65,8 @@ const Subjects = ({
                   <Link
                     to={
                       semSub.last_lesson_id && semSub.last_lesson_item_id
-                        ? `/${semesterId}/subjects/${semSub.subject_id}/${semSub.last_lesson_id}#${semSub.last_lesson_id}`
-                        : `/${semesterId}/subjects/${semSub.subject_id}`
+                        ? `/${semId}/subjects/${semSub.subject_id}/${semSub.last_lesson_id}#${semSub.last_lesson_id}`
+                        : `/${semId}/subjects/${semSub.subject_id}`
                     }
                   >
                     <Card

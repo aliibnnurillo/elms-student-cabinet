@@ -21,12 +21,12 @@ const ControlsHeader = (props) => {
   const location = useLocation();
   // const {semSeason} = useParams();
 
-  const { activeAcdYearId, activeSemSeason } = props.authStore;
+  const { activeAcdYearId, activeSemSeason, activeCurrId } = props.authStore;
 
   const {
     a_year = activeAcdYearId,
     s_type = activeSemSeason,
-    curriculum_id,
+    curriculum_id = activeCurrId,
   } = qs.parse(location.search, {
     ignoreQueryPrefix: true,
   });
@@ -61,7 +61,7 @@ const ControlsHeader = (props) => {
         <Space size={"middle"}>
           <AcademicYearSelect
             onChange={(option) => handleChange(option)}
-            defaultValue={Number(a_year) || activeAcdYearId}
+            defaultValue={Number(a_year)}
           />
           <CSelect
             dropdownClassName="semesterSeason"
@@ -95,6 +95,7 @@ const ControlsHeader = (props) => {
             url={"/curriculum/list"}
             placeholder="O'quv dasturini tanlang"
             value={+curriculum_id || null}
+            defaultValue={Number(curriculum_id)}
             allowClear
           />
         </Space>

@@ -10,20 +10,19 @@ import "./subject.css";
 
 const ExamSchedule = ({
   subjects: { fetchExamListByType, loading, examList },
-  authStore,
 }) => {
-  const { id, type } = useParams();
+  const { id, type, semId } = useParams();
   const { pathname } = useLocation();
   useEffect(() => {
     fetchExamListByType({
       subject_id: id,
       control_type_id: type,
-      activeSemId: get(authStore, "activeSemId") || 0,
+      semester_id: semId,
     });
     return () => {};
-  }, [id, fetchExamListByType]);
+  }, [id, semId, type]);
+
   const [t] = useTranslation();
-  console.log("exam list = ", examList);
 
   const columnsForME = [
     { title: "Fan", dataIndex: "subject_name" },

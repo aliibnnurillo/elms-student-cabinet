@@ -124,7 +124,7 @@ const Lesson = (props) => {
     glo: { checkIsAvailableChoice, setChoiceOfSubject },
   } = props;
 
-  const { semesterId, subjectId, id } = useParams();
+  const { semId, subjectId, id } = useParams();
   const { hash, pathname } = useLocation();
   const styleOne = {
     display: "none",
@@ -142,9 +142,9 @@ const Lesson = (props) => {
   useEffect(() => {
     fetchSemesterSubjects({ activeSemId });
     fetchOne(subjectId, activeSemId).then((res) => {
-      fetchLessonItems({ semesterId, subjectId, lessonId: id });
+      fetchLessonItems({ semId, subjectId, lessonId: id });
       fetchLessonResources({
-        semesterId,
+        semId,
         subjectId,
         lessonId: id,
       });
@@ -160,13 +160,13 @@ const Lesson = (props) => {
   const [t] = useTranslation();
 
   useEffect(() => {
-    fetchLessonItems({ semesterId, subjectId, lessonId: id });
+    fetchLessonItems({ semId, subjectId, lessonId: id });
     fetchLessonResources({
-      semesterId,
+      semId,
       subjectId,
       lessonId: id,
     });
-  }, [id, semesterId, subjectId, fetchLessonItems, fetchLessonResources]);
+  }, [id, semId, subjectId, fetchLessonItems, fetchLessonResources]);
 
   const allTheme = () => {
     setAll(!all);
@@ -185,7 +185,7 @@ const Lesson = (props) => {
   const onNextLesson = () => {
     let currentLessonId = +id;
     const nextLessonId = currentLessonId + 1;
-    history.push(`/${semesterId}/subjects/${subjectId}/${nextLessonId}`);
+    history.push(`/${semId}/subjects/${subjectId}/${nextLessonId}`);
   };
 
   return (
@@ -195,10 +195,10 @@ const Lesson = (props) => {
         style={{ marginLeft: 100, padding: "0 25px" }}
         className={"m-24 d-flex justify-between w-100"}
       >
-        <Link to={`/${semesterId}/subjects/${id}/exam-schedules/2`}>
+        <Link to={`/${semId}/subjects/${subjectId}/exam-schedules/2`}>
           Oraliq nazorat
         </Link>
-        <Link to={`/${semesterId}/subjects/${id}/exam-schedules/3`}>
+        <Link to={`/${semId}/subjects/${subjectId}/exam-schedules/3`}>
           Yakuniy nazorat
         </Link>
       </div>
@@ -242,7 +242,7 @@ const Lesson = (props) => {
                                         },
                                         closeAllTheme)
                                       }
-                                      to={`/${semesterId}/subjects/${subjectId}/${lesson.id}`}
+                                      to={`/${semId}/subjects/${subjectId}/${lesson.id}`}
                                       title={`${idx + 1}.${index + 1} ${
                                         lesson.name
                                       }`}
@@ -276,7 +276,7 @@ const Lesson = (props) => {
                           height: 3,
                           margin: "40px 0",
                         }}
-                      ></div>
+                      />
                       <div className="text-center">
                         <Button className="btn-success" onClick={onNextLesson}>
                           {t("Keyingi dars")}

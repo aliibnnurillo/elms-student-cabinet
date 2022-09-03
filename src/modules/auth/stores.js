@@ -1,7 +1,5 @@
 import { action, autorun, computed, observable, runInAction } from "mobx";
 import {
-  rmToken,
-  setToken,
   validToken,
   saveUser,
   isExistUser,
@@ -19,13 +17,13 @@ import * as Api from "./api";
 import _ from "lodash";
 
 const accessToken = storage.local.get(config.api.access_token_key) || "";
-
 const refreshToken = storage.local.get(config.api.refresh_token_key) || "";
 
 const initialActiveStudy = {
   academic_year_id: 0,
   season_semester: "autumn_semester",
   semester_id: 0,
+  curriculum_id: 0,
 };
 
 const initialUniver = {
@@ -73,6 +71,7 @@ class AuthStore {
   @observable activeSemSeason = "";
   @observable activeAcdYearId = 0;
   @observable activeSemId = 0;
+  @observable activeCurrId = 0;
 
   @observable univer = { id: 0, name: "" };
 
@@ -111,6 +110,12 @@ class AuthStore {
   login = async (credentials) => {
     this.state = "pending";
     this.reset();
+
+    // start: removing temp access token
+    const tempAccessToken = storage.local.get(config.api.temp_access_token_key);
+
+    if (tempAccessToken) storage.local.remove(config.api.temp_access_token_key);
+    // end: removing temp access token
     try {
       const res = await Axios.post(API_URL + "/auth/login", credentials);
 
@@ -118,23 +123,31 @@ class AuthStore {
 
       const isFirstTimeLogin = !!_.get(data, "result.first_time_login");
 
-      if (!isFirstTimeLogin) {
-        const accessToken = _.get(data, "result.access_token") || "";
-        runInAction(() => {
-          this.accessToken = accessToken;
-          this.authenticated = true;
-          this.state = "done";
-          this.error = null;
-          this.isFetched = true;
-        });
-        setToken(accessToken);
-      } else {
+      if (isFirstTimeLogin) {
         storage.local.set(
           config.api.temp_access_token_key,
           _.get(data, "result.access_token")
         );
+
+        return { isFirstTimeLogin: true };
       }
-      return { isFirstTimeLogin };
+
+      const accessToken = _.get(data, "result.access_token") || "";
+      const refreshToken = _.get(data, "result.refresh_token") || "";
+
+      storage.local.set(config.api.access_token_key, accessToken);
+      storage.local.set(config.api.refresh_token_key, refreshToken);
+
+      runInAction(() => {
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
+        this.authenticated = true;
+        this.state = "done";
+        this.error = null;
+        this.isFetched = true;
+      });
+
+      return { isFirstTimeLogin: false };
     } catch (error) {
       this.state = "error";
 
@@ -167,6 +180,7 @@ class AuthStore {
         this.activeSemSeason = _.get(activeStudy, "season_semester");
         this.activeAcdYearId = Number(_.get(activeStudy, "academic_year_id"));
         this.activeSemId = Number(_.get(activeStudy, "semester_id"));
+        this.activeCurrId = Number(_.get(activeStudy, "curriculum_id"));
 
         this.univer = {
           id: _.get(result, "university_id") || initialUniver.id,
@@ -176,8 +190,6 @@ class AuthStore {
     } catch (error) {
       if (error.response) {
         if (error.response.status === 401) {
-          storage.local.remove(config.api.access_token_key);
-          storage.local.remove(config.api.refresh_token_key);
           runInAction(() => {
             this.authenticated = false;
             this.profile = initialProfile;
@@ -194,6 +206,53 @@ class AuthStore {
       });
     }
   };
+
+  // @action
+  // getMe = async ({accessToken}) => {
+  //   this.isFetched = false;
+  //   try {
+  //     const { data } = await client.get('/profile/show', {
+  //       headers: {
+  //         Authorization: `Bearer ${accessToken}`;
+  //       }
+  //     });
+  //
+  //     const result = _.get(data, "result.0");
+  //     this.setUserData(result);
+  //
+  //     const activeStudy = _.get(result, "activeStudy") || initialActiveStudy;
+  //     runInAction(() => {
+  //       this.profile = result;
+  //
+  //       this.activeSemSeason = _.get(activeStudy, "season_semester");
+  //       this.activeAcdYearId = Number(_.get(activeStudy, "academic_year_id"));
+  //       this.activeSemId = Number(_.get(activeStudy, "semester_id"));
+  //       this.activeCurrId = Number(_.get(activeStudy, "curriculum_id"));
+  //
+  //       this.univer = {
+  //         id: _.get(result, "university_id") || initialUniver.id,
+  //         name: _.get(result, "university_name") || initialUniver.name,
+  //       };
+  //     });
+  //   } catch (error) {
+  //     if (error.response) {
+  //       if (error.response.status === 401) {
+  //         runInAction(() => {
+  //           this.authenticated = false;
+  //           this.profile = initialProfile;
+  //           this.accessToken = "";
+  //           this.refreshToken = "";
+  //           this.error = null;
+  //           this.state = "";
+  //         });
+  //       }
+  //     }
+  //   } finally {
+  //     runInAction(() => {
+  //       this.isFetched = true;
+  //     });
+  //   }
+  // };
 
   @action
   reloadProfileInfo = async () => {
@@ -267,29 +326,25 @@ class AuthStore {
   };
 
   @action
-  saveNewPassword = async (credentials) => {
+  saveNewPassword = async ({ values, onSuccess, onError }) => {
     this.state = "pending";
     try {
-      const res = await Axios.put(API_BASE_URL + `/password`, credentials, {
+      const res = await Axios.put(API_BASE_URL + `/password`, values, {
         headers: {
           Authorization:
             "Bearer " + storage.local.get(config.api.temp_access_token_key),
         },
       });
 
-      const { status, data } = res;
-      const token = storage.local.get(config.api.temp_access_token_key);
-      storage.local.remove(config.api.temp_access_token_key);
+      runInAction(() => {
+        this.state = "done";
+      });
 
-      if (status === 200) {
-        console.log("new password response data -> ", data);
-        return this.getRequiredData({
-          access_token: token,
-        });
-      }
+      onSuccess && onSuccess();
 
       return res;
     } catch (error) {
+      onError && onError(error);
       runInAction(() => {
         this.state = "error";
         this.error = {
@@ -304,13 +359,22 @@ class AuthStore {
   uploadNewAvatar = async (profile_img) => {
     this.state = "pending";
     try {
-      const res = await client.put("/photo", { profile_img });
+      const res = await Axios.put(
+        API_BASE_URL + "/photo",
+        { profile_img },
+        {
+          headers: {
+            Authorization:
+              "Bearer " + storage.local.get(config.api.temp_access_token_key),
+          },
+        }
+      );
 
-      const { status, data } = res;
+      const {} = res;
 
-      if (status === 200) {
-        console.log("new avatar response data -> ", data);
-      }
+      runInAction(() => {
+        this.state = "done";
+      });
 
       return res;
     } catch (error) {
@@ -423,7 +487,8 @@ class AuthStore {
 
   @action
   logout = () => {
-    rmToken();
+    storage.local.remove(config.api.access_token_key);
+    storage.local.remove(config.api.refresh_token_key);
     this.reset();
   };
 

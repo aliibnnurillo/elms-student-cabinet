@@ -11,12 +11,12 @@ import get from "lodash/get";
 const Login = ({ authStore: { login, loading, error }, history }) => {
   const onFinish = (values) => {
     login(values).then((res) => {
-      console.log(res);
       if (!!get(res, "isFirstTimeLogin")) {
         history.push("/user/new-email");
-      } else {
-        history.push("/");
+        return;
       }
+
+      history.push("/");
     });
   };
   const [t] = useTranslation();

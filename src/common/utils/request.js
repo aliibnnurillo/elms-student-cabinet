@@ -1,8 +1,9 @@
 import axios from "axios";
 import { API_BASE_URL, API_URL } from "../../constants";
 import flash from "../../stores/Flash";
-import { getToken, rmToken, setToken } from "./utils";
-import { history } from "services";
+import { history, storage } from "services";
+import get from "lodash/get";
+import globalConfig from "../../config";
 
 const client = axios.create({
   baseURL: API_BASE_URL,
@@ -10,7 +11,8 @@ const client = axios.create({
 });
 
 client.interceptors.request.use(function (config) {
-  config.headers.Authorization = "Bearer " + getToken();
+  config.headers.Authorization =
+    "Bearer " + storage.local.get(globalConfig.api.access_token_key);
   return config;
 });
 
@@ -21,24 +23,48 @@ function clientResponseInterceptor() {
       networkError(error);
       if (error.response) {
         responseStatusCheck(error.response.status);
-        // if (error.response.status === 401) {
-        //   client.interceptors.response.eject(interceptor);
-        //
-        //   return client
-        //     .get(API_URL + "/auth/refresh")
-        //     .then((response) => {
-        //       setToken(response.data.result);
-        //       error.response.config.headers["Authorization"] =
-        //         "Bearer " + response.data.result;
-        //       return client(error.response.config);
-        //     })
-        //     .catch((error) => {
-        //       rmToken();
-        //       history.push("/");
-        //       return Promise.reject(error);
-        //     })
-        //     .finally(clientResponseInterceptor);
-        // }
+        if (error.response.status === 401) {
+          client.interceptors.response.eject(interceptor);
+
+          const refreshToken = storage.local.get(
+            globalConfig.api.refresh_token_key
+          );
+
+          return axios
+            .get(API_URL + "/auth/refresh", {
+              headers: {
+                Authorization: `Bearer ${refreshToken}`,
+              },
+            })
+            .then((response) => {
+              const accessToken =
+                get(response, "data.result.access_token") || "";
+              const refreshToken =
+                get(response, "data.result.refresh_token") || "";
+
+              storage.local.set(globalConfig.api.access_token_key, accessToken);
+              storage.local.set(
+                globalConfig.api.refresh_token_key,
+                refreshToken
+              );
+
+              error.response.config.headers[
+                "Authorization"
+              ] = `Bearer ${accessToken}`;
+              return client(error.response.config);
+            })
+            .catch((error) => {
+              // storage.local.remove(globalConfig.api.access_token_key);
+              // storage.local.remove(globalConfig.api.refresh_token_key);
+              // localStorage.removeItem("current_user");
+
+              localStorage.clear();
+
+              window.location.href = window.location.origin;
+              return Promise.reject(error);
+            })
+            .finally(clientResponseInterceptor);
+        }
       }
       return Promise.reject(error);
     }

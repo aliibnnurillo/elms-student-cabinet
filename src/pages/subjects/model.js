@@ -4,8 +4,8 @@ import { client } from "../../common/utils/request";
 import { CURRENT_LANG } from "../../constants";
 import flash from "../../stores/Flash";
 import moment from "moment";
-import authStore from "modules/auth/stores";
 import _ from "lodash";
+import { errorMsgHandler } from "common/utils/errorMsgHandler";
 
 class SubjectsModel extends CommonStore {
   @observable activeSemester = {};
@@ -134,21 +134,20 @@ class SubjectsModel extends CommonStore {
   fetchExamListByType = async ({
     control_type_id,
     subject_id,
-    activeSemId = 0,
+    semester_id,
   }) => {
     this.setState("pending");
     this.examList = [];
 
     try {
-      const response = await client.get(
-        `/FirstExam/GetSchedule/${activeSemId}`,
-        {
-          params: {
-            control_type_id,
-            syllabus_id: subject_id,
-          },
-        }
-      );
+      const response = await client.get(`/FirstExam/GetSchedule`, {
+        params: {
+          language: CURRENT_LANG,
+          control_type_id,
+          subject_id,
+          semester_id,
+        },
+      });
       const { status, data } = response;
       if (status === 200) {
         const _result = _.get(data, "result") || [];
@@ -187,7 +186,7 @@ class SubjectsModel extends CommonStore {
 
   @action
   fetchLessonItems = async ({
-    semesterId,
+    semId,
     subjectId,
     lessonId,
     params = {},
@@ -200,7 +199,7 @@ class SubjectsModel extends CommonStore {
     this.autoSetCurrentLesson(lessonId);
     try {
       const response = await client.get(
-        `/syllabus/SubjectLessonItems/${semesterId}`,
+        `/syllabus/SubjectLessonItems/${semId}`,
         {
           params: {
             ...params,
@@ -280,7 +279,7 @@ class SubjectsModel extends CommonStore {
 
   @action
   fetchOneLessonItem = async ({
-    semesterId,
+    semId,
     subjectId,
     lessonId,
     id = "",
@@ -290,7 +289,7 @@ class SubjectsModel extends CommonStore {
 
     try {
       const response = await client.get(
-        `/syllabus/SubjectLessonItems/${semesterId}`,
+        `/syllabus/SubjectLessonItems/${semId}`,
         {
           params: {
             type,
@@ -635,6 +634,7 @@ class SubjectsModel extends CommonStore {
       if (response.status === 200) {
         console.log("save question => ", response);
         this.setQuestionFiles([]);
+
         flash.setFlash("success", "Fayl muvaffaqiyatli yuklandi!");
         this.state = "done";
       }
@@ -642,7 +642,11 @@ class SubjectsModel extends CommonStore {
       return response;
     } catch (error) {
       this.setState("error");
-      flash.setFlash("error", "Error occurred!");
+
+      errorMsgHandler({
+        error,
+        callback: (msg) => flash.setFlash("error", msg),
+      });
       return error.response;
     }
   };
@@ -650,12 +654,12 @@ class SubjectsModel extends CommonStore {
   @observable resourceFiles = [];
 
   @action
-  fetchLessonResources = async ({ semesterId, subjectId, lessonId } = {}) => {
+  fetchLessonResources = async ({ semId, subjectId, lessonId } = {}) => {
     this.setState("pending");
     this.resourceFiles = [];
     try {
       const response = await client.get(
-        `/syllabus/SubjectLessonResource/${semesterId}`,
+        `/syllabus/SubjectLessonResource/${semId}`,
         {
           params: {
             subject_id: subjectId,
