@@ -27,7 +27,7 @@ import {
 import { UploadIcon, Checked, Canceled } from "component/icons";
 import { API_URL } from "../../../constants";
 import { useTranslation } from "react-i18next";
-import { Link, useParams, useHistory } from "react-router-dom";
+import { Link, useParams, useHistory, useLocation } from "react-router-dom";
 import LessonFiles from "./lessonFiles";
 import { formatBytes } from "common/services/common";
 
@@ -544,7 +544,7 @@ function LessonItem(props) {
   } = props;
   const { semesterId, subjectId } = useParams();
   const [t] = useTranslation();
-  const { hash } = useParams();
+  const { hash } = useLocation();
   const history = useHistory();
   const [currentImg, setCurrentImg] = useState("");
   const [modalImgOpen, setModalImgOpen] = useState(false);
@@ -553,6 +553,7 @@ function LessonItem(props) {
     if (lessonItems.length) {
       if (hash) {
         const found = lessonItems.find((item) => +item.id === +hash.slice(1));
+
         found && setActiveItemId(`${found.id}=>${found.type}`);
       } else {
         setActiveItemId(`${lessonItems[0].id}=>${lessonItems[0].type}`);
@@ -560,17 +561,24 @@ function LessonItem(props) {
     }
 
     func1(setModalImgOpen, setCurrentImg);
-  }, []);
+  }, [lessonItems, hash]);
+
+  useEffect(() => {
+    if (!activeItemId) return;
+
+    const [id, type] = activeItemId.split("=>");
+
+    if (type !== "test") return;
+
+    getTestResult(id);
+  }, [activeItemId]);
 
   const callback = (key) => {
     const id = key.split("=>")[0];
     const type = key.split("=>")[1];
-    const find = lessonItems.find((item) => +item.id === +id);
+    const found = lessonItems.find((item) => +item.id === +id);
     setActiveItemId(key);
     history.push(history.location.pathname + "#" + id);
-    if (type === "test") {
-      getTestResult(id);
-    }
     if (type === "test" || type === "question-answer") {
       single.choice_of_subject &&
         isAvailableChoice &&
@@ -580,7 +588,7 @@ function LessonItem(props) {
         setSubjectModalVisible(true);
       return;
     }
-    if (!find || find.read_total_lesson_item) {
+    if (!found || found.read_total_lesson_item) {
       return;
     }
     fetchOneLessonItem({

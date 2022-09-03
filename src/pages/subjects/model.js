@@ -536,6 +536,7 @@ class SubjectsModel extends CommonStore {
   getTestResult = async (itemId = "") => {
     this.setState("pending");
     this.testResult = [];
+
     try {
       const response = await client.get("/syllabus/CompleteTest", {
         params: {
