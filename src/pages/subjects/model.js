@@ -109,10 +109,14 @@ class SubjectsModel extends CommonStore {
                           )
                         : 0,
                       start_date: module.start_date
-                        ? moment(module.start_date).format("D MMMM YYYY")
+                        ? moment(module.start_date, "DD.MM.YYYY").format(
+                            "D MMMM YYYY"
+                          )
                         : null,
                       end_date: module.end_date
-                        ? moment(module.end_date).format("D MMMM YYYY")
+                        ? moment(module.end_date, "DD.MM.YYYY").format(
+                            "D MMMM YYYY"
+                          )
                         : null,
                     }))
                   : [],
