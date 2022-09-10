@@ -1,7 +1,25 @@
 .subject_page .card {
   box-shadow: 0 0 15px -5px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
+  
 }
+
+.subject__link {
+  height: 100%;
+  display: block;
+}
+
+.card, .card .ant-card-body {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  
+}
+.card .ant-card-body::after, .card .ant-card-body::before {
+  display: none;
+}
+
 .subject_page .card .ant-card-meta-avatar {
   float: right;
 }
@@ -52,6 +70,7 @@
   color: #5767f6;
   font-weight: bold;
   display: inline-block;
+  width: max-content;
   padding: 5px 15px;
 }
 .subject_page .card .goSubject span {
@@ -767,4 +786,5 @@
     font-size: 14px;
     height: 65px;
   }
+  
 }
