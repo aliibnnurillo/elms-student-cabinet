@@ -504,7 +504,7 @@ const TestItem = ({
                     size="large"
                     onClick={() => setIsTestStarted(true)}
                   >
-                    t{"Testni boshlash"}
+                   { t('Testni boshlash')}
                   </Button>
                 </div>
               </div>
