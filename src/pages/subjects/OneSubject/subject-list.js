@@ -98,10 +98,10 @@ const SubjectList = ({
 
                 <div className={"m-24 d-flex justify-between"}>
                   <Link to={`/${semId}/subjects/${id}/exam-schedules/2`}>
-                  t{'Oraliq nazorat'}
+                  {t('Oraliq nazorat')}
                   </Link>
                   <Link to={`/${semId}/subjects/${id}/exam-schedules/3`}>
-                    t{'Yakuniy nazorat'}
+                    {t('Yakuniy nazorat')}
                   </Link>
                 </div>
 
