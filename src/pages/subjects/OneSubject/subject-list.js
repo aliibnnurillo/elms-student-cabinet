@@ -46,7 +46,7 @@ const SubjectList = ({
                   />
                 </div>
                 <Button block type="default">
-                  {t("Davom etishhh")}
+                  {t("Davom etish")}
                 </Button>
                 <div className="title">
                   <h2>{single.subject_name ? single.subject_name : null}</h2>

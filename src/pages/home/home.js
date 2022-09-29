@@ -191,9 +191,9 @@ const HomePage = ({
                               {t("Modul")} {item.total_module} /&nbsp;
                               {`${item.total_lesson} - ${t("Dars")}`}
                             </span>
-                            <span>
+                            {/* <span>
                               <PercentsIcon /> 56%
-                            </span>
+                            </span> */}
                           </p>
                         }
                       />
