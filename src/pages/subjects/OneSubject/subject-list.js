@@ -46,7 +46,7 @@ const SubjectList = ({
                   />
                 </div>
                 <Button block type="default">
-                  {t("Davom etish")}
+                  {t("Davom etishhh")}
                 </Button>
                 <div className="title">
                   <h2>{single.subject_name ? single.subject_name : null}</h2>
@@ -60,7 +60,7 @@ const SubjectList = ({
                       </Tag>
                     </span>
                     <span>
-                      {t("Darslar soni")}
+                      {t("Darslar soniiii")}
                       <Tag className="count_teg">
                         <Link to="#">
                           {single.total_lesson ? single.total_lesson : 0}
@@ -98,10 +98,10 @@ const SubjectList = ({
 
                 <div className={"m-24 d-flex justify-between"}>
                   <Link to={`/${semId}/subjects/${id}/exam-schedules/2`}>
-                    Oraliq nazorat
+                  t{'Oraliq nazorat'}
                   </Link>
                   <Link to={`/${semId}/subjects/${id}/exam-schedules/3`}>
-                    Yakuniy nazorat
+                    t{'Yakuniy nazorat'}
                   </Link>
                 </div>
 

@@ -40,7 +40,7 @@ const ExamSchedule = ({
         return (
           <>
             {record.type === "test" && (
-              <Link to={`${pathname}/${record.id}`}>Boshlash</Link>
+              <Link to={`${pathname}/${record.id}`}>t{'Boshlash'}</Link>
             )}
           </>
         );
@@ -69,7 +69,7 @@ const ExamSchedule = ({
                     }}
                     title={() => (
                       <h2 style={{ marginLeft: -16 }}>
-                        {title} nazorat jadvali
+                        {title} t{'nazorat jadvali'}
                       </h2>
                     )}
                     columns={type === "2" ? columnsForME : columnsForFE}

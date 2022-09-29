@@ -11,6 +11,8 @@ import {
   Table,
   Divider,
   Select,
+  Alert,
+  Space,
 } from "antd";
 import { observer, inject } from "mobx-react";
 import { Player, ControlBar } from "video-react";
@@ -32,6 +34,8 @@ import LessonFiles from "./lessonFiles";
 import { formatBytes } from "common/services/common";
 
 import ModalImage, { Lightbox } from "react-modal-image";
+import moment from "moment";
+import { get } from "lodash";
 
 const { TabPane } = Tabs;
 
@@ -117,6 +121,15 @@ const QuizItem = inject("subjects")(
         saveQuestionFile(data.id, resource.id);
       };
 
+      if (!get(data, 'syllabus_module_lesson.deadline_check')) {
+        return <div>
+          {/* <div>deadline  {get(data, 'deadline_date')} da tugagan</div> */}
+          <Alert message={`deadline ${get(data, 'deadline_date')} da tugagan!`}/>
+        </div>
+      }
+
+
+
       return single.choice_of_subject &&
         semesterSubjects.filter(
           (item) => item.choice_of_subject === single.choice_of_subject
@@ -143,7 +156,14 @@ const QuizItem = inject("subjects")(
               <div dangerouslySetInnerHTML={{ __html: data.text }} />
             </div>
             <LessonFiles resourceFiles={resourceFiles} />
-            <div className="upload-block">
+            <div style={{margin: '10px 0'}}>
+     <Alert message={`deadline tugash vaqti ${get(data, 'deadline_date')} ga qadar`}/>
+     </div>
+     
+                 <div className="upload-block">
+
+              {!!get(data, 'deadline_date') &&
+              (<>
               <h3 className="upload-title">{t("Javob")}</h3>
               <UploadDragger
                 questionFiles={questionFiles}
@@ -162,6 +182,8 @@ const QuizItem = inject("subjects")(
                 </Button>
               </p>
               <h4>{t("Eski javoblar")}</h4>
+
+              </>)}
               <Collapse
                 defaultActiveKey={["1"]}
                 onChange={callback}
@@ -302,10 +324,21 @@ const TestItem = ({
   const onChangeAnswer = (e) => {
     setValueone(e.target.value);
   };
-  const onChange = (from, to) => {
-    setCurrent(current + 1);
+  const onChange = (currentSlide) => {
+
+    console.log('currentSlice', currentSlide)
+    // if (current >= data.test_question.length - 1) {
+    //   setCurrent(0);
+    // } else if (current < 0) {
+    //   setCurrent(0);
+    // } else 
+    setCurrent(currentSlide);
   };
+  console.log('current===',current);
+  console.log('data.test_question.length',data.test_question.length);
   const carousel = useRef(null);
+
+  console.log('caoruse ', carousel)
 
   const onSendAnswer = () => {
     if (!valueone) {
@@ -326,6 +359,16 @@ const TestItem = ({
       }
     });
   };
+
+
+  if (!get(data, 'syllabus_module_lesson.deadline_check')) {
+    return <div>
+      {/* <div>deadline  {get(data, 'deadline_date')} da tugagan</div> */}
+      <Alert message={`deadline ${get(data, 'deadline_date')} da tugagan!`}/>
+    </div>
+  }
+
+
   return single.choice_of_subject &&
     semesterSubjects.filter(
       (item) => item.choice_of_subject === single.choice_of_subject
@@ -348,6 +391,11 @@ const TestItem = ({
   ) : (
     <div>
       <LessonFiles resourceFiles={resourceFiles} />
+      
+     <div style={{margin: '24px 0'}}>
+     <Alert message={`deadline tugash vaqti ${get(data, 'deadline_date')} ga qadar`}/>
+     </div>
+
       <div className="question-test">
         {(isTestStarted || !isTestCompleted) &&
         data.count_of_attempts &&
@@ -359,7 +407,7 @@ const TestItem = ({
                 {current + 1} / {data.test_question.length}
               </span>
             </h2>
-            <Carousel ref={carousel} beforeChange={onChange}>
+            <Carousel ref={carousel}  beforeChange={onChange}>
               {data.test_question.map((test) => {
                 return (
                   <div key={test.id}>
@@ -406,7 +454,7 @@ const TestItem = ({
               <div>
                 <div className="d-flex-c flex-column">
                   <h3>
-                    Urinishlar soni: {testResult.length} /&nbsp;
+                    t{'Urinishlar soni'}: {testResult.length} /&nbsp;
                     {data.count_of_attempts}
                   </h3>
                   {data.count_of_attempts > testResult.length ? (
@@ -416,7 +464,7 @@ const TestItem = ({
                       onClick={() => setIsTestCompleted(false)}
                       style={{ marginBottom: 24 }}
                     >
-                      Qayta urinish
+                     t{' Qayta urinish'}
                     </Button>
                   ) : null}
                 </div>
@@ -432,14 +480,14 @@ const TestItem = ({
               <div>
                 <div className="d-flex-c flex-column">
                   {data.count_of_attempts ? (
-                    <h3>Urinishlar soni: {data.count_of_attempts}</h3>
+                    <h3>t{'Urinishlar soni'}: {data.count_of_attempts}</h3>
                   ) : null}
                   <Button
                     type="primary"
                     size="large"
                     onClick={() => setIsTestStarted(true)}
                   >
-                    Testni boshlash
+                    t{'Testni boshlash'}
                   </Button>
                 </div>
               </div>
@@ -647,7 +695,7 @@ function LessonItem(props) {
               <VideoItem data={item} />
             </TabPane>
           ) : item.type === "question-answer" ? (
-            <TabPane
+           <TabPane
               tab={
                 <span
                   className={`tabIconWrapper ${
@@ -662,7 +710,7 @@ function LessonItem(props) {
               <QuizItem lessonId={lessonId} data={item} />
             </TabPane>
           ) : item.type === "test" ? (
-            <TabPane
+            !!get(item, 'deadline_date') && <TabPane
               tab={
                 <span
                   className={`tabIconWrapper ${

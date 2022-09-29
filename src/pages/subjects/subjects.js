@@ -7,6 +7,8 @@ import "./subject.css";
 import { observer, inject } from "mobx-react";
 import { useTranslation } from "react-i18next";
 
+
+
 const Subjects = ({
   subjects: {
     fetchSemesterSubjects,
@@ -42,15 +44,13 @@ const Subjects = ({
                 }}
               >
                 <p style={{ margin: 0 }}>
-                  Sizda ushbu semesterda tanlanadigan fanlar mavjud!. O'qishni
-                  boshlash uchun siz tanlandigan fanlar guruhidan o'zingizga
-                  ma'qul fanni tanlashingiz kerak!
+                 t{" Sizda ushbu semesterda tanlanadigan fanlar mavjud! O'qishni boshlash uchun siz tanlanadigan fanlar guruhidan o'zingizga ma'qul fanni tanlashingiz kerak!"}
                 </p>
                 <Button
                   type="ghost"
                   onClick={() => setSubjectModalVisible(true)}
                 >
-                  Tanlash
+                t{'Tanlash'}
                 </Button>
               </div>
             }
@@ -82,6 +82,7 @@ const Subjects = ({
                       <div>
                       <div className="card-header">
                         <div className="title">
+                          {/* O'qituvchini ism familyasini korsatish kerak///////////// */}
                           <h2>
                             {semSub.subject_name ? semSub.subject_name : null}
                           </h2>
@@ -108,14 +109,15 @@ const Subjects = ({
                             </span>
                             {semSub.lesson_mark ? (
                               <div>
-                                {t("Ball")}&nbsp;
+                                {/* ballni olib tashlash kerak birida ko'rinib birida korinmayapti */}
+                                {/* {t("Ball")}&nbsp;        
                                 <Tag className="count_teg">
                                   <span>
                                     {semSub.current_practical_mark +
                                       semSub.current_theory_mark}{" "}
                                     / {semSub.lesson_mark}
                                   </span>
-                                </Tag>
+                                </Tag> */}
                               </div>
                             ) : null}
                           </div>
