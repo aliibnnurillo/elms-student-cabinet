@@ -109,6 +109,9 @@ const QuizItem = inject("subjects")(
       useEffect(() => {
         fetchOldQuestionFiles(data.id);
       }, [lessonId, fetchOldQuestionFiles]);
+      useEffect(() => {
+                setQuestionFiles([])
+      }, [data.id]);
 
       const [resource, setResource] = useState(null);
       const [t] = useTranslation();
@@ -469,7 +472,7 @@ const TestItem = ({
               <div>
                 <div className="d-flex-c flex-column">
                   <h3>
-                    t{"Urinishlar soni"}: {testResult.length} /&nbsp;
+                    {t("Urinishlar soni")}: {testResult.length} /&nbsp;
                     {data.count_of_attempts}
                   </h3>
                   {data.count_of_attempts > testResult.length ? (
@@ -479,7 +482,7 @@ const TestItem = ({
                       onClick={() => setIsTestCompleted(false)}
                       style={{ marginBottom: 24 }}
                     >
-                      t{" Qayta urinish"}
+                      {t(" Qayta urinish")}
                     </Button>
                   ) : null}
                 </div>
@@ -496,7 +499,7 @@ const TestItem = ({
                 <div className="d-flex-c flex-column">
                   {data.count_of_attempts ? (
                     <h3>
-                      t{"Urinishlar soni"}: {data.count_of_attempts}
+                      {t("Urinishlar soni")}: {data.count_of_attempts}
                     </h3>
                   ) : null}
                   <Button

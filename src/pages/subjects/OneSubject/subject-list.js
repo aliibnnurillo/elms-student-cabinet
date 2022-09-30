@@ -60,7 +60,7 @@ const SubjectList = ({
                       </Tag>
                     </span>
                     <span>
-                      {t("Darslar soniiii")}
+                      {t("Darslar soni")}
                       <Tag className="count_teg">
                         <Link to="#">
                           {single.total_lesson ? single.total_lesson : 0}
