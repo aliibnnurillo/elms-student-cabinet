@@ -6,14 +6,15 @@ import get from "lodash/get";
 import { useLocation } from "react-router-dom";
 import qs from "query-string";
 import { inject } from "mobx-react";
+import { getUni, isExistUni } from "../../common/utils/utils";
 
 const CurriculumFilterSelect = (props) => {
   const location = useLocation();
   const [options, setOptions] = useState([]);
 
-  const { profile } = props.authStore;
+  const { activeAcdYearId, univer } = props.authStore;
 
-  const { a_year } = qs.parse(location.search, {
+  const { a_year = activeAcdYearId } = qs.parse(location.search, {
     ignoreQueryPrefix: true,
   });
 
@@ -21,11 +22,14 @@ const CurriculumFilterSelect = (props) => {
     http.request
       .get("/api/crm/curriculum/list", {
         baseURL: config.api.root_url,
-        params: { university_id: 1 || 0, academic_year_id: 1 },
+        params: {
+          university_id: univer.id,
+          academic_year_id: a_year,
+        },
       })
       .then(({ data }) => {
         const options = (get(data, "result") || []).map((item) => ({
-          value: +item.id || 0,
+          value: Number(item.id) || 0,
           name: `${get(item, "name")}`,
         }));
         setOptions(options);

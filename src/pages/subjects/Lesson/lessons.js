@@ -76,6 +76,8 @@ const Editor = ({ onSubmit, submitting, lessonId }) => {
     });
   };
 
+  const [t] = useTranslation();
+
   return (
     <>
       <Form.Item className="write-comment">
@@ -85,7 +87,7 @@ const Editor = ({ onSubmit, submitting, lessonId }) => {
           cols={24}
           onChange={(e) => setValue(e.target.value)}
           value={value}
-          placeholder="Sharh qoldirish"
+          placeholder={t("Sharh qoldirish")}
         />
         <Button
           type="link"
@@ -118,11 +120,11 @@ const Lesson = (props) => {
       fetchSemesterSubjects,
       allowCommentToLesson,
     },
-    authStore: { activeSemesterId },
+    authStore: { activeSemId },
     glo: { checkIsAvailableChoice, setChoiceOfSubject },
   } = props;
 
-  const { semesterId, subjectId, id } = useParams();
+  const { semId, subjectId, id } = useParams();
   const { hash, pathname } = useLocation();
   const styleOne = {
     display: "none",
@@ -138,11 +140,11 @@ const Lesson = (props) => {
   };
 
   useEffect(() => {
-    fetchSemesterSubjects({ activeSemesterId });
-    fetchOne(subjectId, activeSemesterId).then((res) => {
-      fetchLessonItems({ semesterId, subjectId, lessonId: id });
+    fetchSemesterSubjects({ activeSemId });
+    fetchOne(subjectId, activeSemId).then((res) => {
+      fetchLessonItems({ semId, subjectId, lessonId: id });
       fetchLessonResources({
-        semesterId,
+        semId,
         subjectId,
         lessonId: id,
       });
@@ -152,19 +154,19 @@ const Lesson = (props) => {
       fetchComments(id);
     });
     checkIsAvailableChoice();
-  }, [activeSemesterId]);
+  }, [activeSemId]);
   const [all, setAll] = useState(false);
 
   const [t] = useTranslation();
 
   useEffect(() => {
-    fetchLessonItems({ semesterId, subjectId, lessonId: id });
+    fetchLessonItems({ semId, subjectId, lessonId: id });
     fetchLessonResources({
-      semesterId,
+      semId,
       subjectId,
       lessonId: id,
     });
-  }, [id, semesterId, subjectId, fetchLessonItems, fetchLessonResources]);
+  }, [id, semId, subjectId, fetchLessonItems, fetchLessonResources]);
 
   const allTheme = () => {
     setAll(!all);
@@ -183,7 +185,7 @@ const Lesson = (props) => {
   const onNextLesson = () => {
     let currentLessonId = +id;
     const nextLessonId = currentLessonId + 1;
-    history.push(`/${semesterId}/subjects/${subjectId}/${nextLessonId}`);
+    history.push(`/${semId}/subjects/${subjectId}/${nextLessonId}`);
   };
 
   return (
@@ -193,10 +195,10 @@ const Lesson = (props) => {
         style={{ marginLeft: 100, padding: "0 25px" }}
         className={"m-24 d-flex justify-between w-100"}
       >
-        <Link to={`/${semesterId}/subjects/${id}/exam-schedules/2`}>
+        <Link to={`/${semId}/subjects/${subjectId}/exam-schedules/2`}>
           Oraliq nazorat
         </Link>
-        <Link to={`/${semesterId}/subjects/${id}/exam-schedules/3`}>
+        <Link to={`/${semId}/subjects/${subjectId}/exam-schedules/3`}>
           Yakuniy nazorat
         </Link>
       </div>
@@ -240,7 +242,7 @@ const Lesson = (props) => {
                                         },
                                         closeAllTheme)
                                       }
-                                      to={`/${semesterId}/subjects/${subjectId}/${lesson.id}`}
+                                      to={`/${semId}/subjects/${subjectId}/${lesson.id}`}
                                       title={`${idx + 1}.${index + 1} ${
                                         lesson.name
                                       }`}
@@ -274,7 +276,7 @@ const Lesson = (props) => {
                           height: 3,
                           margin: "40px 0",
                         }}
-                      ></div>
+                      />
                       <div className="text-center">
                         <Button className="btn-success" onClick={onNextLesson}>
                           {t("Keyingi dars")}
@@ -286,7 +288,7 @@ const Lesson = (props) => {
                           height: 3,
                           margin: "40px 0",
                         }}
-                      ></div>
+                      />
                     </Col>
                     {allowCommentToLesson ? (
                       <Col

@@ -45,7 +45,7 @@ export const publicRoutes = [
 
 export const privateRoutes = [
   {
-    path: "/:semesterId/subjects",
+    path: "/:semId/subjects",
     component: Subjects,
     exact: true,
   },
@@ -55,22 +55,22 @@ export const privateRoutes = [
     exact: true,
   },
   {
-    path: "/:semesterId/subjects/:subjectId/:id",
+    path: "/:semId/subjects/:subjectId/:id",
     component: Lesson,
     exact: true,
   },
   {
-    path: "/:semesterId/subjects/:id/exam-schedules/:type",
+    path: "/:semId/subjects/:id/exam-schedules/:type",
     component: ExamSchedule,
     exact: true,
   },
   {
-    path: "/:semesterId/subjects/:id/exam-schedules/:type/:examId",
+    path: "/:semId/subjects/:id/exam-schedules/:type/:examId",
     component: TakeMidtermExam,
     exact: true,
   },
   {
-    path: "/:semesterId/subjects/:id",
+    path: "/:semId/subjects/:id",
     component: SubjectList,
     exact: true,
   },

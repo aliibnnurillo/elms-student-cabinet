@@ -9,8 +9,10 @@ import Pop from "./pop";
 import { Link } from "react-router-dom";
 import LoginList from "./login-list";
 import LanguageBox from "../LanguageBox";
+import { useTranslation } from "react-i18next";
 
 const ExamHeader = () => {
+  const [t] = useTranslation();
   return (
     <div className="page-header">
       <PageHeader className="site-page-header" title="Imtixonlar jadvali">

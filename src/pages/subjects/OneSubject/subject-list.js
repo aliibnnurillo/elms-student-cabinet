@@ -15,11 +15,11 @@ import { useTranslation } from "react-i18next";
 
 const SubjectList = ({
   subjects: { fetchOne, loading, single },
-  authStore: { activeSemesterId },
+  authStore: { activeSemId },
 }) => {
-  const { semesterId, id } = useParams();
+  const { semId, id } = useParams();
   useEffect(() => {
-    fetchOne(id, activeSemesterId);
+    fetchOne(id, activeSemId);
     return () => {};
   }, [id, fetchOne]);
   const [t] = useTranslation();
@@ -97,11 +97,11 @@ const SubjectList = ({
                 </div>
 
                 <div className={"m-24 d-flex justify-between"}>
-                  <Link to={`/${semesterId}/subjects/${id}/exam-schedules/2`}>
-                    Oraliq nazorat
+                  <Link to={`/${semId}/subjects/${id}/exam-schedules/2`}>
+                  {t('Oraliq nazorat')}
                   </Link>
-                  <Link to={`/${semesterId}/subjects/${id}/exam-schedules/3`}>
-                    Yakuniy nazorat
+                  <Link to={`/${semId}/subjects/${id}/exam-schedules/3`}>
+                    {t('Yakuniy nazorat')}
                   </Link>
                 </div>
 
@@ -165,28 +165,12 @@ const SubjectList = ({
                             renderItem={(lesson) => (
                               <List.Item>
                                 <Link
-                                  to={`/${semesterId}/subjects/${id}/${lesson.id}`}
+                                  to={`/${semId}/subjects/${id}/${lesson.id}`}
                                 >
                                   <span>
                                     {lesson.name ? lesson.name : null}{" "}
                                   </span>
                                   <span className="list-icons">
-                                    {lesson.type === "Nazariy" ? (
-                                      <Tag color="#2db7f5">
-                                        {lesson.theory_mark
-                                          ? lesson.theory_mark.mark
-                                          : 0}{" "}
-                                        ball / {lesson.mark} ball
-                                      </Tag>
-                                    ) : (
-                                      <Tag color="#87d068">
-                                        {lesson.practical_mark
-                                          ? lesson.practical_mark.mark
-                                          : 0}{" "}
-                                        ball / {lesson.mark} ball
-                                      </Tag>
-                                    )}
-                                    &nbsp;&nbsp;
                                     <span>
                                       <PieChartOutlined />
                                       {lesson.total_lesson_item

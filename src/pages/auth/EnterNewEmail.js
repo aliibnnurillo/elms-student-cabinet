@@ -28,7 +28,7 @@ const EnterNewEmails = ({ authStore: { saveNewEmail }, history }) => {
             </div>
             <p>
               {t(
-                "Parolni tiklash imkoni bo’lishi uchun, iltiomos email manzilingizni kiriting"
+                "Parolni tiklash imkoni bo’lishi uchun, iltimos email manzilingizni kiriting"
               )}
             </p>
             <Form

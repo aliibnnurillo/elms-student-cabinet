@@ -9,17 +9,28 @@ import { useLocation } from "react-router-dom";
 import qs from "query-string";
 import moment from "moment";
 import cx from "classnames";
+import { inject, observer } from "mobx-react";
 
 import "./Controls.scss";
 
-const Controls = () => {
+const Controls = (props) => {
+  const {
+    authStore: { activeAcdYearId, activeSemSeason, activeCurrId },
+  } = props;
+
   const [data, setData] = useState([]);
   const location = useLocation();
-  const { a_year, s_type, curriculum_id } = qs.parse(location.search, {
+  const {
+    a_year = activeAcdYearId,
+    s_type = activeSemSeason,
+    curriculum_id = activeCurrId,
+  } = qs.parse(location.search, {
     ignoreQueryPrefix: true,
   });
 
   useEffect(() => {
+    if (!a_year || !s_type) return;
+
     http.request
       .get("/api/student/FirstExam/GetSchedule", {
         baseURL: config.api.root_url,
@@ -119,4 +130,4 @@ const Controls = () => {
   );
 };
 
-export default Controls;
+export default inject("authStore")(observer(Controls));

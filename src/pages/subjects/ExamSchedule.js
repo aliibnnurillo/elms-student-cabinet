@@ -10,20 +10,19 @@ import "./subject.css";
 
 const ExamSchedule = ({
   subjects: { fetchExamListByType, loading, examList },
-  authStore,
 }) => {
-  const { id, type } = useParams();
+  const { id, type, semId } = useParams();
   const { pathname } = useLocation();
   useEffect(() => {
     fetchExamListByType({
       subject_id: id,
       control_type_id: type,
-      activeSemesterId: get(authStore, "activeSemesterId") || 0,
+      semester_id: semId,
     });
     return () => {};
-  }, [id, fetchExamListByType]);
+  }, [id, semId, type]);
+
   const [t] = useTranslation();
-  console.log("exam list = ", examList);
 
   const columnsForME = [
     { title: "Fan", dataIndex: "subject_name" },
@@ -41,7 +40,7 @@ const ExamSchedule = ({
         return (
           <>
             {record.type === "test" && (
-              <Link to={`${pathname}/${record.id}`}>Boshlash</Link>
+              <Link to={`${pathname}/${record.id}`}>{t('Boshlash')}</Link>
             )}
           </>
         );
@@ -70,7 +69,7 @@ const ExamSchedule = ({
                     }}
                     title={() => (
                       <h2 style={{ marginLeft: -16 }}>
-                        {title} nazorat jadvali
+                        {title} {t('nazorat jadvali')}
                       </h2>
                     )}
                     columns={type === "2" ? columnsForME : columnsForFE}
