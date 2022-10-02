@@ -7,6 +7,8 @@ import "./subject.css";
 import { observer, inject } from "mobx-react";
 import { useTranslation } from "react-i18next";
 
+
+
 const Subjects = ({
   subjects: {
     fetchSemesterSubjects,
@@ -14,16 +16,16 @@ const Subjects = ({
     semesterSubjects,
     setCurrentSubject,
   },
-  authStore: { activeSemesterId },
+  authStore: { activeSemId },
   glo: { showChoiceAlert, checkIsAvailableChoice, setSubjectModalVisible },
 }) => {
-  const { semesterId } = useParams();
+  const { semId } = useParams();
   useEffect(() => {
-    fetchSemesterSubjects({ activeSemesterId });
+    fetchSemesterSubjects({ activeSemId });
     checkIsAvailableChoice();
     setCurrentSubject(null);
     return () => {};
-  }, [activeSemesterId]);
+  }, [activeSemId]);
 
   const [t] = useTranslation();
   return (
@@ -42,15 +44,13 @@ const Subjects = ({
                 }}
               >
                 <p style={{ margin: 0 }}>
-                  Sizda ushbu semesterda tanlanadigan fanlar mavjud!. O'qishni
-                  boshlash uchun siz tanlandigan fanlar guruhidan o'zingizga
-                  ma'qul fanni tanlashingiz kerak!
+                 t{" Sizda ushbu semesterda tanlanadigan fanlar mavjud! O'qishni boshlash uchun siz tanlanadigan fanlar guruhidan o'zingizga ma'qul fanni tanlashingiz kerak!"}
                 </p>
                 <Button
                   type="ghost"
                   onClick={() => setSubjectModalVisible(true)}
                 >
-                  Tanlash
+                t{'Tanlash'}
                 </Button>
               </div>
             }
@@ -59,15 +59,16 @@ const Subjects = ({
         ) : null}
         <div className="subject_page">
           <Spin spinning={loading}>
-            <Row gutter={[24, 24]}>
+            <Row gutter={[24, 24]} align="stretch">
               {semesterSubjects.map((semSub, idx) => (
                 <Col key={idx} xs={24} md={24} lg={12} xl={8}>
                   <Link
                     to={
                       semSub.last_lesson_id && semSub.last_lesson_item_id
-                        ? `/${semesterId}/subjects/${semSub.subject_id}/${semSub.last_lesson_id}#${semSub.last_lesson_id}`
-                        : `/${semesterId}/subjects/${semSub.subject_id}`
+                        ? `/${semId}/subjects/${semSub.subject_id}/${semSub.last_lesson_id}#${semSub.last_lesson_id}`
+                        : `/${semId}/subjects/${semSub.subject_id}`
                     }
+                    className="subject__link"
                   >
                     <Card
                       hoverable
@@ -78,8 +79,10 @@ const Subjects = ({
                           : {}
                       }
                     >
+                      <div>
                       <div className="card-header">
                         <div className="title">
+                          {/* O'qituvchini ism familyasini korsatish kerak///////////// */}
                           <h2>
                             {semSub.subject_name ? semSub.subject_name : null}
                           </h2>
@@ -106,14 +109,15 @@ const Subjects = ({
                             </span>
                             {semSub.lesson_mark ? (
                               <div>
-                                {t("Ball")}&nbsp;
+                                {/* ballni olib tashlash kerak birida ko'rinib birida korinmayapti */}
+                                {/* {t("Ball")}&nbsp;        
                                 <Tag className="count_teg">
                                   <span>
                                     {semSub.current_practical_mark +
                                       semSub.current_theory_mark}{" "}
                                     / {semSub.lesson_mark}
                                   </span>
-                                </Tag>
+                                </Tag> */}
                               </div>
                             ) : null}
                           </div>
@@ -121,6 +125,7 @@ const Subjects = ({
                         <Avatar size={55} src={semSub.file_url_photo} />
                       </div>
                       <p>{semSub.short_info ? semSub.short_info : null}</p>
+                      </div>
                       <span className="goSubject">
                         {semSub.last_lesson_id && semSub.last_lesson_item_id
                           ? t("Davom etish")

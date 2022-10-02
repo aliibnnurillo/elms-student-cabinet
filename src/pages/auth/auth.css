@@ -14,7 +14,7 @@
   height: 100vh;
   background-image: url("./art.png");
   background-repeat: no-repeat;
-  background-size: 90%;
+  background-size: 100%;
   box-sizing: border-box;
   background-position: 95% 49%;
 }

@@ -147,7 +147,7 @@ function ProfilePage(props) {
             <Form.Item name="oldPassword">
               <Input
                 prefix={<LockOutlined className="site-form-item-icon" />}
-                placeholder="Eski parol"
+                placeholder={t("Eski parol")}
                 type="password"
               />
             </Form.Item>
@@ -159,7 +159,7 @@ function ProfilePage(props) {
             >
               <Input
                 prefix={<LockOutlined className="site-form-item-icon" />}
-                placeholder="Yangi parol"
+                placeholder={t("Yangi parol")}
                 type="password"
               />
             </Form.Item>

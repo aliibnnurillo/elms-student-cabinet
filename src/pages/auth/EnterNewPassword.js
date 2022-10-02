@@ -3,15 +3,21 @@ import { Row, Col, Form, Input, Button } from "antd";
 import { LockOutlined } from "@ant-design/icons";
 import { observer, inject } from "mobx-react";
 import { useTranslation } from "react-i18next";
+import { useHistory } from "react-router-dom";
 
-const EnterNewPassword = ({ authStore: { saveNewPassword }, history }) => {
+const EnterNewPassword = ({ authStore: { saveNewPassword } }) => {
+  const history = useHistory();
   const formFinish = (values) => {
-    saveNewPassword(values).then((res) => {
-      if (res.status !== 200) return;
-      history.push("/user/new-avatar");
+    saveNewPassword({
+      values,
+      onSuccess: () => {
+        history.push("/user/new-avatar");
+      },
     });
   };
+
   const [t] = useTranslation();
+
   return (
     <div className="enter-email  empty-page">
       <Row>

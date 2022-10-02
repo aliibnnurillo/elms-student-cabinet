@@ -18,11 +18,11 @@ class GlobalStore {
   };
 
   @action
-  fetchChoiceOfSubject = async (choice_of_subject, activeSemesterId) => {
+  fetchChoiceOfSubject = async (choice_of_subject, activeSemId) => {
     this.data = [];
     try {
       const res = await client.get(
-        "/syllabus/semesterChoiceSubject/" + activeSemesterId,
+        "/syllabus/semesterChoiceSubject/" + activeSemId,
         {
           params: choice_of_subject ? { choice_of_subject } : {},
         }
@@ -83,11 +83,11 @@ class GlobalStore {
   };
 
   @action
-  fanTanlash = async (credentials = {}, activeSemesterId) => {
+  fanTanlash = async (credentials = {}, activeSemId) => {
     this.list = [];
     try {
       const res = await client.post(
-        `/syllabus/semesterChoiceSubjectStore/${activeSemesterId}`,
+        `/syllabus/semesterChoiceSubjectStore/${activeSemId}`,
         { subject_id: credentials }
       );
 

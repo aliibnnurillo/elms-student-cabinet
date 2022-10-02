@@ -11,6 +11,8 @@ import {
   Table,
   Divider,
   Select,
+  Alert,
+  Space,
 } from "antd";
 import { observer, inject } from "mobx-react";
 import { Player, ControlBar } from "video-react";
@@ -27,11 +29,13 @@ import {
 import { UploadIcon, Checked, Canceled } from "component/icons";
 import { API_URL } from "../../../constants";
 import { useTranslation } from "react-i18next";
-import { Link, useParams, useHistory } from "react-router-dom";
+import { Link, useParams, useHistory, useLocation } from "react-router-dom";
 import LessonFiles from "./lessonFiles";
 import { formatBytes } from "common/services/common";
 
 import ModalImage, { Lightbox } from "react-modal-image";
+import moment from "moment";
+import { get } from "lodash";
 
 const { TabPane } = Tabs;
 
@@ -105,6 +109,9 @@ const QuizItem = inject("subjects")(
       useEffect(() => {
         fetchOldQuestionFiles(data.id);
       }, [lessonId, fetchOldQuestionFiles]);
+      useEffect(() => {
+                setQuestionFiles([])
+      }, [data.id]);
 
       const [resource, setResource] = useState(null);
       const [t] = useTranslation();
@@ -116,6 +123,20 @@ const QuizItem = inject("subjects")(
 
         saveQuestionFile(data.id, resource.id);
       };
+
+      if (
+        !get(data, "syllabus_module_lesson.deadline_check") &&
+        !!get(data, "deadline_date")
+      ) {
+        return (
+          <div>
+            {/* <div>deadline  {get(data, 'deadline_date')} da tugagan</div> */}
+            <Alert
+              message={`deadline ${get(data, "deadline_date")} da tugagan!`}
+            />
+          </div>
+        );
+      }
 
       return single.choice_of_subject &&
         semesterSubjects.filter(
@@ -143,25 +164,40 @@ const QuizItem = inject("subjects")(
               <div dangerouslySetInnerHTML={{ __html: data.text }} />
             </div>
             <LessonFiles resourceFiles={resourceFiles} />
+            {!!get(data, "deadline_date") && (
+              <div style={{ margin: "10px 0" }}>
+                <Alert
+                  message={`deadline tugash vaqti ${get(
+                    data,
+                    "deadline_date"
+                  )} ga qadar`}
+                />
+              </div>
+            )}
+
             <div className="upload-block">
-              <h3 className="upload-title">{t("Javob")}</h3>
-              <UploadDragger
-                questionFiles={questionFiles}
-                setResource={setResource}
-                t={t}
-                setQuestionFiles={setQuestionFiles}
-                removeQuestionFile={removeQuestionFile}
-              />
-              <p className="confirm">
-                <Button
-                  disabled={!resource}
-                  className="confirm-button"
-                  onClick={handleSubmit}
-                >
-                  {t("Tasdiqlash")}
-                </Button>
-              </p>
-              <h4>{t("Eski javoblar")}</h4>
+              {!!get(data, "deadline_date") && (
+                <>
+                  <h3 className="upload-title">{t("Javob")}</h3>
+                  <UploadDragger
+                    questionFiles={questionFiles}
+                    setResource={setResource}
+                    t={t}
+                    setQuestionFiles={setQuestionFiles}
+                    removeQuestionFile={removeQuestionFile}
+                  />
+                  <p className="confirm">
+                    <Button
+                      disabled={!resource}
+                      className="confirm-button"
+                      onClick={handleSubmit}
+                    >
+                      {t("Tasdiqlash")}
+                    </Button>
+                  </p>
+                  <h4>{t("Eski javoblar")}</h4>
+                </>
+              )}
               <Collapse
                 defaultActiveKey={["1"]}
                 onChange={callback}
@@ -171,16 +207,14 @@ const QuizItem = inject("subjects")(
                   return (
                     <Panel
                       header={
-                        <div
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                          }}
-                        >
-                          {item.status ? <Checked /> : <Canceled />}
-                          <span style={{ marginLeft: 12 }}>
-                            {item.created_at}
-                          </span>
+                        <div className="flex-between">
+                          <div className="d-flex align-items-center">
+                            {item.status ? <Checked /> : <Canceled />}
+                            <span style={{ marginLeft: 12 }}>
+                              {item.created_at}
+                            </span>
+                          </div>
+                          {!!item.mark && <div>{item.mark} ball</div>}
                         </div>
                       }
                       key={item.id}
@@ -304,10 +338,20 @@ const TestItem = ({
   const onChangeAnswer = (e) => {
     setValueone(e.target.value);
   };
-  const onChange = (from, to) => {
-    setCurrent(current + 1);
+  const onChange = (currentSlide) => {
+    console.log("currentSlice", currentSlide);
+    // if (current >= data.test_question.length - 1) {
+    //   setCurrent(0);
+    // } else if (current < 0) {
+    //   setCurrent(0);
+    // } else
+    setCurrent(currentSlide);
   };
+  console.log("current===", current);
+  console.log("data.test_question.length", data.test_question.length);
   const carousel = useRef(null);
+
+  console.log("caoruse ", carousel);
 
   const onSendAnswer = () => {
     if (!valueone) {
@@ -328,6 +372,16 @@ const TestItem = ({
       }
     });
   };
+
+  if (!get(data, "syllabus_module_lesson.deadline_check")) {
+    return (
+      <div>
+        {/* <div>deadline  {get(data, 'deadline_date')} da tugagan</div> */}
+        <Alert message={`deadline ${get(data, "deadline_date")} da tugagan!`} />
+      </div>
+    );
+  }
+
   return single.choice_of_subject &&
     semesterSubjects.filter(
       (item) => item.choice_of_subject === single.choice_of_subject
@@ -350,6 +404,16 @@ const TestItem = ({
   ) : (
     <div>
       <LessonFiles resourceFiles={resourceFiles} />
+
+      <div style={{ margin: "24px 0" }}>
+        <Alert
+          message={`deadline tugash vaqti ${get(
+            data,
+            "deadline_date"
+          )} ga qadar`}
+        />
+      </div>
+
       <div className="question-test">
         {(isTestStarted || !isTestCompleted) &&
         data.count_of_attempts &&
@@ -408,7 +472,7 @@ const TestItem = ({
               <div>
                 <div className="d-flex-c flex-column">
                   <h3>
-                    Urinishlar soni: {testResult.length} /&nbsp;
+                    {t('Urinishlar soni')}: {testResult.length} /&nbsp;
                     {data.count_of_attempts}
                   </h3>
                   {data.count_of_attempts > testResult.length ? (
@@ -418,7 +482,7 @@ const TestItem = ({
                       onClick={() => setIsTestCompleted(false)}
                       style={{ marginBottom: 24 }}
                     >
-                      Qayta urinish
+                     {t(' Qayta urinish')}
                     </Button>
                   ) : null}
                 </div>
@@ -434,14 +498,14 @@ const TestItem = ({
               <div>
                 <div className="d-flex-c flex-column">
                   {data.count_of_attempts ? (
-                    <h3>Urinishlar soni: {data.count_of_attempts}</h3>
+                    <h3>{t('Urinishlar soni')}: {data.count_of_attempts}</h3>
                   ) : null}
                   <Button
                     type="primary"
                     size="large"
                     onClick={() => setIsTestStarted(true)}
                   >
-                    Testni boshlash
+                   { t('Testni boshlash')}
                   </Button>
                 </div>
               </div>
@@ -454,7 +518,7 @@ const TestItem = ({
 };
 
 const getVideoPath = (media, quality) => {
-  let path = `http://backend.elms.uz/storage/`;
+  let path = `https://api-elms.tuit.uz/storage/`;
   let current = media.find((item) => item.filename.startsWith(`${quality}-`));
   if (media.length === 1 && !current) {
     path += `${media[0].directory}/${media[0].filename}.${media[0].extension}`;
@@ -542,9 +606,9 @@ function LessonItem(props) {
     glo: { setSubjectModalVisible, isAvailableChoice },
     lessonId,
   } = props;
-  const { semesterId, subjectId } = useParams();
+  const { semId, subjectId } = useParams();
   const [t] = useTranslation();
-  const { hash } = useParams();
+  const { hash } = useLocation();
   const history = useHistory();
   const [currentImg, setCurrentImg] = useState("");
   const [modalImgOpen, setModalImgOpen] = useState(false);
@@ -553,6 +617,7 @@ function LessonItem(props) {
     if (lessonItems.length) {
       if (hash) {
         const found = lessonItems.find((item) => +item.id === +hash.slice(1));
+
         found && setActiveItemId(`${found.id}=>${found.type}`);
       } else {
         setActiveItemId(`${lessonItems[0].id}=>${lessonItems[0].type}`);
@@ -560,17 +625,24 @@ function LessonItem(props) {
     }
 
     func1(setModalImgOpen, setCurrentImg);
-  }, []);
+  }, [lessonItems, hash]);
+
+  useEffect(() => {
+    if (!activeItemId) return;
+
+    const [id, type] = activeItemId.split("=>");
+
+    if (type !== "test") return;
+
+    getTestResult(id);
+  }, [activeItemId]);
 
   const callback = (key) => {
     const id = key.split("=>")[0];
     const type = key.split("=>")[1];
-    const find = lessonItems.find((item) => +item.id === +id);
+    const found = lessonItems.find((item) => +item.id === +id);
     setActiveItemId(key);
     history.push(history.location.pathname + "#" + id);
-    if (type === "test") {
-      getTestResult(id);
-    }
     if (type === "test" || type === "question-answer") {
       single.choice_of_subject &&
         isAvailableChoice &&
@@ -580,11 +652,11 @@ function LessonItem(props) {
         setSubjectModalVisible(true);
       return;
     }
-    if (!find || find.read_total_lesson_item) {
+    if (!found || found.read_total_lesson_item) {
       return;
     }
     fetchOneLessonItem({
-      semesterId,
+      semId,
       subjectId,
       lessonId,
       id,
@@ -656,33 +728,35 @@ function LessonItem(props) {
               <QuizItem lessonId={lessonId} data={item} />
             </TabPane>
           ) : item.type === "test" ? (
-            <TabPane
-              tab={
-                <span
-                  className={`tabIconWrapper ${
-                    item.read_total_lesson_item ? "read" : ""
-                  }`}
-                >
-                  <CheckSquareFilled />
-                </span>
-              }
-              key={`${item.id}=>test`}
-            >
-              {Array.isArray(item.test_question) ? (
-                <TestItem
-                  data={item}
-                  single={single}
-                  semesterSubjects={semesterSubjects}
-                  sendAnswerToTestQuestion={sendAnswerToTestQuestion}
-                  completeTest={completeTest}
-                  testResult={testResult}
-                  isTestCompleted={isTestCompleted}
-                  isTestStarted={isTestStarted}
-                  setIsTestStarted={setIsTestStarted}
-                  setIsTestCompleted={setIsTestCompleted}
-                />
-              ) : null}
-            </TabPane>
+            !!get(item, "deadline_date") && (
+              <TabPane
+                tab={
+                  <span
+                    className={`tabIconWrapper ${
+                      item.read_total_lesson_item ? "read" : ""
+                    }`}
+                  >
+                    <CheckSquareFilled />
+                  </span>
+                }
+                key={`${item.id}=>test`}
+              >
+                {Array.isArray(item.test_question) ? (
+                  <TestItem
+                    data={item}
+                    single={single}
+                    semesterSubjects={semesterSubjects}
+                    sendAnswerToTestQuestion={sendAnswerToTestQuestion}
+                    completeTest={completeTest}
+                    testResult={testResult}
+                    isTestCompleted={isTestCompleted}
+                    isTestStarted={isTestStarted}
+                    setIsTestStarted={setIsTestStarted}
+                    setIsTestCompleted={setIsTestCompleted}
+                  />
+                ) : null}
+              </TabPane>
+            )
           ) : null;
         })}
       </Tabs>

@@ -1,6 +1,6 @@
 {
   "name": "elms-student-cabinet",
-  "version": "0.5.3",
+  "version": "0.6.5",
   "private": true,
   "author": "Mamajonov Salimjon <@csexplorer> (https://github.com/csexplorer)",
   "dependencies": {
@@ -30,6 +30,8 @@
     "react-modal-image": "^2.5.0",
     "react-quill": "^1.3.5",
     "react-router-dom": "^5.2.0",
+    "react-router": "^5.2.0",
+    "history": "^4.10.1",
     "react-scripts": "3.4.1",
     "sass": "^1.45.0",
     "store2": "^2.12.0",

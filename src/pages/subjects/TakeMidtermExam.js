@@ -56,6 +56,7 @@ const TestItem = ({
       message.error(t("Siz javob tanlamadingiz!"));
       return;
     }
+
     sendAnswerToMEQuestion({
       exam_schedule_id,
       control_type_id,
@@ -63,6 +64,8 @@ const TestItem = ({
       test_answer_id: [valueone],
     }).then((res) => {
       if (res.status === 200) {
+        
+
         if (current + 1 !== totalMidtermExamCount) {
           setValueone("");
           carousel.current.next();
@@ -73,6 +76,8 @@ const TestItem = ({
       }
     });
   };
+
+
   return (
     <div>
       <div className="question-test">
@@ -142,7 +147,7 @@ const TestItem = ({
                       onClick={() => setIsTestCompleted(false)}
                       style={{ marginBottom: 24 }}
                     >
-                      Qayta urinish
+                      {t('Qayta urinish')}
                     </Button>
                   ) : null}
                 </div>
@@ -158,14 +163,14 @@ const TestItem = ({
               <div>
                 <div className="d-flex-c flex-column">
                   {!!data.count_of_attempts && (
-                    <h3>Urinishlar soni: {data.count_of_attempts}</h3>
+                    <h3>{t('Urinishlar soni')}: {data.count_of_attempts}</h3>
                   )}
                   <Button
                     type="primary"
                     size="large"
                     onClick={() => setIsTestStarted(true)}
                   >
-                    Testni boshlash
+                    {t('Testni boshlash')}
                   </Button>
                 </div>
               </div>
@@ -241,4 +246,4 @@ const ExamSchedule = ({
   );
 };
 
-export default inject("subjects")(observer(ExamSchedule));
+  export default inject("subjects")(observer(ExamSchedule));

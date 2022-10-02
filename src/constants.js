@@ -1,7 +1,7 @@
 import { getLanguages } from "./common/utils/utils";
 
-export const API_BASE_URL = `http://backend.elms.uz/api/student`;
-export const API_URL = `http://backend.elms.uz/api`;
+export const API_BASE_URL = `https://api-elms.tuit.uz/api/student`;
+export const API_URL = `https://api-elms.tuit.uz/api`;
 export const CURRENT_LANG = "oz";
 export const LANGUAGES = getLanguages;
 export const ACCESS_TOKEN = "access_token";

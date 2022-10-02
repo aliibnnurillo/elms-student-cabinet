@@ -29,7 +29,7 @@ class RatingModel extends CommonStore {
           semestrSubjects: (get(item, "semestr_subject") || []).map((item) => ({
             id: get(item, "id"),
             hour: get(item, "hour") || 0,
-            semesterId: get(item, "semester_id"),
+            semId: get(item, "semester_id"),
             creditHours: get(item, "credit_hour"),
             choiceOfSubject: !!get(item, "choice_of_subject"),
             teacherName: get(item, "teacher.teacher_translations[0].fio"),

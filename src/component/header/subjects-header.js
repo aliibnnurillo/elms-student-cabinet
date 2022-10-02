@@ -19,7 +19,7 @@ const SubjectsHeader = ({
     breadcrumb,
     currentSubject,
   },
-  authStore: { activeSemesterId },
+  authStore: { activeSemId },
 }) => {
   const { pathname } = useLocation();
 
@@ -35,7 +35,7 @@ const SubjectsHeader = ({
           <Breadcrumb.Item href="/">
             <HomeOutlined />
           </Breadcrumb.Item>
-          <Breadcrumb.Item href={`/${activeSemesterId}/subjects`}>
+          <Breadcrumb.Item href={`/${activeSemId}/subjects`}>
             <span>{t("Fanlar")}</span>
           </Breadcrumb.Item>
           {breadcrumb.length && currentSubject
@@ -45,7 +45,7 @@ const SubjectsHeader = ({
                     key={idx}
                     href={
                       idx + 1 !== breadcrumb.length
-                        ? `/${activeSemesterId}/subjects/${item.id}`
+                        ? `/${activeSemId}/subjects/${item.id}`
                         : undefined
                     }
                   >

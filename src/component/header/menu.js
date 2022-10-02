@@ -88,7 +88,7 @@ const LeftMenu = ({ authStore }) => {
           </Menu.Item>
           <Menu.Item key="subjects">
             <NavLink
-              to={`/${get(authStore, "activeSemesterId")}/subjects`}
+              to={`/${get(authStore, "activeSemId")}/subjects`}
               onClick={handleClick}
             >
               <ReadOutlined />
