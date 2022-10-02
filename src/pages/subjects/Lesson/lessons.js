@@ -65,13 +65,13 @@ const CommentList = ({ comments }) => (
   />
 );
 
-const Editor = ({ onSubmit, submitting, lessonId }) => {
+const Editor = ({ onSubmit, submitting, lessonId,semId, }) => {
   const [value, setValue] = useState("");
   const handleSubmit = () => {
     if (!value) {
       return;
     }
-    onSubmit(lessonId, value).then(() => {
+    onSubmit({values:value,lessonId,semId}).then(() => {
       setValue("");
     });
   };
@@ -309,6 +309,7 @@ const Lesson = (props) => {
                             }
                             content={
                               <Editor
+                                semId={semId}
                                 onSubmit={saveComment}
                                 submitting={loading}
                                 lessonId={id}

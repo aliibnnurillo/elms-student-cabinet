@@ -70,11 +70,11 @@ const UploadDragger = ({
       </div>
       <p className="ant-upload-text text-center">
         <Tag>pdf</Tag>
-        <Tag>word</Tag>
+        {/* <Tag>word</Tag> */}
         <Tag>jpeg</Tag>
         <Tag>png</Tag>
-        <Tag>zip</Tag>
-        <Tag>rar</Tag>
+        {/* <Tag>zip</Tag> */}
+        {/* <Tag>rar</Tag> */}
       </p>
       <p className="ant-upload-hint text-center">Max: 10mb</p>
     </Dragger>
