@@ -70,11 +70,11 @@ const UploadDragger = ({
       </div>
       <p className="ant-upload-text text-center">
         <Tag>pdf</Tag>
-        <Tag>word</Tag>
+        {/* <Tag>word</Tag> */}
         <Tag>jpeg</Tag>
         <Tag>png</Tag>
-        <Tag>zip</Tag>
-        <Tag>rar</Tag>
+        {/* <Tag>zip</Tag> */}
+        {/* <Tag>rar</Tag> */}
       </p>
       <p className="ant-upload-hint text-center">Max: 10mb</p>
     </Dragger>
@@ -472,7 +472,7 @@ const TestItem = ({
               <div>
                 <div className="d-flex-c flex-column">
                   <h3>
-                    {t('Urinishlar soni')}: {testResult.length} /&nbsp;
+                    {t("Urinishlar soni")}: {testResult.length} /&nbsp;
                     {data.count_of_attempts}
                   </h3>
                   {data.count_of_attempts > testResult.length ? (
@@ -482,7 +482,7 @@ const TestItem = ({
                       onClick={() => setIsTestCompleted(false)}
                       style={{ marginBottom: 24 }}
                     >
-                     {t(' Qayta urinish')}
+                      {t(" Qayta urinish")}
                     </Button>
                   ) : null}
                 </div>
@@ -498,7 +498,9 @@ const TestItem = ({
               <div>
                 <div className="d-flex-c flex-column">
                   {data.count_of_attempts ? (
-                    <h3>{t('Urinishlar soni')}: {data.count_of_attempts}</h3>
+                    <h3>
+                      {t("Urinishlar soni")}: {data.count_of_attempts}
+                    </h3>
                   ) : null}
                   <Button
                     type="primary"

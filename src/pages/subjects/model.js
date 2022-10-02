@@ -563,12 +563,12 @@ class SubjectsModel extends CommonStore {
   };
 
   @action
-  saveComment = async (lessonId = "", message = "") => {
+  saveComment = async ({lessonId = "", values= "", semId}) => {
     this.setState("pending");
     try {
       const response = await client.post(
         "/syllabus/CommentaryLessonStore/" + lessonId,
-        { title: message }
+        { title: values, semester_id: semId }
       );
       const { status, data } = response;
       if (status === 200) {
