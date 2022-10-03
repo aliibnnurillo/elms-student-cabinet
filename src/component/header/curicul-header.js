@@ -29,13 +29,13 @@ const CuriculHeader = () => {
 
       <div className="header-right">
         <LanguageBox />
-        <Badge count={4}>
+        <Badge count={0}>
           <Link to="/messages" className="head-example">
             <MessageOutlined />
           </Link>
         </Badge>
 
-        <Badge count={5}>
+        <Badge count={0}>
           <Pop icons={<BellOutlined />} />
         </Badge>
         <LoginList imgUrl="/assets/userimg.jpg" />

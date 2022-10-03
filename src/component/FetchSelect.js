@@ -30,7 +30,6 @@ const FetchSelect = ({
           }
         })
         .catch((err) => {
-          console.log("option olishda error => ", err);
         });
     }
     return () => {

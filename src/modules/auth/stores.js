@@ -231,7 +231,6 @@ class AuthStore {
       const { status, data } = res;
 
       if (status === 200) {
-        console.log("attach email -> ", data);
       }
 
       return res;
@@ -329,7 +328,6 @@ class AuthStore {
       const { status, data } = res;
 
       if (status === 200) {
-        console.log("send verify response -> ", data);
         flash.setFlash(
           "success",
           "Sizning emailingizga tasdiqlash kodi yuborildi! Iltimos email pochtangizni tekshiring!"
@@ -357,7 +355,6 @@ class AuthStore {
       const { status, data } = res;
 
       if (status === 200) {
-        console.log("send verify response -> ", data);
         flash.setFlash(
           "success",
           "Sizning emailingizga tasdiqlash kodi yuborildi! Iltimos email pochtangizni tekshiring!"
@@ -452,7 +449,6 @@ class AuthStore {
 const auth = new AuthStore();
 
 autorun(() => {
-  console.log("auth store = ", auth);
   auth.accessToken && http.subscribe({ accessToken: auth.accessToken });
 });
 

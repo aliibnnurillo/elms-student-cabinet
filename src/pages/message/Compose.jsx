@@ -68,7 +68,6 @@ const Compose = inject("message")(
     //     const jonatiladiganReceiverlar = _formReceivers.filter(
     //       (item) => !removedReceivers.includes(item)
     //     );
-    //     console.log(jonatiladiganReceiverlar);
     //     form.setFieldsValue({
     //       receiver_id: jonatiladiganReceiverlar,
     //     });

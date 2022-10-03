@@ -212,7 +212,6 @@ const ExamSchedule = ({
     })();
   }, [examId, id, type, fetchMidtermExamQuestionList]);
   const [t] = useTranslation();
-  console.log("current examcah = ", currentExam);
   return (
     <>
       <SubjectsHeader />

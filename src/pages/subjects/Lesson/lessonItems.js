@@ -82,7 +82,6 @@ const UploadDragger = ({
 };
 
 function callback(key) {
-  console.log(key);
 }
 
 const { Dragger } = Upload;
@@ -339,7 +338,6 @@ const TestItem = ({
     setValueone(e.target.value);
   };
   const onChange = (currentSlide) => {
-    console.log("currentSlice", currentSlide);
     // if (current >= data.test_question.length - 1) {
     //   setCurrent(0);
     // } else if (current < 0) {
@@ -347,11 +345,8 @@ const TestItem = ({
     // } else
     setCurrent(currentSlide);
   };
-  console.log("current===", current);
-  console.log("data.test_question.length", data.test_question.length);
   const carousel = useRef(null);
 
-  console.log("caoruse ", carousel);
 
   const onSendAnswer = () => {
     if (!valueone) {
@@ -546,7 +541,6 @@ const VideoItem = (props) => {
     setVideoQuality(quality);
     setPath(getVideoPath(data.media, quality));
     if (ref && ref.current) {
-      console.log("video => ", ref);
     }
   };
   const ref = useRef(null);
@@ -581,7 +575,6 @@ const func1 = (showFunc, setUrlFunc) => {
     if (e.target.nodeName === "IMG") {
       showFunc(true);
       setUrlFunc(e.target.src);
-      console.log(e.target.src, e.target);
       // callback();
     }
   });

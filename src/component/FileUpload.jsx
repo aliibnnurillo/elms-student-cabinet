@@ -50,7 +50,6 @@ const FileUpload = ({
         form.setFieldsValue({ [name]: ret[0].id });
     },
     onError(err) {
-      console.log("onError", err);
       setLoading(false);
     },
     onProgress({ percent }, file) {},
@@ -81,7 +80,6 @@ const FileUpload = ({
 
       return {
         abort() {
-          console.log("upload progress is aborted.");
         },
       };
     },

@@ -31,9 +31,10 @@ const Curiculum = (props) => {
             </h1>
             <div className="all-exam">
               {result.map((sem, index) => {
+                console.log('index=====>',index)
                 return (
                   <div key={index}>
-                    {index % 2 === 0 ? <h4>{sem.semester_name}-kurs</h4> : null}
+                    {(index % 2) === 0 ? <h4>{(sem.semester_name)}-kurs</h4> : null}
 
                     <div className="curicul-content">
                       <List

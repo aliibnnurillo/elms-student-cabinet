@@ -64,7 +64,6 @@ const OperationForm = ({ setProfileImg = () => null }) => {
 
       return {
         abort() {
-          console.log("upload progress is aborted.");
         },
       };
     },

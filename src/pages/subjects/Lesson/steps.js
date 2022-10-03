@@ -63,7 +63,6 @@ const element = {
   onChange(info) {
     const { status } = info.file;
     if (status !== "uploading") {
-      console.log(info.file, info.fileList);
     }
     if (status === "done") {
       message.success(`${info.file.name} file uploaded successfully.`);
@@ -92,7 +91,6 @@ const text = `
   it can be found as a welcome guest in many households across the world.
 `;
 function callback(key) {
-  console.log(key);
 }
 
 const { Dragger } = Upload;
@@ -115,7 +113,6 @@ const StepsBlock = () => {
 
   //   );
   const onChangeOne = (e) => {
-    console.log("radio1 checked", e.target.value);
     setValueone(e.target.value);
   };
 
