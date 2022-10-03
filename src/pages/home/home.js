@@ -76,7 +76,7 @@ const HomePage = ({
                 }}
                 fullscreen={false}
                 onPanelChange={onPanelChange}
-                defaultValue={moment()}
+                defaultValue={moment("2022-09-02")}
               />
             </div>
             <div className="site-calendar-card">

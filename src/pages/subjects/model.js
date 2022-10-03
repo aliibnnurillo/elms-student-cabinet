@@ -553,7 +553,7 @@ class SubjectsModel extends CommonStore {
       this.setState("error");
     }
   };
-
+// add semId//
   @action
   saveComment = async ({lessonId = "", values= "", semId}) => {
     this.setState("pending");

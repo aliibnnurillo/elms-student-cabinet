@@ -64,7 +64,7 @@ const CommentList = ({ comments }) => (
     )}
   />
 );
-
+//add semId//
 const Editor = ({ onSubmit, submitting, lessonId,semId, }) => {
   const [value, setValue] = useState("");
   const handleSubmit = () => {
