@@ -51,7 +51,7 @@ const News = ({ posts: { fetchAll, result, loading } }) => {
                   current={result.current_page ? result.current_page : 1}
                   total={result.total ? result.total : 0}
                   showSizeChanger={false}
-                  onChange={({ current }) => console.log('current===',current)}
+                  onChange={({ current }) => console.log(current)}
                 />
               ) : (
                 <h2>{t("Yangiliklar mavjud emas")}</h2>

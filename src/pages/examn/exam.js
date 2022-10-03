@@ -152,7 +152,6 @@ const smest = [
 ];
 const ClassName = (prop) => {
   const a = Number(prop);
-  console.log(isNaN(a));
   if (isNaN(a)) {
     return "for-date";
   } else if (!isNaN(a) && a < 56) {

@@ -94,7 +94,6 @@ export const SubjectSelectModal = inject(
       };
 
       const handleFinish = (values) => {
-        console.log(Object.values(values));
         fanTanlash(Object.values(values), activeSemId);
         if (choice_of_subject) history.push(`/${activeSemId}/subjects`);
       };

@@ -30,7 +30,6 @@ class GlobalStore {
 
       const { status, data } = res;
       if (status === 200) {
-        console.log(res.data);
         const _res = Array.isArray(data.result.data)
           ? data.result.data.map(
               (item) =>
@@ -42,7 +41,6 @@ class GlobalStore {
         });
       }
     } catch (err) {
-      console.log(err);
     }
   };
 
@@ -78,7 +76,6 @@ class GlobalStore {
         }
       }
     } catch (err) {
-      console.log(err);
     }
   };
 
@@ -93,7 +90,6 @@ class GlobalStore {
 
       const { status, data } = res;
       if (status === 200) {
-        console.log(res.data);
         runInAction(() => {
           this.subjectModalVisible = false;
           this.isChoiced = true;
@@ -109,7 +105,6 @@ class GlobalStore {
         // });
       }
     } catch (err) {
-      console.log(err);
     }
   };
 }

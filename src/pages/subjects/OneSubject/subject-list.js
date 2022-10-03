@@ -23,7 +23,6 @@ const SubjectList = ({
     return () => {};
   }, [id, fetchOne]);
   const [t] = useTranslation();
-  console.log(single);
   return (
     <>
       <SubjectsHeader />

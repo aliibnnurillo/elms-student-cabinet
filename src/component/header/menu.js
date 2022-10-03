@@ -33,7 +33,6 @@ const LeftMenu = ({ authStore }) => {
   const [visiable, setVisiable] = useState(false);
   const { pathname } = useLocation();
   useEffect(() => {
-    console.log(setSelectedKey(["home"]));
     let f;
     if (
       pathname.split("/").some((item) => {

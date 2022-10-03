@@ -14,7 +14,6 @@ class CurriculumModel extends CommonStore {
         url,
       });
       const { status, data } = response;
-      console.log("fetch curriculum => ", response);
       if (status === 200) {
         this.setState("done");
         if (Array.isArray(data.result.data)) {

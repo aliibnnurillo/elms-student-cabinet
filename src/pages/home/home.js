@@ -10,7 +10,6 @@ import moment from "moment";
 import { useTranslation } from "react-i18next";
 
 function onPanelChange(value, mode) {
-  console.log(value, mode);
 }
 
 const loc = {
@@ -77,7 +76,7 @@ const HomePage = ({
                 }}
                 fullscreen={false}
                 onPanelChange={onPanelChange}
-                defaultValue={moment("2020-09-02")}
+                defaultValue={moment()}
               />
             </div>
             <div className="site-calendar-card">
@@ -92,7 +91,7 @@ const HomePage = ({
                 }}
                 fullscreen={false}
                 onPanelChange={onPanelChange}
-                defaultValue={moment("2020-10-23")}
+                defaultValue={moment("2022-10-01")}
               />
             </div>
             <div className="site-calendar-card">
@@ -107,7 +106,7 @@ const HomePage = ({
                 }}
                 fullscreen={false}
                 onPanelChange={onPanelChange}
-                defaultValue={moment("2020-11-11")}
+                defaultValue={moment("2022-11-11")}
               />
             </div>
             <div className="site-calendar-card">
@@ -122,7 +121,7 @@ const HomePage = ({
                 }}
                 fullscreen={false}
                 onPanelChange={onPanelChange}
-                defaultValue={moment("2020-12-22")}
+                defaultValue={moment("2022-12-22")}
               />
             </div>
             <div className="site-calendar-card">
@@ -137,7 +136,7 @@ const HomePage = ({
                 }}
                 fullscreen={false}
                 onPanelChange={onPanelChange}
-                defaultValue={moment("2021-01-08")}
+                defaultValue={moment("2023-01-08")}
               />
             </div>
             <div className="site-calendar-card">
@@ -152,7 +151,7 @@ const HomePage = ({
                 }}
                 fullscreen={false}
                 onPanelChange={onPanelChange}
-                defaultValue={moment("2021-02-15")}
+                defaultValue={moment("2023-02-15")}
               />
             </div>
           </div>

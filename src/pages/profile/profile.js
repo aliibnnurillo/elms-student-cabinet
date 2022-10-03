@@ -38,7 +38,6 @@ function ProfilePage(props) {
     },
   } = props;
   const currentUser = isExistUser() ? getUser() : {};
-  console.log(currentUser);
 
   const {
     authStore: { reloadProfileInfo },

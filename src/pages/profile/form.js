@@ -65,7 +65,6 @@ const OperationForm = ({ onUploadFinish = () => null, reloadProfileInfo }) => {
 
       return {
         abort() {
-          console.log("upload progress is aborted.");
         },
       };
     },

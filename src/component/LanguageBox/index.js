@@ -60,7 +60,6 @@ const LanguageBox = (props) => {
         }
       })
       .catch((err) => {
-        console.log(err);
       });
   };
 

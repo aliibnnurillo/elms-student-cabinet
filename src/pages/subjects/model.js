@@ -26,7 +26,6 @@ class SubjectsModel extends CommonStore {
 
     try {
       const response = await client.get("/syllabus/semesters");
-      console.log(response);
       const { status, data } = response;
       if (status === 200) {
         this.setState("done");
@@ -51,7 +50,6 @@ class SubjectsModel extends CommonStore {
       .then((res) => {
         const { data, status } = res;
         if (status === 200) {
-          console.log(data);
           runInAction(() => {
             this.semesterSubjects = Array.isArray(data.result.data)
               ? data.result.data.sort(
@@ -85,7 +83,6 @@ class SubjectsModel extends CommonStore {
         }
       );
       const { status, data: { result } = {} } = response;
-      console.log("fetchOne => ", response);
       if (status === 200) {
         const _result =
           Array.isArray(result.data) && result.data.length
@@ -305,7 +302,6 @@ class SubjectsModel extends CommonStore {
         }
       );
       const { status, data } = response;
-      console.log("fetch one lesson item => ", data);
       if (status === 200) {
         const copy = Array.from(this.lessonItems);
         const removedIndex = copy.findIndex((item) => +item.id === +id);
@@ -353,7 +349,6 @@ class SubjectsModel extends CommonStore {
         },
       });
       const { status, data } = response;
-      console.log("fetch midter exam questions response => ", response);
       if (status === 200) {
         const _finalResult = _.get(data, "result");
         runInAction(() => {
@@ -407,7 +402,6 @@ class SubjectsModel extends CommonStore {
         { params: { control_type_id } }
       );
       const { status } = response;
-      console.log("complte midterm exam response => ", response);
       if (status === 200) {
         this.setState("done");
         this.getMEResult({ control_type_id, exam_schedule_id });
@@ -458,7 +452,6 @@ class SubjectsModel extends CommonStore {
         status,
         data: { result },
       } = response;
-      console.log("fetch comments response => ", response);
       if (status === 200) {
         const _finalResult = Array.isArray(result.data)
           ? result.data.map((comment) => {
@@ -518,7 +511,6 @@ class SubjectsModel extends CommonStore {
         "/syllabus/CompleteTestStore/" + itemId
       );
       const { status } = response;
-      console.log("complte test response => ", response);
       if (status === 200) {
         this.setState("done");
         this.getTestResult(itemId);
@@ -610,11 +602,9 @@ class SubjectsModel extends CommonStore {
         status,
         data: { result },
       } = response;
-      console.log("old questionni fayllari => ", response);
 
       if (status === 200) {
         const _result = Array.isArray(result.data) ? result.data : [];
-        console.log(_result);
         this.setOldQuestionFiles(_result);
         this.setState("done");
       }
@@ -636,7 +626,6 @@ class SubjectsModel extends CommonStore {
       });
 
       if (response.status === 200) {
-        console.log("save question => ", response);
         this.setQuestionFiles([]);
 
         flash.setFlash("success", "Fayl muvaffaqiyatli yuklandi!");
@@ -672,7 +661,6 @@ class SubjectsModel extends CommonStore {
         }
       );
       const { status, data } = response;
-      console.log("fetch lesson resources => ", response);
       if (status === 200) {
         const _result = Array.isArray(data.result.data)
           ? data.result.data.map((item) => ({
@@ -684,7 +672,6 @@ class SubjectsModel extends CommonStore {
           : [];
         this.resourceFiles = _result;
         this.setState("done");
-        console.log("fayllar => ", this.resourceFiles);
       }
     } catch (error) {
       this.setState("error");
