@@ -372,7 +372,7 @@ const TestItem = ({
     return (
       <div>
         {/* <div>deadline  {get(data, 'deadline_date')} da tugagan</div> */}
-        <Alert message={`deadline ${get(data, "deadline_date")} da tugagan!`} />
+        <Alert message={`deadline ${get(data, "deadline_date")} da tugagan!`} /> 
       </div>
     );
   }
