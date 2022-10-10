@@ -7,6 +7,7 @@ import {
   Collapse,
   Upload,
   Radio,
+  Spin,
   Carousel,
   Table,
   Divider,
@@ -338,11 +339,11 @@ const TestItem = ({
     setValueone(e.target.value);
   };
   const onChange = (currentSlide) => {
-    // if (current >= data.test_question.length - 1) {
-    //   setCurrent(0);
-    // } else if (current < 0) {
-    //   setCurrent(0);
-    // } else
+    if (current >= data.test_question.length - 1) {
+      setCurrent(0);
+    } else if (current < 0) {
+      setCurrent(0);
+    } else
     setCurrent(currentSlide);
   };
   const carousel = useRef(null);
@@ -420,7 +421,7 @@ const TestItem = ({
                 {current + 1} / {data.test_question.length}
               </span>
             </h2>
-            <Carousel ref={carousel} beforeChange={onChange}>
+            <Carousel ref={carousel} beforeChange={onChange} afterChange={onChange}>
               {data.test_question.map((test) => {
                 return (
                   <div key={test.id}>
@@ -454,10 +455,14 @@ const TestItem = ({
               })}
             </Carousel>
             <p className="next">
+
+
               <Button disabled={!valueone} onClick={onSendAnswer}>
+                
                 {current + 1 === data.test_question.length
                   ? t("Yakunlash")
                   : t("Keyingi savol")}
+                  
               </Button>
             </p>
           </>
