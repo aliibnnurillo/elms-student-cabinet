@@ -97,6 +97,10 @@ function ProfilePage(props) {
           title: t("Turar joyi"),
           description: `${profile.province_name} ${profile.city_name} ${profile.street}`,
         },
+        {
+          title: t("Guruh"),
+          description: `${profile.group_name}`,
+        },
       ]);
     });
   }, []);
